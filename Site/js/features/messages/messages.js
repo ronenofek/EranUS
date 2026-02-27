@@ -7,19 +7,25 @@ const Messages = {
     document.getElementById('msgBadge').textContent = msgs.length;
 
     container.innerHTML = msgs.map(m => `
-      <article class="msg-card">
-        ${isAdmin ? `<button class="admin-delete-btn" onclick="AdminPanel.confirmDelete('msg','${m.id}','${Helpers.escHtml(m.title)}')">🗑</button>` : ''}
-        <div class="msg-header ${m.headerClass || ''}">
+      <article class="msg-card" id="msg-${m.id}">
+        ${isAdmin ? `<button class="admin-delete-btn" onclick="event.stopPropagation();AdminPanel.confirmDelete('msg','${m.id}','${Helpers.escHtml(m.title)}')">🗑</button>` : ''}
+        <div class="msg-header ${m.headerClass || ''}" onclick="Messages.toggle('${m.id}')">
           <div class="msg-icon">${m.icon || '📢'}</div>
-          <div>
+          <div class="msg-header-text">
             <span class="msg-tag">${Helpers.escHtml(m.tag || 'הודעה')}</span>
             <div class="msg-title">${Helpers.escHtml(m.title)}</div>
           </div>
+          <span class="msg-chevron">▼</span>
         </div>
         <div class="msg-body">
           ${m.isDefault ? m.bodyHtml : Messages.renderCustomBody(m)}
         </div>
       </article>`).join('');
+  },
+
+  toggle(id) {
+    const card = document.getElementById('msg-' + id);
+    if (card) card.classList.toggle('expanded');
   },
 
   renderCustomBody(m) {
@@ -34,5 +40,5 @@ const Messages = {
 };
 
 // ── Backwards-compatible global shims ──────────────────────────────────
-function renderMessages()      { Messages.render(); }
+function renderMessages()       { Messages.render(); }
 function renderCustomMsgBody(m) { return Messages.renderCustomBody(m); }
