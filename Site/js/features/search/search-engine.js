@@ -26,10 +26,18 @@ const SearchEngine = {
     }).map(m => ({ title: m.title, snip: this.snippet(m.body || m.bodyHtml || '', query) }));
   },
 
+  // Strip spaces, dashes and dots so "052-1234" matches "0521234" and vice-versa.
+  _normalize(s) { return s.replace(/[\s\-\.]/g, ''); },
+
   searchInDocs(query) {
-    const q = query.toLowerCase();
+    const q     = query.toLowerCase();
+    const qNorm = this._normalize(q);
     return Object.entries(PdfExtractor._cache)
-      .filter(([, text]) => text.toLowerCase().includes(q))
+      .filter(([, text]) => {
+        const t     = text.toLowerCase();
+        const tNorm = this._normalize(t);
+        return t.includes(q) || (qNorm.length >= 4 && tNorm.includes(qNorm));
+      })
       .map(([title, text]) => ({ title, snip: this.snippet(text, query) }));
   },
 };

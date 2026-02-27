@@ -1,9 +1,9 @@
 // ── PDF Text Extractor (PDF.js) ─────────────────────────────────────────
 const PdfExtractor = {
   _workerSrc: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
-  _cache:     {},       // docTitle → extracted text
-  _ready:     false,
-  _inProgress: false,
+  _cache:        {},     // docTitle → extracted text
+  _ready:        false,
+  _buildPromise: null,   // shared promise so concurrent callers all wait correctly
 
   async extractText(b64) {
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -18,7 +18,10 @@ const PdfExtractor = {
       for (let p = 1; p <= pdf.numPages; p++) {
         const page    = await pdf.getPage(p);
         const content = await page.getTextContent();
-        text += content.items.map(i => i.str).join(' ') + '\n';
+        // Join with NO separator so phone numbers like "052-123" stay intact
+        // even when the PDF stores digits/hyphen as separate text runs.
+        // Add a space after each page for word boundaries.
+        text += content.items.map(i => i.str).join('') + ' ';
       }
       return text;
     } catch(e) {
@@ -27,26 +30,30 @@ const PdfExtractor = {
     }
   },
 
-  async ensureCache() {
-    if (this._ready || this._inProgress) return;
-    this._inProgress = true;
-    const st   = Storage.loadState();
-    const docs = Storage.getDocs(st);
-    for (const d of docs) {
-      const b64 = d.isDefault ? PDF_DATA[d.key] : d.b64;
-      if (b64 && !this._cache[d.title]) {
-        this._cache[d.title] = await this.extractText(b64);
+  // Returns a promise that resolves once the cache is fully built.
+  // Multiple concurrent callers all await the same promise.
+  ensureCache() {
+    if (this._ready) return Promise.resolve();
+    if (this._buildPromise) return this._buildPromise;   // already building — share it
+    this._buildPromise = (async () => {
+      const st   = Storage.loadState();
+      const docs = Storage.getDocs(st);
+      for (const d of docs) {
+        const b64 = d.isDefault ? PDF_DATA[d.key] : d.b64;
+        if (b64 && !this._cache[d.title]) {
+          this._cache[d.title] = await this.extractText(b64);
+        }
       }
-    }
-    this._ready     = true;
-    this._inProgress = false;
+      this._ready = true;
+    })();
+    return this._buildPromise;
   },
 };
 
 // ── Backwards-compatible global shims ──────────────────────────────────
 const PDFJS_WORKER = PdfExtractor._workerSrc;
-let pdfTextCache      = PdfExtractor._cache;
-let pdfCacheReady     = false;
+let pdfTextCache       = PdfExtractor._cache;
+let pdfCacheReady      = false;
 let pdfCacheInProgress = false;
-async function extractPdfText(b64)  { return PdfExtractor.extractText(b64); }
-async function ensurePdfCache()     { return PdfExtractor.ensureCache(); }
+async function extractPdfText(b64) { return PdfExtractor.extractText(b64); }
+async function ensurePdfCache()    { return PdfExtractor.ensureCache(); }
