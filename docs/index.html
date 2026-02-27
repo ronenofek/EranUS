@@ -370,5 +370,26 @@
   </div>
 </div>
 
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bottom-nav-item active" id="bn-messages" onclick="App.showView('messages')">
+    <span class="bn-icon">📢</span>
+    <span class="bn-label">הודעות</span>
+    <span class="bn-badge" id="msgBadgeMobile"></span>
+  </button>
+  <button class="bottom-nav-item" id="bn-docs" onclick="App.showView('docs')">
+    <span class="bn-icon">📚</span>
+    <span class="bn-label">מסמכים</span>
+  </button>
+  <button class="bottom-nav-item" id="bn-calendar" onclick="App.showView('calendar')">
+    <span class="bn-icon">📅</span>
+    <span class="bn-label">לוח שנה</span>
+  </button>
+  <button class="bottom-nav-item admin-item" id="bn-admin" onclick="App.showView('admin')" style="display:none">
+    <span class="bn-icon">⚙️</span>
+    <span class="bn-label">ניהול</span>
+  </button>
+</nav>
 </body>
 </html>

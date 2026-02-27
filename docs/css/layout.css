@@ -117,3 +117,82 @@ html, body {
   .sidebar { display: none; }
   .main-content { margin-right: 0; padding: 16px; }
 }
+
+/* ── MOBILE BOTTOM NAV ─────────────────────────────────────────────── */
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    z-index: 200;
+    justify-content: space-around;
+    align-items: stretch;
+  }
+
+  .bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    padding: 6px 4px;
+    transition: color 0.15s;
+    position: relative;
+    text-decoration: none;
+  }
+
+  .bottom-nav-item .bn-icon { font-size: 20px; line-height: 1; }
+  .bottom-nav-item .bn-label { font-size: 10px; font-weight: 500; }
+
+  .bottom-nav-item.active {
+    color: var(--green);
+  }
+
+  .bottom-nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 20%; right: 20%;
+    height: 3px;
+    background: var(--green);
+    border-radius: 0 0 3px 3px;
+  }
+
+  .bottom-nav-item.admin-item { color: #7A5A00; }
+  .bottom-nav-item.admin-item.active { color: #5C3D0A; }
+  .bottom-nav-item.admin-item.active::before { background: var(--accent); }
+
+  /* Make room for bottom nav */
+  .main-content { padding-bottom: 72px; }
+
+  /* Badge on mobile nav */
+  .bn-badge {
+    position: absolute;
+    top: 6px; right: calc(50% - 20px);
+    background: var(--green);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+  }
+}
