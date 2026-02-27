@@ -1,0 +1,26 @@
+/* ── CSS Custom Properties ───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:      #1A6B50;
+  --green-dk:   #134D3A;
+  --green-lt:   #2A8C68;
+  --mint:       #E6F4EF;
+  --accent:     #E8A020;
+  --accent-lt:  #FEF3DC;
+  --danger:     #C0392B;
+  --danger-lt:  #FDECEA;
+  --blue:       #2E5FA3;
+  --blue-lt:    #EBF2FF;
+  --text:       #1C2B26;
+  --text-2:     #4A6559;
+  --text-muted: #7A9587;
+  --border:     #D0E4DC;
+  --bg:         #F2F7F5;
+  --card:       #FFFFFF;
+  --sidebar-w:  264px;
+  --topbar-h:   62px;
+  --r:          12px;
+  --shadow:     0 2px 12px rgba(26,107,80,.10);
+  --shadow-lg:  0 8px 32px rgba(26,107,80,.15);
+}
