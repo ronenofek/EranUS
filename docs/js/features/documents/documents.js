@@ -1,8 +1,7 @@
 // ── Documents Renderer ──────────────────────────────────────────────────
 const Docs = {
-  render() {
-    const st   = Storage.loadState();
-    const docs = Storage.getDocs(st);
+  async render() {
+    const docs = await Storage.getDocs();
     document.getElementById('docsGrid').innerHTML = docs.map(d => `
       <div class="doc-card" onclick="PdfViewer.openDoc('${Helpers.escHtml(d.title)}')">
         ${isAdmin ? `<button class="admin-delete-btn" onclick="event.stopPropagation();AdminPanel.confirmDelete('doc','${d.id}','${Helpers.escHtml(d.title)}')">🗑</button>` : ''}

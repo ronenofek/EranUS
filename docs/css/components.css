@@ -282,3 +282,49 @@
 .page-header { margin-bottom: 24px; }
 .page-header h2 { font-size: 22px; font-weight: 700; color: var(--green-dk); }
 .page-header p { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
+
+/* ── USER MANAGEMENT TABLE ─────────────────────────────────────────── */
+.user-table {
+  width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 12px;
+}
+.user-table th {
+  background: var(--green-dk); color: #fff; padding: 9px 12px;
+  text-align: right; font-weight: 600;
+}
+.user-table td {
+  padding: 9px 12px; border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.user-table tr:hover td { background: var(--surface-2); }
+.user-table tr.user-inactive td { opacity: 0.5; }
+.user-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.role-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.role-admin    { background: #fef3c7; color: #92400e; }
+.role-volunteer { background: #d1fae5; color: #065f46; }
+
+.status-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+}
+.status-badge.active   { background: #d1fae5; color: #065f46; }
+.status-badge.inactive { background: #fee2e2; color: #991b1b; }
+
+/* ── EDIT USER / RESET PASS MODALS ─────────────────────────────────── */
+#editUserModal .confirm-box,
+#resetPassModal .confirm-box {
+  min-width: 320px; max-width: 420px;
+}
+#editUserModal .form-row,
+#resetPassModal .form-row { margin-bottom: 14px; }
+#editUserModal select,
+#editUserModal input,
+#resetPassModal input {
+  width: 100%; padding: 8px 12px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 14px; font-family: inherit;
+  background: var(--surface);
+}

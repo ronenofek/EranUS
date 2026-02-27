@@ -2,12 +2,15 @@
 const AdminPanel = {
   _confirmCallback: null,
 
-  renderLists() {
+  async renderLists() {
     if (!isAdmin) return;
-    const st = Storage.loadState();
+
+    const [allMsgs, allDocs] = await Promise.all([
+      Storage.getMessages(),
+      Storage.getDocs(),
+    ]);
 
     // Messages list
-    const allMsgs = Storage.getMessages(st);
     document.getElementById('adminMsgList').innerHTML = allMsgs.length
       ? allMsgs.map(m => `
           <div class="admin-list-item">
@@ -23,7 +26,6 @@ const AdminPanel = {
       : '<p style="color:var(--text-muted);font-size:14px">אין הודעות להצגה.</p>';
 
     // Docs list
-    const allDocs = Storage.getDocs(st);
     document.getElementById('adminDocList').innerHTML = allDocs.length
       ? allDocs.map(d => `
           <div class="admin-list-item">
@@ -41,11 +43,11 @@ const AdminPanel = {
 
   confirmDelete(type, id, name) {
     document.getElementById('confirmTitle').textContent = type === 'msg' ? 'מחיקת הודעה' : 'מחיקת מסמך';
-    document.getElementById('confirmText').textContent  = `האם אתה בטוח שברצונך למחוק את "${name}"? פעולה זו לא ניתנת לביטול.`;
-    this._confirmCallback = () => this.doDelete(type, id);
-    document.getElementById('confirmOkBtn').onclick = () => {
-      this._confirmCallback && this._confirmCallback();
-      this.closeConfirm();
+    document.getElementById('confirmText').textContent  =
+      `האם אתה בטוח שברצונך למחוק את "${name}"? פעולה זו לא ניתנת לביטול.`;
+    document.getElementById('confirmOkBtn').onclick = async () => {
+      await AdminPanel.doDelete(type, id);
+      AdminPanel.closeConfirm();
     };
     document.getElementById('confirmModal').classList.add('open');
   },
@@ -54,34 +56,26 @@ const AdminPanel = {
     document.getElementById('confirmModal').classList.remove('open');
   },
 
-  doDelete(type, id) {
-    const st = Storage.loadState();
-    if (type === 'msg') {
-      if (id.startsWith('msg_default_')) {
-        if (!st.deletedMsgIds.includes(id)) st.deletedMsgIds.push(id);
+  async doDelete(type, id) {
+    try {
+      if (type === 'msg') {
+        await Storage.deleteMessage(id);
+        await Messages.render();
+        Toast.show('🗑 ההודעה נמחקה');
       } else {
-        st.customMessages = st.customMessages.filter(m => m.id !== id);
+        await Storage.deleteDoc(id);
+        await Docs.render();
+        Toast.show('🗑 המסמך נמחק');
       }
-      Storage.saveState(st);
-      Messages.render();
-      AdminPanel.renderLists();
-      Toast.show('🗑 ההודעה נמחקה');
-    } else {
-      if (id.startsWith('doc_default_')) {
-        if (!st.deletedDocIds.includes(id)) st.deletedDocIds.push(id);
-      } else {
-        st.customDocs = st.customDocs.filter(d => d.id !== id);
-      }
-      Storage.saveState(st);
-      Docs.render();
-      AdminPanel.renderLists();
-      Toast.show('🗑 המסמך נמחק');
+      await AdminPanel.renderLists();
+    } catch(e) {
+      Toast.show('❌ שגיאה במחיקה');
     }
   },
 };
 
 // ── Backwards-compatible global shims ──────────────────────────────────
-function renderAdminLists()           { AdminPanel.renderLists(); }
+function renderAdminLists()            { AdminPanel.renderLists(); }
 function confirmDelete(type, id, name) { AdminPanel.confirmDelete(type, id, name); }
-function closeConfirm()               { AdminPanel.closeConfirm(); }
-function doDelete(type, id)           { AdminPanel.doDelete(type, id); }
+function closeConfirm()                { AdminPanel.closeConfirm(); }
+function doDelete(type, id)            { AdminPanel.doDelete(type, id); }

@@ -161,6 +161,55 @@
           <div class="admin-list" id="adminMsgList"></div>
         </div>
 
+
+        <!-- Users management -->
+        <div class="admin-section" id="usersSection">
+          <div class="admin-section-header">
+            <span class="admin-section-title">👥 ניהול משתמשים</span>
+            <div style="display:flex;gap:8px">
+              <label class="btn btn-accent btn-sm" style="cursor:pointer">
+                📂 ייבוא מקובץ
+                <input type="file" accept=".csv,.txt" style="display:none" onchange="UserAdmin.importFromFile(this)">
+              </label>
+              <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('userForm')">+ הוסף משתמש</button>
+            </div>
+          </div>
+          <div class="admin-form" id="userForm">
+            <h4>משתמש חדש</h4>
+            <div class="form-row">
+              <label>שם מלא *</label>
+              <input type="text" id="newUserName" placeholder="שם המשתמש">
+            </div>
+            <div class="form-row">
+              <label>כתובת מייל *</label>
+              <input type="email" id="newUserEmail" placeholder="user@example.com">
+            </div>
+            <div class="form-row">
+              <label>תפקיד</label>
+              <select id="newUserRole">
+                <option value="volunteer">מתנדב</option>
+                <option value="admin">מנהל</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>סיסמה זמנית *</label>
+              <input type="text" id="newUserPass" placeholder="לפחות 6 תווים" autocomplete="off">
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="Helpers.toggleForm('userForm')">ביטול</button>
+              <button class="btn btn-primary" onclick="UserAdmin.addUserManual()">הוסף משתמש</button>
+            </div>
+          </div>
+          <div class="admin-list">
+            <table class="user-table">
+              <thead>
+                <tr><th>שם</th><th>מייל</th><th>תפקיד</th><th>סטטוס</th><th>פעולות</th></tr>
+              </thead>
+              <tbody id="userTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Docs management -->
         <div class="admin-section">
           <div class="admin-section-header">
@@ -244,6 +293,12 @@
 <!-- ═══ SCRIPTS (load order matters) ═══════════════════════════════════ -->
 
 <!-- 1. PDF data (3.2MB — loaded first so all modules can reference it) -->
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="js/core/firebase-init.js"></script>
+
 <script src="data/pdf_data.js"></script>
 
 <!-- 2. Core (no dependencies) -->
@@ -265,6 +320,7 @@
 <script src="js/features/documents/doc-admin.js"></script>
 <script src="js/features/calendar/calendar.js"></script>
 <script src="js/features/admin/admin-panel.js"></script>
+<script src="js/features/admin/user-admin.js"></script>
 
 <!-- 6. Search (depends on features + PDF.js CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -275,6 +331,44 @@
 
 <!-- 7. App orchestrator (last — depends on everything) -->
 <script src="js/core/app.js"></script>
+
+
+<!-- EDIT USER MODAL -->
+<div class="modal-overlay" id="editUserModal">
+  <div class="confirm-box">
+    <h3>עריכת משתמש</h3>
+    <div class="form-row">
+      <label>שם מלא</label>
+      <input type="text" id="editUserName" placeholder="שם המשתמש">
+    </div>
+    <div class="form-row">
+      <label>תפקיד</label>
+      <select id="editUserRole">
+        <option value="volunteer">מתנדב</option>
+        <option value="admin">מנהל</option>
+      </select>
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary" onclick="UserAdmin.closeEditUser()">ביטול</button>
+      <button class="btn btn-primary" onclick="UserAdmin.saveEditUser()">שמור</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESET PASSWORD MODAL -->
+<div class="modal-overlay" id="resetPassModal">
+  <div class="confirm-box">
+    <h3>איפוס סיסמה</h3>
+    <p id="resetPassLabel"></p>
+    <div class="form-row">
+      <input type="text" id="newPassValue" placeholder="סיסמה חדשה (לפחות 6 תווים)" autocomplete="off">
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary" onclick="UserAdmin.closeResetPassword()">ביטול</button>
+      <button class="btn btn-primary" onclick="UserAdmin.saveResetPassword()">אפס סיסמה</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

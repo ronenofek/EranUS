@@ -1,7 +1,4 @@
-// ── Credentials ────────────────────────────────────────────────────────
-// TODO: replace with server-side auth before production use
-const USERS  = { 'admin': 'eran2026', 'volunteer': 'eran123' };
-const ADMINS = new Set(['admin']);
+// ── Auth handled by Firebase (firebase-init.js + auth.js) ───────────────
 
 // ── Default Messages ────────────────────────────────────────────────────
 const DEFAULT_MESSAGES = [

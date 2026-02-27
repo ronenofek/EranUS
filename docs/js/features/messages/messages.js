@@ -1,8 +1,7 @@
 // ── Messages Renderer ───────────────────────────────────────────────────
 const Messages = {
-  render() {
-    const st   = Storage.loadState();
-    const msgs = Storage.getMessages(st);
+  async render() {
+    const msgs      = await Storage.getMessages();
     const container = document.getElementById('messagesList');
     document.getElementById('msgBadge').textContent = msgs.length;
 
