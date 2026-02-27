@@ -51,4 +51,5 @@ const DEFAULT_DOCS = [
   { id: 'doc_default_3', isDefault: true, title: 'פרטי קשר לארגוני סיוע',            key: 'פרטי קשר לארגוני סיוע' },
   { id: 'doc_default_4', isDefault: true, title: 'פתיחת שיחה יזומה — כוננים',       key: 'פתיחת שיחה יזומה — כוננים' },
   { id: 'doc_default_5', isDefault: true, title: 'תרשים זרימה ופרוטוקול שיחה אובדנית', key: 'תרשים זרימה ופרוטוקול שיחה אובדנית' },
+  { id: 'doc_default_6', isDefault: true, title: 'מדריך למתנדב צפ״א - פברואר 26',      key: 'מדריך למתנדב צפ״א - פברואר 26' },
 ];
