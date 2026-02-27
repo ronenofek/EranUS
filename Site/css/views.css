@@ -1,7 +1,11 @@
 /* ── CALENDAR VIEW ─────────────────────────────────────────────────── */
 #view-calendar {
-  display: flex; flex-direction: column;
+  /* no display here — let .view { display:none } handle hiding */
+  flex-direction: column;
   height: calc(100vh - var(--topbar-h) - 56px);
+}
+#view-calendar.active {
+  display: flex; /* override .view.active { display:block } */
 }
 .calendar-wrap {
   flex: 1; border-radius: var(--r); overflow: hidden;
