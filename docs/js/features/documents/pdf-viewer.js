@@ -1,30 +1,70 @@
 // ── PDF Viewer ──────────────────────────────────────────────────────────
 const PdfViewer = {
-  openDoc(title) {
-    const st      = Storage.loadState();
-    const allDocs = Storage.getDocs(st);
-    const doc     = allDocs.find(d => d.title === title);
+  _blobUrl: null,
+
+  // Convert base64 string to a Blob URL (works on iOS/Android)
+  _b64ToBlobUrl(b64) {
+    const binary = atob(b64);
+    const bytes  = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const blob = new Blob([bytes], { type: 'application/pdf' });
+    return URL.createObjectURL(blob);
+  },
+
+  async openDoc(title) {
+    let allDocs;
+    try {
+      allDocs = await Storage.getDocs();
+    } catch(e) {
+      Toast.show('שגיאה בטעינת המסמכים');
+      return;
+    }
+
+    const doc = allDocs.find(d => d.title === title);
     if (!doc) { Toast.show('המסמך לא נמצא'); return; }
 
-    let src;
+    // Resolve the base64 string
+    let b64;
     if (doc.isDefault) {
-      const b64 = PDF_DATA[doc.key];
-      src = b64 ? 'data:application/pdf;base64,' + b64 : '';
+      b64 = PDF_DATA[doc.key] || null;
     } else {
-      src = doc.b64 ? 'data:application/pdf;base64,' + doc.b64 : '';
+      b64 = doc.b64 || null;
     }
-    if (!src) { Toast.show('לא ניתן לטעון את המסמך'); return; }
+    if (!b64) { Toast.show('לא ניתן לטעון את המסמך'); return; }
+
+    // Build a Blob URL (avoids iOS data: URI limitation)
+    const blobUrl = this._b64ToBlobUrl(b64);
+
+    // On mobile, open in a new browser tab (iframes won't display PDFs on iOS/Android)
+    if (window.innerWidth <= 700) {
+      window.open(blobUrl, '_blank');
+      // Revoke after a short delay to give the browser time to open the URL
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+      return;
+    }
+
+    // Desktop: show in modal iframe
+    this._revokeCurrent();
+    this._blobUrl = blobUrl;
 
     document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalIframe').src = src;
+    document.getElementById('modalIframe').src = blobUrl;
     document.getElementById('pdfModal').classList.add('open');
     document.body.style.overflow = 'hidden';
+  },
+
+  _revokeCurrent() {
+    if (this._blobUrl) {
+      URL.revokeObjectURL(this._blobUrl);
+      this._blobUrl = null;
+    }
   },
 
   closeModal() {
     document.getElementById('pdfModal').classList.remove('open');
     document.getElementById('modalIframe').src = '';
     document.body.style.overflow = '';
+    this._revokeCurrent();
   },
 
   closeModalOutside(e) {
