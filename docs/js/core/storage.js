@@ -13,7 +13,7 @@ const Storage = {
       fbDb.collection('config').doc('defaults').get(),
     ]);
     const deletedMsgIds = cfgDoc.exists ? (cfgDoc.data().deletedMsgIds || []) : [];
-    const customs       = customSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
     const defaults      = DEFAULT_MESSAGES.filter(m => !deletedMsgIds.includes(m.id));
     return [...defaults, ...customs];
   },
@@ -24,7 +24,7 @@ const Storage = {
       fbDb.collection('config').doc('defaults').get(),
     ]);
     const deletedDocIds = cfgDoc.exists ? (cfgDoc.data().deletedDocIds || []) : [];
-    const customs       = customSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
     const defaults      = DEFAULT_DOCS.filter(d => !deletedDocIds.includes(d.id));
     return [...defaults, ...customs];
   },
