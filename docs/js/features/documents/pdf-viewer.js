@@ -34,7 +34,7 @@ const PdfViewer = {
       return;
     }
 
-    // Case 1: uploaded doc stored in Firebase Storage → use direct URL
+    // Case 1: uploaded doc stored in Firebase Storage → HTTPS URL (works everywhere)
     if (doc.storageUrl) {
       if (isMobile) {
         newWin.location.href = doc.storageUrl;
@@ -61,17 +61,28 @@ const PdfViewer = {
       return;
     }
 
-    // Build a Blob URL (avoids iOS data: URI limitation)
-    const blobUrl = this._b64ToBlobUrl(b64);
-
     if (isMobile) {
-      // Navigate the already-opened window to the blob URL
-      newWin.location.href = blobUrl;
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+      // iOS Safari blocks navigation to blob: and data: URIs.
+      // Workaround: write an HTML page directly into the pre-opened window
+      // with an <embed> tag — iOS Safari supports this even for PDF data URIs.
+      const escaped = title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      newWin.document.open();
+      newWin.document.write(
+        '<!DOCTYPE html><html><head>' +
+        '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+        '<title>' + escaped + '</title>' +
+        '<style>*{margin:0;padding:0}html,body{width:100%;height:100%;overflow:hidden}' +
+        'embed{display:block;width:100%;height:100%}</style>' +
+        '</head><body>' +
+        '<embed src="data:application/pdf;base64,' + b64 + '" type="application/pdf">' +
+        '</body></html>'
+      );
+      newWin.document.close();
       return;
     }
 
-    // Desktop: show in modal iframe
+    // Desktop: show in modal iframe via Blob URL
+    const blobUrl = this._b64ToBlobUrl(b64);
     this._revokeCurrent();
     this._blobUrl = blobUrl;
 
