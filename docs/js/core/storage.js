@@ -53,10 +53,29 @@ const Storage = {
   // ── Write — Documents ────────────────────────────────────────────────
 
   async addDoc(doc) {
-    await fbDb.collection('documents').add({
-      ...doc,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    // If doc has binary data (b64), upload to Firebase Storage first
+    // to avoid Firestore's 1MB document size limit.
+    let firestoreDoc = { ...doc, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+
+    if (doc.b64 && !doc.isDefault) {
+      // Convert base64 → Uint8Array → upload to Storage
+      const binary = atob(doc.b64);
+      const bytes  = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+
+      const filename  = 'documents/' + Date.now() + '_' + doc.title.replace(/[^a-zA-Z0-9א-ת._-]/g, '_') + '.pdf';
+      const storageRef = fbStorage.ref(filename);
+      const snapshot   = await storageRef.put(blob, { contentType: 'application/pdf' });
+      const downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Store URL in Firestore instead of base64 blob
+      delete firestoreDoc.b64;
+      firestoreDoc.storageUrl  = downloadUrl;
+      firestoreDoc.storagePath = filename;
+    }
+
+    await fbDb.collection('documents').add(firestoreDoc);
   },
 
   async deleteDoc(id) {

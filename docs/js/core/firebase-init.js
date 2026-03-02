@@ -13,8 +13,9 @@ const FIREBASE_CONFIG = {
 firebase.initializeApp(FIREBASE_CONFIG);
 
 // Primary app — used for all normal operations
-const fbAuth = firebase.auth();
-const fbDb   = firebase.firestore();
+const fbAuth    = firebase.auth();
+const fbDb      = firebase.firestore();
+const fbStorage = firebase.storage();
 
 // Secondary app — used by admin to create new users without signing out
 const _fbSecondary     = firebase.initializeApp(FIREBASE_CONFIG, 'secondary');

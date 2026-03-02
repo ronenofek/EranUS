@@ -23,7 +23,21 @@ const PdfViewer = {
     const doc = allDocs.find(d => d.title === title);
     if (!doc) { Toast.show('המסמך לא נמצא'); return; }
 
-    // Resolve the base64 string
+    // Case 1: uploaded doc stored in Firebase Storage → use direct URL
+    if (doc.storageUrl) {
+      if (window.innerWidth <= 700) {
+        window.open(doc.storageUrl, '_blank');
+      } else {
+        this._revokeCurrent(); // revoke any old blob URL
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalIframe').src = doc.storageUrl;
+        document.getElementById('pdfModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      return;
+    }
+
+    // Case 2: default doc or legacy uploaded doc with base64
     let b64;
     if (doc.isDefault) {
       b64 = PDF_DATA[doc.key] || null;
@@ -38,7 +52,6 @@ const PdfViewer = {
     // On mobile, open in a new browser tab (iframes won't display PDFs on iOS/Android)
     if (window.innerWidth <= 700) {
       window.open(blobUrl, '_blank');
-      // Revoke after a short delay to give the browser time to open the URL
       setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
       return;
     }
