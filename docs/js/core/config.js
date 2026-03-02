@@ -41,6 +41,13 @@ const DEFAULT_MESSAGES = [
   }
 ];
 
+// ── Default Links ────────────────────────────────────────────────────────
+const DEFAULT_LINKS = [
+  { id: 'link_default_1', isDefault: true, icon: '🖥', title: 'פורטל ער"ן',      url: 'https://portal.eran.org.il/CallCenter/login.aspx?ReturnUrl=%2fCallCenter%2fdefault.aspx' },
+  { id: 'link_default_2', isDefault: true, icon: '⚖️', title: 'כל זכות',         url: 'https://www.kolzchut.org.il/he/%D7%A2%D7%9E%D7%95%D7%93_%D7%A8%D7%90%D7%A9%D7%99' },
+  { id: 'link_default_3', isDefault: true, icon: '🌐', title: 'אתר ער"ן ישראל', url: 'https://www.eran.org.il/' },
+];
+
 // ── Default Documents ───────────────────────────────────────────────────
 const DEFAULT_DOCS = [
   { id: 'doc_default_1', isDefault: true, title: 'מה תאמר לאדם שעל הגג',              key: 'מה תאמר לאדם שעל הגג' },

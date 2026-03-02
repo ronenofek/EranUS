@@ -15,6 +15,7 @@ const App = {
 
     await Messages.render();
     await Docs.render();
+    await Links.render();
     await AdminPanel.renderLists();
     if (isAdmin) await UserAdmin.renderUsers();
   },

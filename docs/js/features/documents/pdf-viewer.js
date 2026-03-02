@@ -12,23 +12,34 @@ const PdfViewer = {
   },
 
   async openDoc(title) {
+    const isMobile = window.innerWidth <= 700;
+
+    // iOS Safari blocks window.open() after any await (loses gesture context).
+    // Open a blank window FIRST (synchronous, within the gesture), then navigate it.
+    const newWin = isMobile ? window.open('', '_blank') : null;
+
     let allDocs;
     try {
       allDocs = await Storage.getDocs();
     } catch(e) {
+      if (newWin) newWin.close();
       Toast.show('שגיאה בטעינת המסמכים');
       return;
     }
 
     const doc = allDocs.find(d => d.title === title);
-    if (!doc) { Toast.show('המסמך לא נמצא'); return; }
+    if (!doc) {
+      if (newWin) newWin.close();
+      Toast.show('המסמך לא נמצא');
+      return;
+    }
 
     // Case 1: uploaded doc stored in Firebase Storage → use direct URL
     if (doc.storageUrl) {
-      if (window.innerWidth <= 700) {
-        window.open(doc.storageUrl, '_blank');
+      if (isMobile) {
+        newWin.location.href = doc.storageUrl;
       } else {
-        this._revokeCurrent(); // revoke any old blob URL
+        this._revokeCurrent();
         document.getElementById('modalTitle').textContent = title;
         document.getElementById('modalIframe').src = doc.storageUrl;
         document.getElementById('pdfModal').classList.add('open');
@@ -44,14 +55,18 @@ const PdfViewer = {
     } else {
       b64 = doc.b64 || null;
     }
-    if (!b64) { Toast.show('לא ניתן לטעון את המסמך'); return; }
+    if (!b64) {
+      if (newWin) newWin.close();
+      Toast.show('לא ניתן לטעון את המסמך');
+      return;
+    }
 
     // Build a Blob URL (avoids iOS data: URI limitation)
     const blobUrl = this._b64ToBlobUrl(b64);
 
-    // On mobile, open in a new browser tab (iframes won't display PDFs on iOS/Android)
-    if (window.innerWidth <= 700) {
-      window.open(blobUrl, '_blank');
+    if (isMobile) {
+      // Navigate the already-opened window to the blob URL
+      newWin.location.href = blobUrl;
       setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
       return;
     }

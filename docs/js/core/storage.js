@@ -89,6 +89,37 @@ const Storage = {
     }
   },
 
+  // ── Links ────────────────────────────────────────────────────────────
+
+  async getLinks() {
+    const [customSnap, cfgDoc] = await Promise.all([
+      fbDb.collection('links').orderBy('createdAt').get(),
+      fbDb.collection('config').doc('defaults').get(),
+    ]);
+    const deletedLinkIds = cfgDoc.exists ? (cfgDoc.data().deletedLinkIds || []) : [];
+    const customs        = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
+    const defaults       = DEFAULT_LINKS.filter(l => !deletedLinkIds.includes(l.id));
+    return [...defaults, ...customs];
+  },
+
+  async addLink(link) {
+    await fbDb.collection('links').add({
+      ...link,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+  },
+
+  async deleteLink(id) {
+    if (id.startsWith('link_default_')) {
+      await fbDb.collection('config').doc('defaults').set(
+        { deletedLinkIds: firebase.firestore.FieldValue.arrayUnion(id) },
+        { merge: true }
+      );
+    } else {
+      await fbDb.collection('links').doc(id).delete();
+    }
+  },
+
   // ── Users ────────────────────────────────────────────────────────────
 
   async getUsers() {

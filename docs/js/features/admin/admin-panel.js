@@ -5,9 +5,10 @@ const AdminPanel = {
   async renderLists() {
     if (!isAdmin) return;
 
-    const [allMsgs, allDocs] = await Promise.all([
+    const [allMsgs, allDocs, allLinks] = await Promise.all([
       Storage.getMessages(),
       Storage.getDocs(),
+      Storage.getLinks(),
     ]);
 
     // Messages list
@@ -39,10 +40,26 @@ const AdminPanel = {
             </div>
           </div>`).join('')
       : '<p style="color:var(--text-muted);font-size:14px">אין מסמכים להצגה.</p>';
+
+    // Links list
+    document.getElementById('adminLinkList').innerHTML = allLinks.length
+      ? allLinks.map(l => `
+          <div class="admin-list-item">
+            <div class="ali-icon">${l.icon || '🔗'}</div>
+            <div class="ali-info">
+              <div class="ali-title">${Helpers.escHtml(l.title)}</div>
+              <div class="ali-meta">${Helpers.escHtml(l.url)}</div>
+            </div>
+            <div class="ali-actions">
+              <button class="btn btn-danger btn-sm" onclick="AdminPanel.confirmDelete('link','${l.id}','${Helpers.escHtml(l.title)}')">🗑 מחק</button>
+            </div>
+          </div>`).join('')
+      : '<p style="color:var(--text-muted);font-size:14px">אין קישורים להצגה.</p>';
   },
 
   confirmDelete(type, id, name) {
-    document.getElementById('confirmTitle').textContent = type === 'msg' ? 'מחיקת הודעה' : 'מחיקת מסמך';
+    const titles = { msg: 'מחיקת הודעה', doc: 'מחיקת מסמך', link: 'מחיקת קישור' };
+    document.getElementById('confirmTitle').textContent = titles[type] || 'מחיקה';
     document.getElementById('confirmText').textContent  =
       `האם אתה בטוח שברצונך למחוק את "${name}"? פעולה זו לא ניתנת לביטול.`;
     document.getElementById('confirmOkBtn').onclick = async () => {
@@ -62,10 +79,14 @@ const AdminPanel = {
         await Storage.deleteMessage(id);
         await Messages.render();
         Toast.show('🗑 ההודעה נמחקה');
-      } else {
+      } else if (type === 'doc') {
         await Storage.deleteDoc(id);
         await Docs.render();
         Toast.show('🗑 המסמך נמחק');
+      } else if (type === 'link') {
+        await Storage.deleteLink(id);
+        await Links.render();
+        Toast.show('🗑 הקישור נמחק');
       }
       await AdminPanel.renderLists();
     } catch(e) {

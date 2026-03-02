@@ -66,19 +66,7 @@
       </div>
       <div class="sidebar-sep"></div>
       <div class="sidebar-section">קישורים חיצוניים</div>
-      <a class="nav-item ext-link"
-         href="https://portal.eran.org.il/CallCenter/login.aspx?ReturnUrl=%2fCallCenter%2fdefault.aspx"
-         target="_blank" rel="noopener">
-        <span class="nav-icon">🖥</span> פורטל ער"ן
-      </a>
-      <a class="nav-item ext-link"
-         href="https://www.kolzchut.org.il/he/%D7%A2%D7%9E%D7%95%D7%93_%D7%A8%D7%90%D7%A9%D7%99"
-         target="_blank" rel="noopener">
-        <span class="nav-icon">⚖️</span> כל זכות
-      </a>
-      <a class="nav-item ext-link" href="https://www.eran.org.il/" target="_blank" rel="noopener">
-        <span class="nav-icon">🌐</span> אתר ער"ן ישראל
-      </a>
+      <div id="externalLinksList"></div>
       <div class="sidebar-sep" id="adminSep" style="display:none"></div>
       <div class="sidebar-section" id="adminSection" style="display:none">ניהול</div>
       <div class="nav-item admin-nav" id="nav-admin" onclick="App.showView('admin')" style="display:none">
@@ -234,8 +222,30 @@
           </div>
           <div class="admin-list" id="adminDocList"></div>
         </div>
-      </div>
 
+        <!-- LINKS SECTION -->
+        <div class="admin-section">
+          <div class="admin-section-header">
+            <h3>🔗 קישורים חיצוניים</h3>
+            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('linkForm')">+ הוסף קישור</button>
+          </div>
+          <div class="admin-form" id="linkForm">
+            <h4>קישור חדש</h4>
+            <label>שם הקישור *</label>
+            <input type="text" id="newLinkTitle" placeholder="לדוגמה: אתר משרד הבריאות">
+            <label>כתובת URL *</label>
+            <input type="url" id="newLinkUrl" placeholder="https://...">
+            <label>אייקון (אימוג'י)</label>
+            <input type="text" id="newLinkIcon" placeholder="🔗" maxlength="4">
+            <div class="form-actions">
+              <button class="btn btn-secondary" onclick="Helpers.toggleForm('linkForm')">ביטול</button>
+              <button class="btn btn-primary" onclick="LinkAdmin.addLink()">שמור קישור</button>
+            </div>
+          </div>
+          <div class="admin-list" id="adminLinkList"></div>
+        </div>
+
+      </div>
     </main>
   </div>
 </div>
@@ -319,6 +329,8 @@
 <script src="js/features/documents/documents.js"></script>
 <script src="js/features/documents/pdf-viewer.js"></script>
 <script src="js/features/documents/doc-admin.js"></script>
+<script src="js/features/links/links.js"></script>
+<script src="js/features/links/link-admin.js"></script>
 <script src="js/features/calendar/calendar.js"></script>
 <script src="js/features/admin/admin-panel.js"></script>
 <script src="js/features/admin/user-admin.js"></script>
