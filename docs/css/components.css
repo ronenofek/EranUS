@@ -156,20 +156,8 @@
   display: flex; flex-direction: column; position: relative;
 }
 .doc-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-.doc-preview {
-  height: 140px; background: var(--mint);
-  display: flex; align-items: center; justify-content: center;
-  border-bottom: 1px solid var(--border); overflow: hidden;
-}
-.doc-preview-icon { font-size: 48px; opacity: .3; }
-.doc-badge {
-  position: absolute; top: 10px; right: 10px;
-  background: var(--green); color: #fff;
-  font-size: 10px; font-weight: 700;
-  padding: 2px 8px; border-radius: 5px; letter-spacing: .4px;
-}
-.doc-info { padding: 14px; flex: 1; }
-.doc-name { font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 10px; }
+.doc-info { padding: 16px; flex: 1; }
+.doc-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 12px; }
 .doc-open-btn {
   width: 100%; padding: 8px;
   background: var(--mint); color: var(--green-dk);
