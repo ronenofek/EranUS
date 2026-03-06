@@ -24,7 +24,8 @@ const App = {
     document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     document.getElementById('view-' + v).classList.add('active');
-    document.getElementById('nav-' + v).classList.add('active');
+    const navEl = document.getElementById('nav-' + v);
+    if (navEl) navEl.classList.add('active');
 
     // Sync mobile bottom nav
     document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));

@@ -94,6 +94,15 @@
         <div class="docs-grid" id="docsGrid"></div>
       </div>
 
+      <!-- LINKS VIEW (mobile) -->
+      <div class="view" id="view-links">
+        <div class="page-header">
+          <h2>🔗 קישורים חיצוניים</h2>
+          <p>גישה מהירה לכלים וכתובות חיצוניות</p>
+        </div>
+        <div id="linksViewList" class="links-view-list"></div>
+      </div>
+
       <!-- CALENDAR VIEW -->
       <div class="view" id="view-calendar">
         <div class="calendar-wrap">
@@ -355,6 +364,10 @@
       <input type="text" id="editUserName" placeholder="שם המשתמש">
     </div>
     <div class="form-row">
+      <label>כתובת מייל</label>
+      <input type="email" id="editUserEmail" placeholder="user@example.com">
+    </div>
+    <div class="form-row">
       <label>תפקיד</label>
       <select id="editUserRole">
         <option value="volunteer">מתנדב</option>
@@ -394,6 +407,10 @@
   <button class="bottom-nav-item" id="bn-docs" onclick="App.showView('docs')">
     <span class="bn-icon">📚</span>
     <span class="bn-label">מסמכים</span>
+  </button>
+  <button class="bottom-nav-item" id="bn-links" onclick="App.showView('links')">
+    <span class="bn-icon">🔗</span>
+    <span class="bn-label">קישורים</span>
   </button>
   <button class="bottom-nav-item" id="bn-calendar" onclick="App.showView('calendar')">
     <span class="bn-icon">📅</span>

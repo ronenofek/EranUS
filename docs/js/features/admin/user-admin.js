@@ -18,9 +18,12 @@ const UserAdmin = {
         <td><span class="role-badge role-${u.role}">${u.role === 'admin' ? 'מנהל' : 'מתנדב'}</span></td>
         <td><span class="status-badge ${u.active ? 'active' : 'inactive'}">${u.active ? 'פעיל' : 'מושהה'}</span></td>
         <td class="user-actions">
-          <button class="btn btn-sm btn-secondary" onclick="UserAdmin.openEditUser('${u.uid}','${Helpers.escHtml(u.displayName)}','${u.role}')">✏️ עריכה</button>
+          <button class="btn btn-sm btn-secondary" onclick="UserAdmin.openEditUser('${u.uid}','${Helpers.escHtml(u.displayName)}','${u.role}','${Helpers.escHtml(u.email)}')">✏️ עריכה</button>
           <button class="btn btn-sm btn-secondary" onclick="UserAdmin.openResetPassword('${u.uid}','${Helpers.escHtml(u.displayName)}')">🔑 איפוס</button>
-          ${u.uid !== _currentUid() ? `<button class="btn btn-sm btn-danger" onclick="UserAdmin.toggleActive('${u.uid}','${Helpers.escHtml(u.displayName)}',${u.active})">${u.active ? '🚫 השהה' : '✅ הפעל'}</button>` : ''}
+          ${u.uid !== _currentUid() ? `
+          <button class="btn btn-sm btn-danger" onclick="UserAdmin.toggleActive('${u.uid}','${Helpers.escHtml(u.displayName)}',${u.active})">${u.active ? '🚫 השהה' : '✅ הפעל'}</button>
+          <button class="btn btn-sm btn-danger" onclick="UserAdmin.deleteUser('${u.uid}','${Helpers.escHtml(u.displayName)}')">🗑 מחק</button>
+          ` : ''}
         </td>
       </tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">אין משתמשים</td></tr>';
   },
@@ -95,26 +98,40 @@ const UserAdmin = {
   },
 
   // ── Edit user (name + role) ───────────────────────────────────────────
-  openEditUser(uid, name, role) {
+  openEditUser(uid, name, role, email) {
     UserAdmin._editingUid = uid;
-    document.getElementById('editUserName').value = name;
-    document.getElementById('editUserRole').value = role;
+    document.getElementById('editUserName').value  = name;
+    document.getElementById('editUserEmail').value = email || '';
+    document.getElementById('editUserRole').value  = role;
     document.getElementById('editUserModal').classList.add('open');
   },
 
   async saveEditUser() {
-    const uid  = UserAdmin._editingUid;
-    const name = document.getElementById('editUserName').value.trim();
-    const role = document.getElementById('editUserRole').value;
-    if (!name) { Toast.show('יש להזין שם'); return; }
+    const uid   = UserAdmin._editingUid;
+    const name  = document.getElementById('editUserName').value.trim();
+    const email = document.getElementById('editUserEmail').value.trim();
+    const role  = document.getElementById('editUserRole').value;
+    if (!name)  { Toast.show('יש להזין שם'); return; }
+    if (!email) { Toast.show('יש להזין מייל'); return; }
 
     try {
-      await Storage.updateUser(uid, { displayName: name, role });
+      await Storage.updateUser(uid, { displayName: name, email, role });
       document.getElementById('editUserModal').classList.remove('open');
       await UserAdmin.renderUsers();
       Toast.show('✅ המשתמש עודכן');
     } catch(e) {
       Toast.show('❌ שגיאה בעדכון');
+    }
+  },
+
+  async deleteUser(uid, name) {
+    if (!confirm(`האם למחוק לצמיתות את המשתמש "${name}"?\nפעולה זו אינה ניתנת לביטול.`)) return;
+    try {
+      await Storage.hardDeleteUser(uid);
+      await UserAdmin.renderUsers();
+      Toast.show(`🗑 המשתמש ${name} נמחק`);
+    } catch(e) {
+      Toast.show('❌ שגיאה במחיקת המשתמש');
     }
   },
 

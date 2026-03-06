@@ -154,4 +154,10 @@ const Storage = {
   async deleteUser(uid) {
     await fbDb.collection('users').doc(uid).update({ active: false });
   },
+
+  async hardDeleteUser(uid) {
+    // Deletes the Firestore record — user can no longer log in.
+    // (Firebase Auth account remains but login fails without a Firestore record.)
+    await fbDb.collection('users').doc(uid).delete();
+  },
 };
