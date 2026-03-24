@@ -15,7 +15,6 @@ const Messages = {
       return `
       <div class="msg-bento-card${pinned ? ' pinned' : ''}" id="msg-${m.id}"
            onclick="Messages.toggle('${m.id}')">
-        ${isAdmin ? `<button class="admin-delete-btn" onclick="event.stopPropagation();AdminPanel.confirmDelete('msg','${m.id}','${Helpers.escHtml(m.title)}')">🗑</button>` : ''}
         ${pinned ? `<span class="msg-bento-pin">📌 נעוץ</span>` : ''}
         <div class="msg-bento-top">
           <div class="msg-bento-subject">${Helpers.escHtml(m.title)}</div>
