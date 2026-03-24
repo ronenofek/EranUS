@@ -8,10 +8,10 @@ html, body {
 
 /* ── Dark theme for main app ───────────────────────────────────────── */
 #mainApp {
-  --bg:         #0e1a15;
-  --surface:    #162118;
-  --card:       #1c2d24;
-  --card-2:     #213329;
+  --bg:         #0d2318;
+  --surface:    #173220;
+  --card:       #1e3c2a;
+  --card-2:     #254834;
   --border:     rgba(255,255,255,.08);
   --text:       #eaf4ef;
   --text-2:     rgba(255,255,255,.65);
