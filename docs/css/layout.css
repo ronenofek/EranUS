@@ -26,7 +26,7 @@ html, body {
   display: none;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(160deg, #134D3A 0%, #2A8C68 100%);
+  background: linear-gradient(135deg, var(--green-dk) 0%, var(--green-lt) 100%);
   background-attachment: fixed;
 }
 
