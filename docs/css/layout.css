@@ -8,10 +8,10 @@ html, body {
 
 /* ── Dark theme for main app ───────────────────────────────────────── */
 #mainApp {
-  --bg:         #0d2318;
-  --surface:    #173220;
-  --card:       #1e3c2a;
-  --card-2:     #254834;
+  --bg:         transparent;
+  --surface:    rgba(10,40,24,.85);
+  --card:       rgba(13,50,30,.9);
+  --card-2:     rgba(16,58,34,.9);
   --border:     rgba(255,255,255,.08);
   --text:       #eaf4ef;
   --text-2:     rgba(255,255,255,.65);
@@ -26,7 +26,8 @@ html, body {
   display: none;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--bg);
+  background: linear-gradient(160deg, #134D3A 0%, #2A8C68 100%);
+  background-attachment: fixed;
 }
 
 /* ── Topbar ────────────────────────────────────────────────────────── */
