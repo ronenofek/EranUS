@@ -9,16 +9,16 @@ html, body {
 /* ── Dark theme for main app ───────────────────────────────────────── */
 #mainApp {
   --bg:         transparent;
-  --surface:    rgba(10,40,24,.85);
-  --card:       rgba(13,50,30,.9);
-  --card-2:     rgba(16,58,34,.9);
-  --border:     rgba(255,255,255,.08);
-  --text:       #eaf4ef;
-  --text-2:     rgba(255,255,255,.65);
-  --text-muted: rgba(255,255,255,.35);
-  --shadow:     0 2px 12px rgba(0,0,0,.35);
-  --shadow-lg:  0 8px 28px rgba(0,0,0,.5);
-  --mint:       rgba(26,107,80,.25);
+  --surface:    rgba(3,18,10,.92);
+  --card:       rgba(4,22,13,.88);
+  --card-2:     rgba(3,16,9,.92);
+  --border:     rgba(255,255,255,.13);
+  --text:       #ffffff;
+  --text-2:     rgba(255,255,255,.75);
+  --text-muted: rgba(255,255,255,.45);
+  --shadow:     0 4px 16px rgba(0,0,0,.5);
+  --shadow-lg:  0 10px 32px rgba(0,0,0,.6);
+  --mint:       rgba(255,255,255,.1);
 }
 
 /* ── App shell ─────────────────────────────────────────────────────── */
