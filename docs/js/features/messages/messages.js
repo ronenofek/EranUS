@@ -19,7 +19,7 @@ const Messages = {
         ${pinned ? `<span class="msg-bento-pin">📌 נעוץ</span>` : ''}
         <div class="msg-bento-top">
           <div class="msg-bento-subject">${Helpers.escHtml(m.title)}</div>
-          <div class="msg-bento-date">${m.date || ''}</div>
+          <div class="msg-bento-date">${Messages.formatDate(m.createdAt)}</div>
         </div>
         <div class="msg-bento-preview">${Messages.textPreview(m)}</div>
         <div class="msg-bento-full">${bodyHtml}</div>
@@ -40,6 +40,14 @@ const Messages = {
       return Helpers.escHtml(tmp.textContent.trim().slice(0, 120));
     }
     return Helpers.escHtml((m.body || '').slice(0, 120));
+  },
+
+  formatDate(ts) {
+    if (!ts) return '';
+    try {
+      const d = ts.toDate ? ts.toDate() : new Date(ts);
+      return d.toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
+    } catch(e) { return ''; }
   },
 
   renderCustomBody(m) {

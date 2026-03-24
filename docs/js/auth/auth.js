@@ -65,7 +65,7 @@ const Auth = {
     isAdmin      = data.role === 'admin';
 
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('mainApp').style.display     = 'block';
+    document.getElementById('mainApp').style.display     = 'flex';
     document.getElementById('password').value            = '';
     App.initApp();
   },
