@@ -1,30 +1,45 @@
-// ── Messages Renderer ───────────────────────────────────────────────────
+// ── Messages Renderer (bento cards) ────────────────────────────────────
 const Messages = {
   async render() {
     const msgs      = await Storage.getMessages();
     const container = document.getElementById('messagesList');
-    document.getElementById('msgBadge').textContent = msgs.length;
 
-    container.innerHTML = msgs.map(m => `
-      <article class="msg-card" id="msg-${m.id}">
+    // keep hidden badge elements in sync (for compat)
+    const badge = document.getElementById('msgBadge');
+    if (badge) badge.textContent = msgs.length;
+
+    container.innerHTML = msgs.map(m => {
+      const pinned    = m.headerClass === 'pinned' || m.pinned;
+      const bodyHtml  = m.isDefault ? m.bodyHtml : Messages.renderCustomBody(m);
+
+      return `
+      <div class="msg-bento-card${pinned ? ' pinned' : ''}" id="msg-${m.id}"
+           onclick="Messages.toggle('${m.id}')">
         ${isAdmin ? `<button class="admin-delete-btn" onclick="event.stopPropagation();AdminPanel.confirmDelete('msg','${m.id}','${Helpers.escHtml(m.title)}')">🗑</button>` : ''}
-        <div class="msg-header ${m.headerClass || ''}" onclick="Messages.toggle('${m.id}')">
-          <div class="msg-icon">${m.icon || '📢'}</div>
-          <div class="msg-header-text">
-            <span class="msg-tag">${Helpers.escHtml(m.tag || 'הודעה')}</span>
-            <div class="msg-title">${Helpers.escHtml(m.title)}</div>
-          </div>
-          <span class="msg-chevron">▼</span>
+        ${pinned ? `<span class="msg-bento-pin">📌 נעוץ</span>` : ''}
+        <div class="msg-bento-top">
+          <div class="msg-bento-subject">${Helpers.escHtml(m.title)}</div>
+          <div class="msg-bento-date">${m.date || ''}</div>
         </div>
-        <div class="msg-body">
-          ${m.isDefault ? m.bodyHtml : Messages.renderCustomBody(m)}
-        </div>
-      </article>`).join('');
+        <div class="msg-bento-preview">${Messages.textPreview(m)}</div>
+        <div class="msg-bento-full">${bodyHtml}</div>
+      </div>`;
+    }).join('');
   },
 
   toggle(id) {
     const card = document.getElementById('msg-' + id);
     if (card) card.classList.toggle('expanded');
+  },
+
+  // plain-text preview from body (strip HTML tags)
+  textPreview(m) {
+    if (m.isDefault) {
+      const tmp = document.createElement('div');
+      tmp.innerHTML = m.bodyHtml || '';
+      return Helpers.escHtml(tmp.textContent.trim().slice(0, 120));
+    }
+    return Helpers.escHtml((m.body || '').slice(0, 120));
   },
 
   renderCustomBody(m) {

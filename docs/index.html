@@ -16,8 +16,7 @@
 <div id="loginScreen">
   <div class="login-card">
     <div class="login-logo-wrap">
-      
-      <div class="login-logo-fallback" id="loginFallback" style="display:none">ע"ן</div>
+      <div class="login-logo-fallback" id="loginFallback">🌿</div>
     </div>
     <h1>פורטל המתנדבים ארצות הברית</h1>
     <p class="sub">פורטל מתנדבים — כניסה מאובטחת</p>
@@ -37,225 +36,213 @@
 
 <!-- ═══════════════════ MAIN APP ═════════════════ -->
 <div id="mainApp">
+
+  <!-- TOPBAR -->
   <header class="topbar">
     <div class="topbar-brand">
-      
-      <div class="topbar-logo-fallback" id="topbarFallback" style="display:none">ע"ן</div>
+      <div class="topbar-logo-fallback">🌿</div>
       <span class="topbar-title">פורטל מתנדבים — ארצות הברית</span>
     </div>
+    <button class="btn-topbar-search" onclick="SearchModal.open()" title="חיפוש חכם">🔍</button>
     <div class="topbar-right">
       <span class="topbar-user" id="topbarUser"></span>
       <span class="admin-badge" id="adminBadge" style="display:none">Admin</span>
-      <button class="btn-topbar-search" onclick="SearchModal.open()" title="חיפוש חכם">🔍</button>
+      <button class="btn-admin-toggle" id="btn-admin-toggle" onclick="App.toggleAdmin()" style="display:none">⚙️ ניהול</button>
       <button class="btn-logout" onclick="Auth.handleLogout()">יציאה</button>
     </div>
   </header>
 
-  <div class="app-body">
-    <aside class="sidebar">
-      <div class="sidebar-section">ניווט</div>
-      <div class="nav-item active" id="nav-messages" onclick="App.showView('messages')">
-        <span class="nav-icon">📢</span> הודעות מהצוות
-        <span class="nav-badge" id="msgBadge">2</span>
-      </div>
-      <div class="nav-item" id="nav-docs" onclick="App.showView('docs')">
-        <span class="nav-icon">📚</span> מסמכים ומידע
-      </div>
-      <div class="nav-item" id="nav-calendar" onclick="App.showView('calendar')">
-        <span class="nav-icon">📅</span> לוח שנה
-      </div>
-      <div class="sidebar-sep"></div>
-      <div class="sidebar-section">קישורים חיצוניים</div>
-      <div id="externalLinksList"></div>
-      <div class="sidebar-sep" id="adminSep" style="display:none"></div>
-      <div class="sidebar-section" id="adminSection" style="display:none">ניהול</div>
-      <div class="nav-item admin-nav" id="nav-admin" onclick="App.showView('admin')" style="display:none">
-        <span class="nav-icon">⚙️</span> ניהול תוכן
-      </div>
-    </aside>
+  <!-- SINGLE-PAGE SCROLL CONTENT -->
+  <main class="portal-main">
 
-    <main class="main-content">
+    <!-- MESSAGES SECTION -->
+    <section class="bento-section">
+      <div class="bento-cell">
+        <div class="section-title">💬 הודעות</div>
+        <div class="msgs-bento-grid" id="messagesList"></div>
+      </div>
+    </section>
 
-      <!-- MESSAGES VIEW -->
-      <div class="view active" id="view-messages">
-        <div class="page-header">
-          <h2>הודעות מהצוות המוביל</h2>
-          <p>עדכונים חשובים מהצוות המוביל</p>
+    <!-- DOCS SECTION -->
+    <section class="bento-section">
+      <div class="bento-cell">
+        <div class="section-title">📂 מידע ומסמכים</div>
+        <div class="docs-bento-grid" id="docsGrid"></div>
+      </div>
+    </section>
+
+    <!-- LINKS SECTION -->
+    <section class="bento-section">
+      <div class="bento-cell">
+        <div class="section-title">🔗 קישורים וכלים</div>
+        <div class="links-bento-grid" id="linksGrid"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ADMIN OVERLAY -->
+  <div class="admin-overlay" id="adminOverlay">
+    <div class="admin-overlay-header">
+      <h2>⚙️ ניהול תוכן</h2>
+      <button class="btn-close-admin" onclick="App.closeAdmin()">✕ סגור</button>
+    </div>
+    <div class="admin-overlay-body">
+
+      <!-- Messages management -->
+      <div class="admin-section">
+        <div class="admin-section-header">
+          <span class="admin-section-title">📢 הודעות</span>
+          <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('msgForm')">+ הוסף הודעה</button>
         </div>
-        <div class="messages-list" id="messagesList"></div>
-      </div>
-
-      <!-- DOCS VIEW -->
-      <div class="view" id="view-docs">
-        <div class="page-header">
-          <h2>מסמכים ומידע מקצועי</h2>
-          <p>חומרי עזר ומקורות מידע — קבצי PDF בלבד</p>
-        </div>
-        <div class="docs-grid" id="docsGrid"></div>
-      </div>
-
-      <!-- LINKS VIEW (mobile) -->
-      <div class="view" id="view-links">
-        <div class="page-header">
-          <h2>🔗 קישורים חיצוניים</h2>
-          <p>גישה מהירה לכלים וכתובות חיצוניות</p>
-        </div>
-        <div id="linksViewList" class="links-view-list"></div>
-      </div>
-
-      <!-- CALENDAR VIEW -->
-      <div class="view" id="view-calendar">
-        <div class="calendar-wrap">
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=eranmeetings%40gmail.com&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH"
-            frameborder="0"
-            scrolling="no"
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-
-      <!-- ADMIN VIEW -->
-      <div class="view" id="view-admin">
-        <div class="page-header">
-          <h2>⚙️ ניהול תוכן</h2>
-          <p>הוסף, ערוך והסר הודעות ומסמכים</p>
-        </div>
-
-        <!-- Messages management -->
-        <div class="admin-section">
-          <div class="admin-section-header">
-            <span class="admin-section-title">📢 הודעות</span>
-            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('msgForm')">+ הוסף הודעה</button>
+        <div class="admin-form" id="msgForm">
+          <h4>הודעה חדשה</h4>
+          <div class="form-row">
+            <label>כותרת *</label>
+            <input type="text" id="newMsgTitle" placeholder="כותרת ההודעה">
           </div>
-          <div class="admin-form" id="msgForm">
-            <h4>הודעה חדשה</h4>
-            <div class="form-row">
-              <label>כותרת *</label>
-              <input type="text" id="newMsgTitle" placeholder="כותרת ההודעה">
-            </div>
-            <div class="form-row">
-              <label>תגית (tag)</label>
-              <input type="text" id="newMsgTag" placeholder="לדוגמה: עדכון שירות" value="עדכון">
-            </div>
-            <div class="form-row">
-              <label>תוכן ההודעה *</label>
-              <textarea id="newMsgBody" rows="6" placeholder="כתוב כאן את תוכן ההודעה..."></textarea>
-            </div>
-            <div class="form-row">
-              <label>כפתור קישור — טקסט (אופציונלי)</label>
-              <input type="text" id="newMsgLinkText" placeholder="לדוגמה: לחץ כאן">
-            </div>
-            <div class="form-row">
-              <label>כפתור קישור — כתובת URL</label>
-              <input type="text" id="newMsgLinkUrl" placeholder="https://...">
-            </div>
-            <div class="form-actions">
-              <button class="btn btn-secondary" onclick="Helpers.toggleForm('msgForm')">ביטול</button>
-              <button class="btn btn-primary" onclick="MessageAdmin.addMessage()">שמור הודעה</button>
-            </div>
+          <div class="form-row">
+            <label>תגית (tag)</label>
+            <input type="text" id="newMsgTag" placeholder="לדוגמה: עדכון שירות" value="עדכון">
           </div>
-          <div class="admin-list" id="adminMsgList"></div>
-        </div>
-
-
-        <!-- Users management -->
-        <div class="admin-section" id="usersSection">
-          <div class="admin-section-header">
-            <span class="admin-section-title">👥 ניהול משתמשים</span>
-            <div style="display:flex;gap:8px">
-              <label class="btn btn-accent btn-sm" style="cursor:pointer">
-                📂 ייבוא מקובץ
-                <input type="file" accept=".csv,.txt" style="display:none" onchange="UserAdmin.importFromFile(this)">
-              </label>
-              <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('userForm')">+ הוסף משתמש</button>
-            </div>
+          <div class="form-row">
+            <label>תוכן ההודעה *</label>
+            <textarea id="newMsgBody" rows="6" placeholder="כתוב כאן את תוכן ההודעה..."></textarea>
           </div>
-          <div class="admin-form" id="userForm">
-            <h4>משתמש חדש</h4>
-            <div class="form-row">
-              <label>שם מלא *</label>
-              <input type="text" id="newUserName" placeholder="שם המשתמש">
-            </div>
-            <div class="form-row">
-              <label>כתובת מייל *</label>
-              <input type="email" id="newUserEmail" placeholder="user@example.com">
-            </div>
-            <div class="form-row">
-              <label>תפקיד</label>
-              <select id="newUserRole">
-                <option value="volunteer">מתנדב</option>
-                <option value="admin">מנהל</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label>סיסמה זמנית *</label>
-              <input type="text" id="newUserPass" placeholder="לפחות 6 תווים" autocomplete="off">
-            </div>
-            <div class="form-actions">
-              <button class="btn btn-secondary" onclick="Helpers.toggleForm('userForm')">ביטול</button>
-              <button class="btn btn-primary" onclick="UserAdmin.addUserManual()">הוסף משתמש</button>
-            </div>
+          <div class="form-row">
+            <label>כפתור קישור — טקסט (אופציונלי)</label>
+            <input type="text" id="newMsgLinkText" placeholder="לדוגמה: לחץ כאן">
           </div>
-          <div class="admin-list">
-            <table class="user-table">
-              <thead>
-                <tr><th>שם</th><th>מייל</th><th>תפקיד</th><th>סטטוס</th><th>פעולות</th></tr>
-              </thead>
-              <tbody id="userTableBody"></tbody>
-            </table>
+          <div class="form-row">
+            <label>כפתור קישור — כתובת URL</label>
+            <input type="text" id="newMsgLinkUrl" placeholder="https://...">
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="Helpers.toggleForm('msgForm')">ביטול</button>
+            <button class="btn btn-primary" onclick="MessageAdmin.addMessage()">שמור הודעה</button>
           </div>
         </div>
+        <div class="admin-list" id="adminMsgList"></div>
+      </div>
 
-        <!-- Docs management -->
-        <div class="admin-section">
-          <div class="admin-section-header">
-            <span class="admin-section-title">📄 מסמכים</span>
-            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('docForm')">+ הוסף מסמך</button>
+      <!-- Users management -->
+      <div class="admin-section" id="usersSection">
+        <div class="admin-section-header">
+          <span class="admin-section-title">👥 ניהול משתמשים</span>
+          <div style="display:flex;gap:8px">
+            <label class="btn btn-accent btn-sm" style="cursor:pointer">
+              📂 ייבוא מקובץ
+              <input type="file" accept=".csv,.txt" style="display:none" onchange="UserAdmin.importFromFile(this)">
+            </label>
+            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('userForm')">+ הוסף משתמש</button>
           </div>
-          <div class="admin-form" id="docForm">
-            <h4>מסמך חדש</h4>
-            <div class="form-row">
-              <label>שם המסמך *</label>
-              <input type="text" id="newDocTitle" placeholder="שם המסמך כפי שיופיע">
-            </div>
-            <div class="form-row">
-              <label>קובץ PDF *</label>
-              <input type="file" id="newDocFile" accept=".pdf" onchange="DocAdmin.onFileChange(this)">
-              <div class="upload-info" id="docFileInfo">קבצי PDF בלבד. גודל מקסימלי מומלץ: 5MB</div>
-            </div>
-            <div class="form-actions">
-              <button class="btn btn-secondary" onclick="Helpers.toggleForm('docForm')">ביטול</button>
-              <button class="btn btn-primary" onclick="DocAdmin.addDoc()">שמור מסמך</button>
-            </div>
-          </div>
-          <div class="admin-list" id="adminDocList"></div>
         </div>
-
-        <!-- LINKS SECTION -->
-        <div class="admin-section">
-          <div class="admin-section-header">
-            <h3>🔗 קישורים חיצוניים</h3>
-            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('linkForm')">+ הוסף קישור</button>
+        <div class="admin-form" id="userForm">
+          <h4>משתמש חדש</h4>
+          <div class="form-row">
+            <label>שם מלא *</label>
+            <input type="text" id="newUserName" placeholder="שם המשתמש">
           </div>
-          <div class="admin-form" id="linkForm">
-            <h4>קישור חדש</h4>
+          <div class="form-row">
+            <label>כתובת מייל *</label>
+            <input type="email" id="newUserEmail" placeholder="user@example.com">
+          </div>
+          <div class="form-row">
+            <label>תפקיד</label>
+            <select id="newUserRole">
+              <option value="volunteer">מתנדב</option>
+              <option value="admin">מנהל</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>סיסמה זמנית *</label>
+            <input type="text" id="newUserPass" placeholder="לפחות 6 תווים" autocomplete="off">
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="Helpers.toggleForm('userForm')">ביטול</button>
+            <button class="btn btn-primary" onclick="UserAdmin.addUserManual()">הוסף משתמש</button>
+          </div>
+        </div>
+        <div class="admin-list">
+          <table class="user-table">
+            <thead>
+              <tr><th>שם</th><th>מייל</th><th>תפקיד</th><th>סטטוס</th><th>פעולות</th></tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Docs management -->
+      <div class="admin-section">
+        <div class="admin-section-header">
+          <span class="admin-section-title">📄 מסמכים</span>
+          <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('docForm')">+ הוסף מסמך</button>
+        </div>
+        <div class="admin-form" id="docForm">
+          <h4>מסמך חדש</h4>
+          <div class="form-row">
+            <label>שם המסמך *</label>
+            <input type="text" id="newDocTitle" placeholder="שם המסמך כפי שיופיע">
+          </div>
+          <div class="form-row">
+            <label>קובץ PDF *</label>
+            <input type="file" id="newDocFile" accept=".pdf" onchange="DocAdmin.onFileChange(this)">
+            <div class="upload-info" id="docFileInfo">קבצי PDF בלבד. גודל מקסימלי מומלץ: 5MB</div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="Helpers.toggleForm('docForm')">ביטול</button>
+            <button class="btn btn-primary" onclick="DocAdmin.addDoc()">שמור מסמך</button>
+          </div>
+        </div>
+        <div class="admin-list" id="adminDocList"></div>
+      </div>
+
+      <!-- Links management -->
+      <div class="admin-section">
+        <div class="admin-section-header">
+          <span class="admin-section-title">🔗 קישורים חיצוניים</span>
+          <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('linkForm')">+ הוסף קישור</button>
+        </div>
+        <div class="admin-form" id="linkForm">
+          <h4>קישור חדש</h4>
+          <div class="form-row">
             <label>שם הקישור *</label>
             <input type="text" id="newLinkTitle" placeholder="לדוגמה: אתר משרד הבריאות">
+          </div>
+          <div class="form-row">
             <label>כתובת URL *</label>
             <input type="url" id="newLinkUrl" placeholder="https://...">
+          </div>
+          <div class="form-row">
             <label>אייקון (אימוג'י)</label>
             <input type="text" id="newLinkIcon" placeholder="🔗" maxlength="4">
-            <div class="form-actions">
-              <button class="btn btn-secondary" onclick="Helpers.toggleForm('linkForm')">ביטול</button>
-              <button class="btn btn-primary" onclick="LinkAdmin.addLink()">שמור קישור</button>
-            </div>
           </div>
-          <div class="admin-list" id="adminLinkList"></div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="Helpers.toggleForm('linkForm')">ביטול</button>
+            <button class="btn btn-primary" onclick="LinkAdmin.addLink()">שמור קישור</button>
+          </div>
         </div>
-
+        <div class="admin-list" id="adminLinkList"></div>
       </div>
-    </main>
+
+    </div><!-- /admin-overlay-body -->
+  </div><!-- /adminOverlay -->
+
+</div><!-- /mainApp -->
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="calendarModal" onclick="App.closeCalendarOutside(event)">
+  <div class="modal-box calendar-modal-box">
+    <div class="modal-head">
+      <span class="modal-title">📅 לוח שנה</span>
+      <button class="modal-close" onclick="App.closeCalendar()">✕</button>
+    </div>
+    <iframe
+      class="modal-iframe calendar-iframe"
+      src="https://calendar.google.com/calendar/embed?src=eranmeetings%40gmail.com&wkst=1&bgcolor=%23ffffff&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH"
+      frameborder="0" scrolling="no" allowfullscreen>
+    </iframe>
   </div>
 </div>
 
@@ -309,30 +296,22 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ═══ SCRIPTS (load order matters) ═══════════════════════════════════ -->
+<!-- hidden compat shims -->
+<span id="msgBadge" style="display:none"></span>
+<span id="msgBadgeMobile" style="display:none"></span>
 
-<!-- 1. PDF data (3.2MB — loaded first so all modules can reference it) -->
-  <!-- Firebase SDK (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
-  <script src="js/core/firebase-init.js"></script>
-
+<!-- ═══ SCRIPTS ═══════════════════════════════════════════════════════ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+<script src="js/core/firebase-init.js"></script>
 <script src="data/pdf_data.js"></script>
-
-<!-- 2. Core (no dependencies) -->
 <script src="js/core/config.js"></script>
 <script src="js/core/storage.js"></script>
-
-<!-- 3. UI utilities -->
 <script src="js/ui/toast.js"></script>
 <script src="js/ui/helpers.js"></script>
-
-<!-- 4. Auth (depends on App — loaded before, shim resolved at runtime) -->
 <script src="js/auth/auth.js"></script>
-
-<!-- 5. Features (depend on storage, ui) -->
 <script src="js/features/messages/messages.js"></script>
 <script src="js/features/messages/message-admin.js"></script>
 <script src="js/features/documents/documents.js"></script>
@@ -340,20 +319,14 @@
 <script src="js/features/documents/doc-admin.js"></script>
 <script src="js/features/links/links.js"></script>
 <script src="js/features/links/link-admin.js"></script>
-<script src="js/features/calendar/calendar.js"></script>
 <script src="js/features/admin/admin-panel.js"></script>
 <script src="js/features/admin/user-admin.js"></script>
-
-<!-- 6. Search (depends on features + PDF.js CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="js/features/search/pdf-extractor.js"></script>
 <script src="js/features/search/search-engine.js"></script>
 <script src="js/features/search/kolzchut-api.js"></script>
 <script src="js/features/search/search-modal.js"></script>
-
-<!-- 7. App orchestrator (last — depends on everything) -->
 <script src="js/core/app.js"></script>
-
 
 <!-- EDIT USER MODAL -->
 <div class="modal-overlay" id="editUserModal">
@@ -396,30 +369,5 @@
   </div>
 </div>
 
-
-<!-- MOBILE BOTTOM NAV -->
-<nav class="bottom-nav" id="bottomNav">
-  <button class="bottom-nav-item active" id="bn-messages" onclick="App.showView('messages')">
-    <span class="bn-icon">📢</span>
-    <span class="bn-label">הודעות</span>
-    <span class="bn-badge" id="msgBadgeMobile"></span>
-  </button>
-  <button class="bottom-nav-item" id="bn-docs" onclick="App.showView('docs')">
-    <span class="bn-icon">📚</span>
-    <span class="bn-label">מסמכים</span>
-  </button>
-  <button class="bottom-nav-item" id="bn-links" onclick="App.showView('links')">
-    <span class="bn-icon">🔗</span>
-    <span class="bn-label">קישורים</span>
-  </button>
-  <button class="bottom-nav-item" id="bn-calendar" onclick="App.showView('calendar')">
-    <span class="bn-icon">📅</span>
-    <span class="bn-label">לוח שנה</span>
-  </button>
-  <button class="bottom-nav-item admin-item" id="bn-admin" onclick="App.showView('admin')" style="display:none">
-    <span class="bn-icon">⚙️</span>
-    <span class="bn-label">ניהול</span>
-  </button>
-</nav>
 </body>
 </html>
