@@ -1,7 +1,7 @@
 // ── Messages Renderer (bento cards) ────────────────────────────────────
 const Messages = {
-  async render() {
-    const msgs      = await Storage.getMessages();
+  async render(opts) {
+    const msgs      = await Storage.getMessages(opts);
     const container = document.getElementById('messagesList');
 
     // keep hidden badge elements in sync (for compat)

@@ -1,7 +1,7 @@
 // ── External Links Renderer (bento cards) ───────────────────────────────
 const Links = {
-  async render() {
-    const links = await Storage.getLinks();
+  async render(opts) {
+    const links = await Storage.getLinks(opts);
 
     // Main links grid (new single-page layout)
     const grid = document.getElementById('linksGrid');

@@ -1,7 +1,7 @@
 // ── Documents Renderer (bento cards) ────────────────────────────────────
 const Docs = {
-  async render() {
-    const docs = await Storage.getDocs();
+  async render(opts) {
+    const docs = await Storage.getDocs(opts);
     document.getElementById('docsGrid').innerHTML = docs.map(d => `
       <div class="doc-bento-card" onclick="PdfViewer.openDoc('${Helpers.escHtml(d.title)}')">
         <div class="doc-bento-ico">📄</div>

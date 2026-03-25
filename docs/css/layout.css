@@ -174,9 +174,11 @@ html, body {
 .admin-overlay .form-row input:focus,
 .admin-overlay .form-row textarea:focus { border-color: #5cb88a; }
 .admin-overlay .admin-form { background: #134D3A; border-color: rgba(255,255,255,.08); }
-.admin-overlay .admin-form h4 { color: #ffffff; }
+.admin-overlay .admin-form h4 { color: #ffffff !important; }
 .admin-overlay .form-row label { color: rgba(255,255,255,.75); }
-.admin-overlay .admin-section-title { color: #ffffff; }
+/* section titles — !important overrides components.css specificity */
+.admin-overlay .admin-section-title { color: #ffffff !important; font-size: 17px !important; }
+.admin-overlay .admin-section-header { border-bottom-color: #E8A020 !important; }
 .admin-overlay .admin-list-item { background: #134D3A; border-color: rgba(255,255,255,.08); }
 .admin-overlay .ali-title { color: #ffffff; }
 .admin-overlay .user-table { border-color: rgba(255,255,255,.08); }

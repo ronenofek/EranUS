@@ -31,10 +31,11 @@ const App = {
 
   closeAdmin() {
     document.getElementById('adminOverlay').classList.remove('open');
-    // Re-render main portal so any admin changes (add/delete) are visible immediately
-    Messages.render();
-    Docs.render();
-    Links.render();
+    // Re-render from server (bypass cache) so deletions are reflected immediately
+    const fresh = { fresh: true };
+    Messages.render(fresh);
+    Docs.render(fresh);
+    Links.render(fresh);
   },
 
   // ── Calendar modal ─────────────────────────────────────────────────

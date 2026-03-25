@@ -7,10 +7,11 @@ const Storage = {
 
   // ── Read ──────────────────────────────────────────────────────────────
 
-  async getMessages() {
+  async getMessages(opts) {
+    const src = opts && opts.fresh ? { source: 'server' } : {};
     const [customSnap, cfgDoc] = await Promise.all([
-      fbDb.collection('messages').orderBy('createdAt').get(),
-      fbDb.collection('config').doc('defaults').get(),
+      fbDb.collection('messages').orderBy('createdAt').get(src),
+      fbDb.collection('config').doc('defaults').get(src),
     ]);
     const deletedMsgIds = cfgDoc.exists ? (cfgDoc.data().deletedMsgIds || []) : [];
     const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
@@ -18,10 +19,11 @@ const Storage = {
     return [...defaults, ...customs];
   },
 
-  async getDocs() {
+  async getDocs(opts) {
+    const src = opts && opts.fresh ? { source: 'server' } : {};
     const [customSnap, cfgDoc] = await Promise.all([
-      fbDb.collection('documents').orderBy('createdAt').get(),
-      fbDb.collection('config').doc('defaults').get(),
+      fbDb.collection('documents').orderBy('createdAt').get(src),
+      fbDb.collection('config').doc('defaults').get(src),
     ]);
     const deletedDocIds = cfgDoc.exists ? (cfgDoc.data().deletedDocIds || []) : [];
     const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
@@ -91,10 +93,11 @@ const Storage = {
 
   // ── Links ────────────────────────────────────────────────────────────
 
-  async getLinks() {
+  async getLinks(opts) {
+    const src = opts && opts.fresh ? { source: 'server' } : {};
     const [customSnap, cfgDoc] = await Promise.all([
-      fbDb.collection('links').orderBy('createdAt').get(),
-      fbDb.collection('config').doc('defaults').get(),
+      fbDb.collection('links').orderBy('createdAt').get(src),
+      fbDb.collection('config').doc('defaults').get(src),
     ]);
     const deletedLinkIds = cfgDoc.exists ? (cfgDoc.data().deletedLinkIds || []) : [];
     const customs        = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
