@@ -130,9 +130,14 @@ html, body {
 /* ── Admin overlay ─────────────────────────────────────────────────── */
 .admin-overlay {
   display: none;
-  position: fixed; inset: 0; z-index: 400;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  z-index: 9999;
   background: #0d3320;
   overflow-y: auto;
+  color: #ffffff;
+  font-family: 'Rubik', 'Arial Hebrew', Arial, sans-serif;
+  direction: rtl;
 }
 .admin-overlay.open { display: block; }
 

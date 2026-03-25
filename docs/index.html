@@ -81,8 +81,10 @@
 
   </main>
 
-  <!-- ADMIN OVERLAY -->
-  <div class="admin-overlay" id="adminOverlay">
+</div><!-- /mainApp (moved admin overlay outside) -->
+
+<!-- ADMIN OVERLAY — outside #mainApp so position:fixed is viewport-relative -->
+<div class="admin-overlay" id="adminOverlay">
     <div class="admin-overlay-header">
       <h2>⚙️ ניהול תוכן</h2>
       <button class="btn-close-admin" onclick="App.closeAdmin()">✕ סגור</button>
@@ -228,8 +230,6 @@
 
     </div><!-- /admin-overlay-body -->
   </div><!-- /adminOverlay -->
-
-</div><!-- /mainApp -->
 
 <!-- CALENDAR MODAL -->
 <div class="modal-overlay" id="calendarModal" onclick="App.closeCalendarOutside(event)">
