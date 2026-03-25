@@ -141,17 +141,18 @@ html, body {
 }
 .admin-overlay.open { display: block; }
 
+/* ── all variables hardcoded since overlay is outside #mainApp ── */
 .admin-overlay-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  background: #0d3320;
+  border-bottom: 1px solid rgba(255,255,255,.13);
   padding: 16px 28px;
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 10;
 }
-.admin-overlay-header h2 { font-size: 17px; font-weight: 700; color: var(--text); }
+.admin-overlay-header h2 { font-size: 17px; font-weight: 700; color: #ffffff; }
 .btn-close-admin {
-  background: rgba(255,255,255,.08); border: 1px solid var(--border);
-  color: var(--text-2); border-radius: 8px; padding: 8px 18px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.13);
+  color: rgba(255,255,255,.75); border-radius: 8px; padding: 8px 18px;
   font-family: inherit; font-size: 13px; cursor: pointer;
   transition: background .2s;
 }
@@ -162,27 +163,27 @@ html, body {
   padding: 32px 24px 60px;
 }
 
-/* ── Admin forms dark mode adjustments ────────────────────────────── */
+/* ── Admin forms ────────────────────────────────────────────── */
 .admin-overlay .form-row input,
 .admin-overlay .form-row textarea,
 .admin-overlay .form-row select {
-  background: var(--card-2);
+  background: #134D3A;
   border-color: rgba(255,255,255,.12);
-  color: var(--text);
+  color: #ffffff;
 }
 .admin-overlay .form-row input:focus,
-.admin-overlay .form-row textarea:focus { border-color: var(--green-lt); }
-.admin-overlay .admin-form { background: var(--card-2); border-color: rgba(255,255,255,.08); }
-.admin-overlay .admin-form h4 { color: var(--text); }
-.admin-overlay .form-row label { color: var(--text-2); }
-.admin-overlay .admin-section-title { color: var(--text); }
-.admin-overlay .admin-list-item { background: var(--card-2); border-color: rgba(255,255,255,.08); }
-.admin-overlay .ali-title { color: var(--text); }
+.admin-overlay .form-row textarea:focus { border-color: #5cb88a; }
+.admin-overlay .admin-form { background: #134D3A; border-color: rgba(255,255,255,.08); }
+.admin-overlay .admin-form h4 { color: #ffffff; }
+.admin-overlay .form-row label { color: rgba(255,255,255,.75); }
+.admin-overlay .admin-section-title { color: #ffffff; }
+.admin-overlay .admin-list-item { background: #134D3A; border-color: rgba(255,255,255,.08); }
+.admin-overlay .ali-title { color: #ffffff; }
 .admin-overlay .user-table { border-color: rgba(255,255,255,.08); }
-.admin-overlay .user-table th { background: var(--surface); color: var(--text-2); }
-.admin-overlay .user-table td { border-color: rgba(255,255,255,.06); color: var(--text); }
-.admin-overlay .user-table tr:hover td { background: var(--card-2); }
-.admin-overlay .upload-info { color: var(--text-muted); }
+.admin-overlay .user-table th { background: #0d3320; color: rgba(255,255,255,.75); }
+.admin-overlay .user-table td { border-color: rgba(255,255,255,.06); color: #ffffff; }
+.admin-overlay .user-table tr:hover td { background: #134D3A; }
+.admin-overlay .upload-info { color: rgba(255,255,255,.5); }
 
 /* ── Calendar modal ────────────────────────────────────────────────── */
 .calendar-modal-box {
