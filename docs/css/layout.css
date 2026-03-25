@@ -131,7 +131,7 @@ html, body {
 .admin-overlay {
   display: none;
   position: fixed; inset: 0; z-index: 400;
-  background: var(--bg);
+  background: #0d3320;
   overflow-y: auto;
 }
 .admin-overlay.open { display: block; }
