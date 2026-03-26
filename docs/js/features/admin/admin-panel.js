@@ -15,9 +15,9 @@ const AdminPanel = {
     document.getElementById('adminMsgList').innerHTML = allMsgs.length
       ? allMsgs.map(m => `
           <div class="admin-list-item">
-            <div class="ali-icon">${m.icon || '📢'}</div>
+            <div class="ali-icon">${m.pinned ? '📌' : (m.icon || '📢')}</div>
             <div class="ali-info">
-              <div class="ali-title">${Helpers.escHtml(m.title)}</div>
+              <div class="ali-title">${Helpers.escHtml(m.title)}${m.pinned ? ' <span style="font-size:11px;color:#E8A020;font-weight:600">נעוץ</span>' : ''}</div>
               <div class="ali-meta">${m.isDefault ? 'הודעת ברירת מחדל' : 'הודעה מותאמת אישית'}</div>
             </div>
             <div class="ali-actions">

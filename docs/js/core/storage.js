@@ -16,7 +16,9 @@ const Storage = {
     const deletedMsgIds = cfgDoc.exists ? (cfgDoc.data().deletedMsgIds || []) : [];
     const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
     const defaults      = DEFAULT_MESSAGES.filter(m => !deletedMsgIds.includes(m.id));
-    return [...defaults, ...customs];
+    const all           = [...defaults, ...customs];
+    // pinned messages always appear first
+    return all.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
   },
 
   async getDocs(opts) {

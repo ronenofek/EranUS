@@ -119,60 +119,18 @@
             <label>כפתור קישור — כתובת URL</label>
             <input type="text" id="newMsgLinkUrl" placeholder="https://...">
           </div>
+          <div class="form-row">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+              <input type="checkbox" id="newMsgPinned" style="width:16px;height:16px;accent-color:#1A6B50">
+              📌 נעץ הודעה זו בראש הרשימה
+            </label>
+          </div>
           <div class="form-actions">
             <button class="btn btn-secondary" onclick="Helpers.toggleForm('msgForm')">ביטול</button>
             <button class="btn btn-primary" onclick="MessageAdmin.addMessage()">שמור הודעה</button>
           </div>
         </div>
         <div class="admin-list" id="adminMsgList"></div>
-      </div>
-
-      <!-- Users management -->
-      <div class="admin-section" id="usersSection">
-        <div class="admin-section-header">
-          <span class="admin-section-title">👥 ניהול משתמשים</span>
-          <div style="display:flex;gap:8px">
-            <label class="btn btn-accent btn-sm" style="cursor:pointer">
-              📂 ייבוא מקובץ
-              <input type="file" accept=".csv,.txt" style="display:none" onchange="UserAdmin.importFromFile(this)">
-            </label>
-            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('userForm')">+ הוסף משתמש</button>
-          </div>
-        </div>
-        <div class="admin-form" id="userForm">
-          <h4>משתמש חדש</h4>
-          <div class="form-row">
-            <label>שם מלא *</label>
-            <input type="text" id="newUserName" placeholder="שם המשתמש">
-          </div>
-          <div class="form-row">
-            <label>כתובת מייל *</label>
-            <input type="email" id="newUserEmail" placeholder="user@example.com">
-          </div>
-          <div class="form-row">
-            <label>תפקיד</label>
-            <select id="newUserRole">
-              <option value="volunteer">מתנדב</option>
-              <option value="admin">מנהל</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label>סיסמה זמנית *</label>
-            <input type="text" id="newUserPass" placeholder="לפחות 6 תווים" autocomplete="off">
-          </div>
-          <div class="form-actions">
-            <button class="btn btn-secondary" onclick="Helpers.toggleForm('userForm')">ביטול</button>
-            <button class="btn btn-primary" onclick="UserAdmin.addUserManual()">הוסף משתמש</button>
-          </div>
-        </div>
-        <div class="admin-list">
-          <table class="user-table">
-            <thead>
-              <tr><th>שם</th><th>מייל</th><th>תפקיד</th><th>סטטוס</th><th>פעולות</th></tr>
-            </thead>
-            <tbody id="userTableBody"></tbody>
-          </table>
-        </div>
       </div>
 
       <!-- Docs management -->
@@ -226,6 +184,54 @@
           </div>
         </div>
         <div class="admin-list" id="adminLinkList"></div>
+      </div>
+
+      <!-- Users management -->
+      <div class="admin-section" id="usersSection">
+        <div class="admin-section-header">
+          <span class="admin-section-title">👥 ניהול משתמשים</span>
+          <div style="display:flex;gap:8px">
+            <label class="btn btn-accent btn-sm" style="cursor:pointer">
+              📂 ייבוא מקובץ
+              <input type="file" accept=".csv,.txt" style="display:none" onchange="UserAdmin.importFromFile(this)">
+            </label>
+            <button class="btn btn-accent btn-sm" onclick="Helpers.toggleForm('userForm')">+ הוסף משתמש</button>
+          </div>
+        </div>
+        <div class="admin-form" id="userForm">
+          <h4>משתמש חדש</h4>
+          <div class="form-row">
+            <label>שם מלא *</label>
+            <input type="text" id="newUserName" placeholder="שם המשתמש">
+          </div>
+          <div class="form-row">
+            <label>כתובת מייל *</label>
+            <input type="email" id="newUserEmail" placeholder="user@example.com">
+          </div>
+          <div class="form-row">
+            <label>תפקיד</label>
+            <select id="newUserRole">
+              <option value="volunteer">מתנדב</option>
+              <option value="admin">מנהל</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>סיסמה זמנית *</label>
+            <input type="text" id="newUserPass" placeholder="לפחות 6 תווים" autocomplete="off">
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-secondary" onclick="Helpers.toggleForm('userForm')">ביטול</button>
+            <button class="btn btn-primary" onclick="UserAdmin.addUserManual()">הוסף משתמש</button>
+          </div>
+        </div>
+        <div class="admin-list">
+          <table class="user-table">
+            <thead>
+              <tr><th>שם</th><th>מייל</th><th>תפקיד</th><th>סטטוס</th><th>פעולות</th></tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
       </div>
 
     </div><!-- /admin-overlay-body -->
