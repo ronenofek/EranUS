@@ -66,7 +66,9 @@ const AdminPanel = {
       await AdminPanel.doDelete(type, id);
       AdminPanel.closeConfirm();
     };
-    document.getElementById('confirmModal').classList.add('open');
+    const modal = document.getElementById('confirmModal');
+    modal.style.zIndex = '10001'; // ensure it sits above admin overlay
+    modal.classList.add('open');
   },
 
   closeConfirm() {
