@@ -36,8 +36,7 @@ const PdfExtractor = {
     if (this._ready) return Promise.resolve();
     if (this._buildPromise) return this._buildPromise;   // already building — share it
     this._buildPromise = (async () => {
-      const st   = Storage.loadState();
-      const docs = Storage.getDocs(st);
+      const docs = await Storage.getDocs({});
       for (const d of docs) {
         const b64 = d.isDefault ? PDF_DATA[d.key] : d.b64;
         if (b64 && !this._cache[d.title]) {

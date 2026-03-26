@@ -322,6 +322,10 @@
 .status-badge.inactive { background: #fee2e2; color: #991b1b; }
 
 /* ── EDIT USER / RESET PASS MODALS ─────────────────────────────────── */
+/* Must sit above admin overlay (z-9999) */
+#editUserModal { z-index: 10001 !important; }
+#resetPassModal{ z-index: 10001 !important; }
+
 #editUserModal .confirm-box,
 #resetPassModal .confirm-box {
   min-width: 320px; max-width: 420px;
