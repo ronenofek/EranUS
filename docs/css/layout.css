@@ -187,8 +187,9 @@ html, body {
 .admin-overlay .user-table tr:hover td { background: #134D3A; }
 .admin-overlay .upload-info { color: rgba(255,255,255,.5); }
 
-/* ── Confirm-delete modal (must sit above admin overlay z-9999) ─────── */
+/* ── Confirm-delete modal and toast (must sit above admin overlay z-9999) */
 #confirmModal { z-index: 10001 !important; }
+#toast        { z-index: 10002 !important; }
 
 /* ── Calendar modal ────────────────────────────────────────────────── */
 .calendar-modal-box {

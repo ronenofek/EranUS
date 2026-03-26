@@ -2,13 +2,13 @@
 const AdminPanel = {
   _confirmCallback: null,
 
-  async renderLists() {
+  async renderLists(opts) {
     if (!isAdmin) return;
 
     const [allMsgs, allDocs, allLinks] = await Promise.all([
-      Storage.getMessages(),
-      Storage.getDocs(),
-      Storage.getLinks(),
+      Storage.getMessages(opts),
+      Storage.getDocs(opts),
+      Storage.getLinks(opts),
     ]);
 
     // Messages list
@@ -74,23 +74,25 @@ const AdminPanel = {
   },
 
   async doDelete(type, id) {
+    const fresh = { fresh: true };
     try {
       if (type === 'msg') {
         await Storage.deleteMessage(id);
-        await Messages.render();
+        await Messages.render(fresh);
         Toast.show('🗑 ההודעה נמחקה');
       } else if (type === 'doc') {
         await Storage.deleteDoc(id);
-        await Docs.render();
+        await Docs.render(fresh);
         Toast.show('🗑 המסמך נמחק');
       } else if (type === 'link') {
         await Storage.deleteLink(id);
-        await Links.render();
+        await Links.render(fresh);
         Toast.show('🗑 הקישור נמחק');
       }
-      await AdminPanel.renderLists();
+      await AdminPanel.renderLists(fresh);
     } catch(e) {
-      Toast.show('❌ שגיאה במחיקה');
+      console.error('doDelete error:', e);
+      Toast.show('❌ שגיאה: ' + (e.message || e));
     }
   },
 };
