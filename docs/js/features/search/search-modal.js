@@ -103,14 +103,25 @@ const SearchModal = {
     const loader = this._loadingBubble();
     this._append(loader);
 
-    await PdfExtractor.ensureCache();
+    try {
+      await PdfExtractor.ensureCache();
 
-    const msgRes = SearchEngine.searchInMessages(query);
-    const docRes = SearchEngine.searchInDocs(query);
-    const kzRes  = await KolZchutApi.search(query);
+      const [msgRes, kzRes] = await Promise.all([
+        SearchEngine.searchInMessages(query),
+        KolZchutApi.search(query),
+      ]);
+      const docRes = SearchEngine.searchInDocs(query);
 
-    loader.remove();
-    this._append(this._resultBubble(msgRes, docRes, kzRes, query));
+      loader.remove();
+      this._append(this._resultBubble(msgRes, docRes, kzRes, query));
+    } catch(e) {
+      loader.remove();
+      console.error('Search error:', e);
+      const err = document.createElement('div');
+      err.className = 'chat-bubble bubble-system';
+      err.innerHTML = '<div class="chat-no-results">⚠️ שגיאה בחיפוש. נסה שוב.</div>';
+      this._append(err);
+    }
   },
 };
 

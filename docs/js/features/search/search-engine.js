@@ -17,10 +17,10 @@ const SearchEngine = {
     return (s > 0 ? '…' : '') + this.highlight(text.slice(s, e), query) + (e < text.length ? '…' : '');
   },
 
-  searchInMessages(query) {
-    const q  = query.toLowerCase();
-    const st = Storage.loadState();
-    return Storage.getMessages(st).filter(m => {
+  async searchInMessages(query) {
+    const q    = query.toLowerCase();
+    const msgs = await Storage.getMessages({});
+    return msgs.filter(m => {
       const t = [m.title, m.tag || '', m.body || '', (m.bodyHtml || '').replace(/<[^>]*>/g, '')].join(' ').toLowerCase();
       return t.includes(q);
     }).map(m => ({ title: m.title, snip: this.snippet(m.body || m.bodyHtml || '', query) }));
@@ -45,5 +45,5 @@ const SearchEngine = {
 // ── Backwards-compatible global shims ──────────────────────────────────
 function highlight(text, query)      { return SearchEngine.highlight(text, query); }
 function snippet(text, query, r=100) { return SearchEngine.snippet(text, query, r); }
-function searchInMessages(query)     { return SearchEngine.searchInMessages(query); }
+async function searchInMessages(query) { return SearchEngine.searchInMessages(query); }
 function searchInDocs(query)         { return SearchEngine.searchInDocs(query); }
