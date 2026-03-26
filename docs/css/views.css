@@ -17,15 +17,15 @@
 
 /* ── SEARCH MODAL ──────────────────────────────────────────────────── */
 .btn-topbar-search {
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.2);
-  color: #fff; border-radius: 8px;
+  background: rgba(30,18,8,.05);
+  border: 1px solid rgba(61,32,8,.1);
+  color: var(--text-2); border-radius: 10px;
   width: 36px; height: 36px;
   font-size: 17px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background .2s;
 }
-.btn-topbar-search:hover { background: rgba(255,255,255,.25); }
+.btn-topbar-search:hover { background: rgba(30,18,8,.1); }
 
 #searchModal {
   display: none; position: fixed; inset: 0; z-index: 600;

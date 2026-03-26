@@ -60,7 +60,7 @@
     <!-- MESSAGES SECTION -->
     <section class="bento-section">
       <div class="bento-cell">
-        <div class="section-title">💬 הודעות וחידודים</div>
+        <div class="section-title">הודעות וחידודים</div>
         <div class="msgs-bento-grid" id="messagesList"></div>
       </div>
     </section>
@@ -68,7 +68,7 @@
     <!-- DOCS SECTION -->
     <section class="bento-section">
       <div class="bento-cell">
-        <div class="section-title">📂 מידע ומסמכים</div>
+        <div class="section-title">מידע ומסמכים</div>
         <div class="docs-bento-grid" id="docsGrid"></div>
       </div>
     </section>
@@ -76,7 +76,7 @@
     <!-- LINKS SECTION -->
     <section class="bento-section">
       <div class="bento-cell">
-        <div class="section-title">🔗 קישורים וכלים</div>
+        <div class="section-title">קישורים וכלים</div>
         <div class="links-bento-grid" id="linksGrid"></div>
       </div>
     </section>
@@ -298,6 +298,17 @@
              placeholder="הקלד שאלה או מילות מפתח..."
              onkeydown="if(event.key==='Enter') SearchModal.doSearch()">
     </div>
+  </div>
+</div>
+
+<!-- MESSAGE MODAL -->
+<div class="modal-overlay" id="msgModal">
+  <div class="modal-box" style="max-width:680px">
+    <div class="modal-head">
+      <span class="modal-title" id="msgModalTitle"></span>
+      <button class="modal-close" onclick="document.getElementById('msgModal').classList.remove('open')" title="סגור">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:24px 28px" id="msgModalBody"></div>
   </div>
 </div>
 
