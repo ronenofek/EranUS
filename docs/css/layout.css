@@ -174,9 +174,11 @@ html, body {
 .admin-overlay .user-table tr:hover td { background: var(--mint); }
 .admin-overlay .upload-info { color: var(--text-muted); }
 
-/* ── Confirm-delete modal and toast (must sit above admin overlay z-9999) */
-#confirmModal { z-index: 10001 !important; }
-#toast        { z-index: 10002 !important; }
+/* ── Modals and toast that must sit above admin overlay (z-9999) */
+#confirmModal  { z-index: 10001 !important; }
+#editUserModal { z-index: 10001 !important; }
+#resetPassModal{ z-index: 10001 !important; }
+#toast         { z-index: 10002 !important; }
 
 /* ── Calendar modal ────────────────────────────────────────────────── */
 .calendar-modal-box {
