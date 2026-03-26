@@ -121,29 +121,30 @@ html, body {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   width: 100vw; height: 100vh;
   z-index: 9999;
-  background: #1A3D24;
+  background: var(--bg);
   overflow-y: auto;
-  color: #ffffff;
+  color: var(--text);
   font-family: 'Rubik', 'Arial Hebrew', Arial, sans-serif;
   direction: rtl;
 }
 .admin-overlay.open { display: block; }
 
 .admin-overlay-header {
-  background: #142e1c;
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
   padding: 16px 28px;
   display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 10;
+  box-shadow: 0 1px 12px rgba(30,18,8,.06);
 }
-.admin-overlay-header h2 { font-size: 17px; font-weight: 700; color: #ffffff; }
+.admin-overlay-header h2 { font-size: 17px; font-weight: 700; color: var(--green-dk); }
 .btn-close-admin {
-  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
-  color: rgba(255,255,255,.75); border-radius: 10px; padding: 8px 18px;
+  background: var(--mint); border: 1px solid var(--border);
+  color: var(--text-2); border-radius: 10px; padding: 8px 18px;
   font-family: inherit; font-size: 13px; cursor: pointer;
   transition: background .2s;
 }
-.btn-close-admin:hover { background: rgba(255,255,255,.15); }
+.btn-close-admin:hover { background: #c8e8d9; }
 
 .admin-overlay-body {
   max-width: 900px; margin: 0 auto;
@@ -154,24 +155,24 @@ html, body {
 .admin-overlay .form-row input,
 .admin-overlay .form-row textarea,
 .admin-overlay .form-row select {
-  background: #1E4D30;
-  border-color: rgba(255,255,255,.12);
-  color: #ffffff;
+  background: var(--card);
+  border-color: var(--border);
+  color: var(--text);
 }
 .admin-overlay .form-row input:focus,
-.admin-overlay .form-row textarea:focus { border-color: #5DBE82; }
-.admin-overlay .admin-form { background: #1E4D30; border-color: rgba(255,255,255,.08); }
-.admin-overlay .admin-form h4 { color: #ffffff !important; }
-.admin-overlay .form-row label { color: rgba(255,255,255,.75); }
-.admin-overlay .admin-section-title { color: #ffffff !important; font-size: 17px !important; }
-.admin-overlay .admin-section-header { border-bottom-color: #C8801A !important; }
-.admin-overlay .admin-list-item { background: #1E4D30; border-color: rgba(255,255,255,.08); }
-.admin-overlay .ali-title { color: #ffffff; }
-.admin-overlay .user-table { border-color: rgba(255,255,255,.08); }
-.admin-overlay .user-table th { background: #142e1c; color: rgba(255,255,255,.75); }
-.admin-overlay .user-table td { border-color: rgba(255,255,255,.06); color: #ffffff; }
-.admin-overlay .user-table tr:hover td { background: #1E4D30; }
-.admin-overlay .upload-info { color: rgba(255,255,255,.5); }
+.admin-overlay .form-row textarea:focus { border-color: var(--green); }
+.admin-overlay .admin-form { background: var(--card); border-color: var(--border); }
+.admin-overlay .admin-form h4 { color: var(--green-dk) !important; }
+.admin-overlay .form-row label { color: var(--text-2); }
+.admin-overlay .admin-section-title { color: var(--green-dk) !important; font-size: 17px !important; }
+.admin-overlay .admin-section-header { border-bottom-color: var(--accent) !important; }
+.admin-overlay .admin-list-item { background: var(--card); border-color: var(--border); }
+.admin-overlay .ali-title { color: var(--text); }
+.admin-overlay .user-table { border-color: var(--border); }
+.admin-overlay .user-table th { background: var(--green-dk); color: #ffffff; }
+.admin-overlay .user-table td { border-color: var(--border); color: var(--text); }
+.admin-overlay .user-table tr:hover td { background: var(--mint); }
+.admin-overlay .upload-info { color: var(--text-muted); }
 
 /* ── Confirm-delete modal and toast (must sit above admin overlay z-9999) */
 #confirmModal { z-index: 10001 !important; }
