@@ -24,6 +24,11 @@ const App = {
     if (overlay.classList.contains('open')) {
       App.closeAdmin();
     } else {
+      // close any open add-forms before showing overlay
+      ['msgForm','docForm','linkForm','userForm'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('open');
+      });
       overlay.classList.add('open');
       overlay.scrollTop = 0;
     }

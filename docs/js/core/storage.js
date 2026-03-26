@@ -13,9 +13,13 @@ const Storage = {
       fbDb.collection('messages').orderBy('createdAt').get(src),
       fbDb.collection('config').doc('defaults').get(src),
     ]);
-    const deletedMsgIds = cfgDoc.exists ? (cfgDoc.data().deletedMsgIds || []) : [];
+    const cfg           = cfgDoc.exists ? cfgDoc.data() : {};
+    const deletedMsgIds = cfg.deletedMsgIds || [];
+    const pinnedMsgIds  = cfg.pinnedMsgIds  || [];
     const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
-    const defaults      = DEFAULT_MESSAGES.filter(m => !deletedMsgIds.includes(m.id));
+    const defaults      = DEFAULT_MESSAGES
+      .filter(m => !deletedMsgIds.includes(m.id))
+      .map(m => ({ ...m, pinned: pinnedMsgIds.includes(m.id) || m.pinned || false }));
     const all           = [...defaults, ...customs];
     // pinned messages always appear first
     return all.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
@@ -40,6 +44,18 @@ const Storage = {
       ...msg,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
+  },
+
+  async togglePinMessage(id, pin) {
+    if (id.startsWith('msg_default_')) {
+      // store pin state for default messages in config doc
+      const op = pin
+        ? firebase.firestore.FieldValue.arrayUnion(id)
+        : firebase.firestore.FieldValue.arrayRemove(id);
+      await fbDb.collection('config').doc('defaults').set({ pinnedMsgIds: op }, { merge: true });
+    } else {
+      await fbDb.collection('messages').doc(id).update({ pinned: pin });
+    }
   },
 
   async deleteMessage(id) {

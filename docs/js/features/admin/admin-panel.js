@@ -17,10 +17,14 @@ const AdminPanel = {
           <div class="admin-list-item">
             <div class="ali-icon">${m.pinned ? '📌' : (m.icon || '📢')}</div>
             <div class="ali-info">
-              <div class="ali-title">${Helpers.escHtml(m.title)}${m.pinned ? ' <span style="font-size:11px;color:#E8A020;font-weight:600">נעוץ</span>' : ''}</div>
+              <div class="ali-title">${Helpers.escHtml(m.title)}</div>
               <div class="ali-meta">${m.isDefault ? 'הודעת ברירת מחדל' : 'הודעה מותאמת אישית'}</div>
             </div>
             <div class="ali-actions">
+              <button class="btn btn-sm" style="background:${m.pinned ? 'rgba(232,160,32,.25);border-color:rgba(232,160,32,.5);color:#E8A020' : 'rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)'}"
+                onclick="AdminPanel.togglePin('${m.id}',${!m.pinned})" title="${m.pinned ? 'הסר נעיצה' : 'נעץ בראש'}">
+                ${m.pinned ? '📌 נעוץ' : '📌 נעץ'}
+              </button>
               <button class="btn btn-danger btn-sm" onclick="AdminPanel.confirmDelete('msg','${m.id}','${Helpers.escHtml(m.title)}')">🗑 מחק</button>
             </div>
           </div>`).join('')
@@ -55,6 +59,18 @@ const AdminPanel = {
             </div>
           </div>`).join('')
       : '<p style="color:var(--text-muted);font-size:14px">אין קישורים להצגה.</p>';
+  },
+
+  async togglePin(id, pin) {
+    try {
+      await Storage.togglePinMessage(id, pin);
+      const fresh = { fresh: true };
+      await Messages.render(fresh);
+      await AdminPanel.renderLists(fresh);
+      Toast.show(pin ? '📌 ההודעה נעוצה' : '📌 הנעיצה הוסרה');
+    } catch(e) {
+      Toast.show('❌ שגיאה: ' + (e.message || e));
+    }
   },
 
   confirmDelete(type, id, name) {
