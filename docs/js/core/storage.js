@@ -31,10 +31,22 @@ const Storage = {
       fbDb.collection('documents').orderBy('createdAt').get(src),
       fbDb.collection('config').doc('defaults').get(src),
     ]);
-    const deletedDocIds = cfgDoc.exists ? (cfgDoc.data().deletedDocIds || []) : [];
-    const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
-    const defaults      = DEFAULT_DOCS.filter(d => !deletedDocIds.includes(d.id));
-    return [...defaults, ...customs];
+    const cfg               = cfgDoc.exists ? cfgDoc.data() : {};
+    const deletedDocIds     = cfg.deletedDocIds     || [];
+    const pinnedDocIds      = cfg.pinnedDocIds      || [];
+    const docTitleOverrides = cfg.docTitleOverrides || {};
+
+    const customs  = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
+    const defaults = DEFAULT_DOCS.filter(d => !deletedDocIds.includes(d.id));
+
+    const all = [...defaults, ...customs].map(d => ({
+      ...d,
+      title:  docTitleOverrides[d.id] || d.title,
+      pinned: pinnedDocIds.includes(d.id) || d.pinned || false,
+    }));
+
+    // pinned docs always appear first
+    return all.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
   },
 
   // ── Write — Messages ─────────────────────────────────────────────────
@@ -106,6 +118,31 @@ const Storage = {
       );
     } else {
       await fbDb.collection('documents').doc(id).delete();
+    }
+  },
+
+  async togglePinDoc(id, pin) {
+    const op = pin
+      ? firebase.firestore.FieldValue.arrayUnion(id)
+      : firebase.firestore.FieldValue.arrayRemove(id);
+    await fbDb.collection('config').doc('defaults').set({ pinnedDocIds: op }, { merge: true });
+    // Also mark on custom doc itself so it persists independently
+    if (!id.startsWith('doc_default_')) {
+      await fbDb.collection('documents').doc(id).update({ pinned: pin });
+    }
+  },
+
+  async updateDoc(id, fields) {
+    if (id.startsWith('doc_default_')) {
+      // Default docs: store title override in config
+      if (fields.title) {
+        await fbDb.collection('config').doc('defaults').set(
+          { docTitleOverrides: { [id]: fields.title } },
+          { merge: true }
+        );
+      }
+    } else {
+      await fbDb.collection('documents').doc(id).update(fields);
     }
   },
 

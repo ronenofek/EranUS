@@ -1,6 +1,7 @@
 // ── Document Admin ──────────────────────────────────────────────────────
 const DocAdmin = {
-  _pendingB64: null,
+  _pendingB64:  null,
+  _editingDocId: null,
 
   onFileChange(input) {
     const file = input.files[0];
@@ -50,9 +51,39 @@ const DocAdmin = {
       Toast.show('❌ שגיאה בשמירת המסמך. הקובץ עשוי להיות גדול מדי.');
     }
   },
+
+  // ── Rename ────────────────────────────────────────────────────────────
+  openEditDoc(id, title) {
+    DocAdmin._editingDocId = id;
+    document.getElementById('editDocTitle').value = title;
+    document.getElementById('editDocModal').classList.add('open');
+  },
+
+  async saveEditDoc() {
+    const id    = DocAdmin._editingDocId;
+    const title = document.getElementById('editDocTitle').value.trim();
+    if (!title) { Toast.show('יש להזין שם מסמך'); return; }
+    try {
+      await Storage.updateDoc(id, { title });
+      document.getElementById('editDocModal').classList.remove('open');
+      const fresh = { fresh: true };
+      await Docs.render(fresh);
+      await AdminPanel.renderLists(fresh);
+      Toast.show('✅ שם המסמך עודכן');
+    } catch(e) {
+      Toast.show('❌ שגיאה בעדכון: ' + (e.message || e));
+    }
+  },
+
+  closeEditDoc() {
+    document.getElementById('editDocModal').classList.remove('open');
+    DocAdmin._editingDocId = null;
+  },
 };
 
 // ── Backwards-compatible global shims ──────────────────────────────────
 let pendingDocB64 = null;
 function onDocFileChange(input) { DocAdmin.onFileChange(input); }
 function addDoc()               { DocAdmin.addDoc(); }
+function saveEditDoc()          { DocAdmin.saveEditDoc(); }
+function closeEditDoc()         { DocAdmin.closeEditDoc(); }

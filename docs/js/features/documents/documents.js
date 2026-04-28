@@ -23,10 +23,12 @@ const Docs = {
   async render(opts) {
     const docs = await Storage.getDocs(opts);
     document.getElementById('docsGrid').innerHTML = docs.map((d, idx) => {
-      const c = Docs._palette[idx % Docs._palette.length];
+      const c         = Docs._palette[idx % Docs._palette.length];
       const safeTitle = Helpers.escHtml(d.title);
+      const pinned    = d.pinned || false;
       return `
-      <div class="flip-card flip-card-sm" id="doc-${Helpers.escHtml(d.id || d.title)}">
+      <div class="flip-card flip-card-sm${pinned ? ' pinned-card' : ''}" id="doc-${Helpers.escHtml(d.id || d.title)}">
+        ${pinned ? '<span class="pinned-badge">📌 נעוץ</span>' : ''}
         <div class="flip-card-inner">
           <div class="flip-front">
             <div class="flip-plant">${Docs._plant(c)}</div>

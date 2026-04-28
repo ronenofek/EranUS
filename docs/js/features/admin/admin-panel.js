@@ -34,12 +34,17 @@ const AdminPanel = {
     document.getElementById('adminDocList').innerHTML = allDocs.length
       ? allDocs.map(d => `
           <div class="admin-list-item">
-            <div class="ali-icon">📄</div>
+            <div class="ali-icon">${d.pinned ? '📌' : '📄'}</div>
             <div class="ali-info">
               <div class="ali-title">${Helpers.escHtml(d.title)}</div>
               <div class="ali-meta">${d.isDefault ? 'מסמך ברירת מחדל' : 'מסמך מותאם אישית'}</div>
             </div>
             <div class="ali-actions">
+              <button class="btn btn-sm" style="background:${d.pinned ? 'rgba(232,160,32,.15);border-color:rgba(232,160,32,.4);color:#C8801A' : ''}"
+                onclick="AdminPanel.togglePinDoc('${d.id}',${!d.pinned})" title="${d.pinned ? 'הסר נעיצה' : 'נעץ בראש'}">
+                ${d.pinned ? '📌 נעוץ' : '📌 נעץ'}
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="AdminPanel.openEditDoc('${d.id}','${Helpers.escHtml(d.title)}')">✏️ שנה שם</button>
               <button class="btn btn-danger btn-sm" onclick="AdminPanel.confirmDelete('doc','${d.id}','${Helpers.escHtml(d.title)}')">🗑 מחק</button>
             </div>
           </div>`).join('')
@@ -71,6 +76,22 @@ const AdminPanel = {
     } catch(e) {
       Toast.show('❌ שגיאה: ' + (e.message || e));
     }
+  },
+
+  async togglePinDoc(id, pin) {
+    try {
+      await Storage.togglePinDoc(id, pin);
+      const fresh = { fresh: true };
+      await Docs.render(fresh);
+      await AdminPanel.renderLists(fresh);
+      Toast.show(pin ? '📌 המסמך נעוץ' : '📌 הנעיצה הוסרה');
+    } catch(e) {
+      Toast.show('❌ שגיאה: ' + (e.message || e));
+    }
+  },
+
+  openEditDoc(id, title) {
+    DocAdmin.openEditDoc(id, title);
   },
 
   confirmDelete(type, id, name) {
@@ -120,3 +141,4 @@ function renderAdminLists()            { AdminPanel.renderLists(); }
 function confirmDelete(type, id, name) { AdminPanel.confirmDelete(type, id, name); }
 function closeConfirm()                { AdminPanel.closeConfirm(); }
 function doDelete(type, id)            { AdminPanel.doDelete(type, id); }
+function togglePinDoc(id, pin)         { AdminPanel.togglePinDoc(id, pin); }

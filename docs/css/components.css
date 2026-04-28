@@ -325,6 +325,7 @@
 /* Must sit above admin overlay (z-9999) */
 #editUserModal { z-index: 10001 !important; }
 #resetPassModal{ z-index: 10001 !important; }
+#editDocModal  { z-index: 10001 !important; }
 
 #editUserModal .confirm-box,
 #resetPassModal .confirm-box {

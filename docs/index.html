@@ -376,6 +376,21 @@
   </div>
 </div>
 
+<!-- EDIT DOC MODAL -->
+<div class="modal-overlay" id="editDocModal">
+  <div class="confirm-box">
+    <h3>שינוי שם מסמך</h3>
+    <div class="form-row">
+      <label>שם המסמך</label>
+      <input type="text" id="editDocTitle" placeholder="שם המסמך">
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary" onclick="DocAdmin.closeEditDoc()">ביטול</button>
+      <button class="btn btn-primary" onclick="DocAdmin.saveEditDoc()">שמור</button>
+    </div>
+  </div>
+</div>
+
 <!-- RESET PASSWORD MODAL -->
 <div class="modal-overlay" id="resetPassModal">
   <div class="confirm-box">
