@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מדריך למתנדב — צפ"א</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #2E6B44;
+      --green-dk:   #1E4D30;
+      --green-lt:   #5DBE82;
+      --accent:     #C8801A;
+      --accent-lt:  #FFF0D0;
+      --danger:     #C0392B;
+      --danger-lt:  #FDECEA;
+      --blue:       #2E5FA3;
+      --blue-lt:    #EBF2FF;
+      --text:       #1E1208;
+      --text-2:     #7A5030;
+      --text-muted: #A87850;
+      --border:     rgba(61,32,8,.10);
+      --bg:         #F5EDE0;
+      --card:       #FDF9F2;
+      --card-2:     #F7F1E8;
+      --mint:       #EFF7EC;
+      --r:          18px;
+      --shadow:     0 6px 28px rgba(30,18,8,.08);
+      --shadow-lg:  0 10px 40px rgba(30,18,8,.13);
+    }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      direction: rtl;
+    }
+
+    /* ── TOPBAR ────────────────────────────────── */
+    .topbar {
+      background: var(--green-dk);
+      color: #fff;
+      padding: 0 16px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .topbar-brand { display: flex; align-items: center; gap: 8px; }
+    .topbar-logo { font-size: 22px; }
+    .topbar-title { font-size: 16px; font-weight: 700; flex: 1; }
+    .btn-back {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      color: #fff;
+      border-radius: 10px;
+      padding: 7px 13px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 5px;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .btn-back:hover { background: rgba(255,255,255,.25); }
+    .btn-back.visible { display: flex; }
+
+    /* ── BREADCRUMB ───────────────────────────── */
+    .breadcrumb {
+      padding: 8px 16px 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      min-height: 28px;
+    }
+    .breadcrumb .bc-link {
+      cursor: pointer;
+      transition: color .15s;
+    }
+    .breadcrumb .bc-link:hover { color: var(--green); text-decoration: underline; }
+    .breadcrumb .bc-sep { color: var(--border); font-size: 14px; }
+    .breadcrumb .bc-current { color: var(--text-2); font-weight: 500; }
+
+    /* ── CONTAINER ───────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px 14px 48px;
+    }
+
+    /* ── PAGE HEADER ─────────────────────────── */
+    .page-header { margin-bottom: 18px; }
+    .page-header h2 { font-size: 21px; font-weight: 700; color: var(--green-dk); }
+    .page-header p { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+
+    /* ── MAIN CARDS GRID ─────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+      gap: 13px;
+    }
+    .main-card {
+      background: var(--card);
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 22px 14px 18px;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .main-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--green);
+      transform: scaleX(0);
+      transition: transform .22s;
+    }
+    .main-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+    .main-card:hover::after { transform: scaleX(1); }
+    .main-card.danger::after { background: var(--danger); }
+    .main-card.danger .card-title { color: var(--danger); }
+    .card-icon { font-size: 34px; line-height: 1; }
+    .card-title { font-size: 14.5px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .card-sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+    /* ── SUB CARDS ───────────────────────────── */
+    .sub-cards-list { display: flex; flex-direction: column; gap: 11px; }
+    .sub-card {
+      background: var(--card);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 17px 18px;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .15s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sub-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .sub-card-icon { font-size: 26px; flex-shrink: 0; }
+    .sub-card-body { flex: 1; }
+    .sub-card-title { font-size: 15px; font-weight: 600; color: var(--text); }
+    .sub-card-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .sub-card-arrow { font-size: 13px; color: var(--text-muted); flex-shrink: 0; transform: rotate(180deg); }
+
+    /* ── CONTENT PANEL ───────────────────────── */
+    .content-panel {
+      background: var(--card);
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 22px 20px;
+    }
+
+    /* ── STEPS ───────────────────────────────── */
+    .steps-list { display: flex; flex-direction: column; }
+    .step {
+      display: flex;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; padding-bottom: 0; }
+    .step:first-child { padding-top: 0; }
+    .step-num {
+      width: 34px; height: 34px;
+      background: var(--green-dk);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .step-body { flex: 1; }
+    .step-title { font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .step-text { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+    /* ── INFO / DANGER BOXES ─────────────────── */
+    .info-box {
+      background: var(--accent-lt);
+      border: 1px solid #F5D89E;
+      border-radius: 10px;
+      padding: 13px 15px;
+      margin-top: 16px;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+    .info-box-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+    .info-box-text { font-size: 13px; color: #5C3D0A; line-height: 1.65; }
+    .danger-box {
+      background: var(--danger-lt);
+      border: 1px solid #F5C6C2;
+      border-radius: 10px;
+      padding: 13px 15px;
+      margin-top: 12px;
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+    }
+    .danger-box-text { font-size: 13px; color: #7A1008; line-height: 1.65; }
+
+    /* ── FLOWCHART ───────────────────────────── */
+    .flow-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flow-node {
+      width: 100%;
+      max-width: 500px;
+      padding: 11px 16px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .flow-node.start {
+      background: var(--green-dk);
+      color: #fff;
+      font-weight: 700;
+      border-radius: 26px;
+      font-size: 13.5px;
+    }
+    .flow-node.process {
+      background: var(--card-2);
+      border: 1.5px solid var(--border);
+    }
+    .flow-node.decision {
+      background: var(--accent-lt);
+      border: 1.5px solid #F5D89E;
+      color: #5C3D0A;
+      font-weight: 600;
+    }
+    .flow-node.action-green {
+      background: var(--mint);
+      border: 1.5px solid #A8D5B8;
+      color: var(--green-dk);
+      font-weight: 600;
+    }
+    .flow-node.action-red {
+      background: var(--danger-lt);
+      border: 1.5px solid #F5C6C2;
+      color: var(--danger);
+      font-weight: 700;
+    }
+    .flow-node.end {
+      background: var(--blue-lt);
+      border: 1.5px solid #C0D4F5;
+      color: var(--blue);
+      font-weight: 600;
+      border-radius: 26px;
+    }
+    .flow-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1;
+      padding: 3px 0;
+    }
+    .flow-arrow::before { content: '│'; font-size: 14px; line-height: 1; color: #c4a882; }
+    .flow-arrow::after  { content: '▾'; font-size: 14px; line-height: 1; color: #c4a882; margin-top: -4px; }
+
+    .flow-split-row {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .flow-split-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .flow-split-col .flow-node { max-width: none; width: 100%; }
+
+    /* ── PHRASE LIST ─────────────────────────── */
+    .phrase-section { margin-bottom: 20px; }
+    .phrase-section:last-child { margin-bottom: 0; }
+    .phrase-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green-dk);
+      margin-bottom: 9px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+    .phrase-item {
+      background: var(--card-2);
+      border-radius: 9px;
+      padding: 11px 13px;
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.65;
+      margin-bottom: 7px;
+      border-right: 3px solid var(--green);
+    }
+    .phrase-item:last-child { margin-bottom: 0; }
+
+    /* ── ANALYSIS ────────────────────────────── */
+    .analysis-section { margin-bottom: 18px; }
+    .analysis-section:last-child { margin-bottom: 0; }
+    .analysis-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--green-dk);
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border);
+    }
+    .analysis-q {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin-bottom: 5px;
+      padding-right: 10px;
+      position: relative;
+    }
+    .analysis-q::before {
+      content: '◆';
+      font-size: 8px;
+      color: var(--accent);
+      position: absolute;
+      right: 0;
+      top: 5px;
+    }
+
+    /* ── ORG SEARCH ──────────────────────────── */
+    .search-wrap { margin-bottom: 14px; position: relative; }
+    .search-wrap input {
+      width: 100%;
+      padding: 11px 14px 11px 38px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      text-align: right;
+      transition: border-color .2s;
+    }
+    .search-wrap input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(46,107,68,.08); }
+    .search-wrap .s-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* ── ORG LIST ────────────────────────────── */
+    .org-category { margin-bottom: 18px; }
+    .org-category:last-child { margin-bottom: 0; }
+    .org-cat-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .org-item {
+      background: var(--card-2);
+      border-radius: 9px;
+      padding: 11px 13px;
+      margin-bottom: 7px;
+      border: 1px solid var(--border);
+      transition: box-shadow .15s;
+    }
+    .org-item:hover { box-shadow: var(--shadow); }
+    .org-item:last-child { margin-bottom: 0; }
+    .org-name { font-size: 13.5px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .org-phone {
+      font-size: 14px;
+      color: var(--green-dk);
+      font-weight: 600;
+      direction: ltr;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .org-note { font-size: 11.5px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+    .org-item.hidden { display: none; }
+    .org-category.hidden { display: none; }
+
+    /* ── VIEW SYSTEM ─────────────────────────── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 480px) {
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow-split-row { flex-direction: column; }
+      .flow-node { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="btn-back" id="btnBack" onclick="goBack()">&#8227; חזור</button>
+  <div class="topbar-brand" id="topbarBrand">
+    <span class="topbar-logo">🌿</span>
+    <span class="topbar-title" id="topbarTitle">מדריך למתנדב — צפ"א</span>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb" id="breadcrumb"></div>
+
+<!-- CONTAINER -->
+<div class="container">
+
+  <!-- ══ HOME ═══════════════════════════════════════════ -->
+  <div class="view active" id="viewHome">
+    <div class="page-header">
+      <h2>מדריך למתנדב</h2>
+      <p>בחר נושא לקבל מידע מהיר בזמן שיחה</p>
+    </div>
+    <div class="cards-grid">
+      <div class="main-card" onclick="navigate('konen')">
+        <div class="card-icon">📞</div>
+        <div class="card-title">קריאה לכונן</div>
+        <div class="card-sub">איך לגייס כונן בזמן שיחה</div>
+      </div>
+      <div class="main-card danger" onclick="navigate('suicidal')">
+        <div class="card-icon">🆘</div>
+        <div class="card-title">שיחה אובדנית</div>
+        <div class="card-sub">פרוטוקול ועצי החלטה</div>
+      </div>
+      <div class="main-card" onclick="navigate('returning')">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">פונים חוזרים</div>
+        <div class="card-sub">נוהל מענה לפונים קבועים</div>
+      </div>
+      <div class="main-card" onclick="navigate('anxiety')">
+        <div class="card-icon">😰</div>
+        <div class="card-title">התקף חרדה</div>
+        <div class="card-sub">כלים להתמודדות וטכניקות</div>
+      </div>
+      <div class="main-card" onclick="navigate('breathing')">
+        <div class="card-icon">🌬️</div>
+        <div class="card-title">נשימות</div>
+        <div class="card-sub">תרגילי נשימה לעיגון</div>
+      </div>
+      <div class="main-card" onclick="navigate('phrases')">
+        <div class="card-icon">💬</div>
+        <div class="card-title">משפטים מקדמי שיח</div>
+        <div class="card-sub">ביטויים לפתיחה ולמהלך</div>
+      </div>
+      <div class="main-card" onclick="navigate('analysis')">
+        <div class="card-icon">📋</div>
+        <div class="card-title">ניתוח שיחה</div>
+        <div class="card-sub">מסגרת לניתוח עצמי</div>
+      </div>
+      <div class="main-card" onclick="navigate('orgs')">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">ארגוני סיוע</div>
+        <div class="card-sub">רשימת קשר עם חיפוש</div>
+      </div>
+      <div class="main-card" onclick="navigate('shifts')">
+        <div class="card-icon">📅</div>
+        <div class="card-title">נוהל משמרות</div>
+        <div class="card-sub">כללים ושעות</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SUB-LEVEL ══════════════════════════════════════ -->
+  <div class="view" id="viewSub">
+    <div class="page-header">
+      <h2 id="subTitle"></h2>
+      <p id="subDesc"></p>
+    </div>
+    <div class="sub-cards-list" id="subCards"></div>
+  </div>
+
+  <!-- ══ CONTENT ════════════════════════════════════════ -->
+  <div class="view" id="viewContent">
+    <div id="contentArea"></div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════
+const state = { stack: [], current: 'home' };
+
+function navigate(section, sub) {
+  state.stack.push(state.current);
+  state.current = sub ? section + '/' + sub : section;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goBack() {
+  if (!state.stack.length) return;
+  state.current = state.stack.pop();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function jumpTo(target) {
+  state.stack = [];
+  state.current = target;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function render() {
+  const [section, sub] = state.current.split('/');
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+  const backBtn   = document.getElementById('btnBack');
+  const topTitle  = document.getElementById('topbarTitle');
+  const crumbEl   = document.getElementById('breadcrumb');
+
+  if (state.current === 'home') {
+    document.getElementById('viewHome').classList.add('active');
+    backBtn.classList.remove('visible');
+    topTitle.textContent = 'מדריך למתנדב — צפ"א';
+    crumbEl.innerHTML = '';
+    return;
+  }
+
+  backBtn.classList.add('visible');
+
+  const sData = SECTIONS[section];
+  const crumbs = [{ label: 'ראשי', target: 'home' }];
+  if (sData) crumbs.push({ label: sData.title, target: section });
+  if (sub && sData?.subs?.[sub]) crumbs.push({ label: sData.subs[sub].title, target: null });
+
+  crumbEl.innerHTML = crumbs.map((c, i) => {
+    const isLast = i === crumbs.length - 1;
+    if (isLast) return `<span class="bc-current">${c.label}</span>`;
+    return `<span class="bc-link" onclick="jumpTo('${c.target}')">${c.label}</span><span class="bc-sep">›</span>`;
+  }).join('');
+
+  if (!sub && sData?.subs) {
+    // Show sub-level
+    document.getElementById('viewSub').classList.add('active');
+    document.getElementById('subTitle').textContent = sData.title;
+    document.getElementById('subDesc').textContent  = sData.desc || '';
+    topTitle.textContent = sData.title;
+    document.getElementById('subCards').innerHTML = Object.entries(sData.subs).map(([key, s]) => `
+      <div class="sub-card" onclick="navigate('${section}','${key}')">
+        <div class="sub-card-icon">${s.icon}</div>
+        <div class="sub-card-body">
+          <div class="sub-card-title">${s.title}</div>
+          <div class="sub-card-desc">${s.desc || ''}</div>
+        </div>
+        <div class="sub-card-arrow">›</div>
+      </div>`).join('');
+  } else {
+    // Show content
+    document.getElementById('viewContent').classList.add('active');
+    const data = sub ? sData?.subs?.[sub] : sData;
+    topTitle.textContent = data?.title || '';
+    document.getElementById('contentArea').innerHTML = data?.html || '';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  ORG SEARCH
+// ═══════════════════════════════════════════════════════
+function filterOrgs(val) {
+  const q = val.trim().toLowerCase();
+  document.querySelectorAll('#orgList .org-item').forEach(el => {
+    const txt = ((el.dataset.s || '') + ' ' + el.textContent).toLowerCase();
+    el.classList.toggle('hidden', q.length > 0 && !txt.includes(q));
+  });
+  document.querySelectorAll('#orgList .org-category').forEach(cat => {
+    const anyVisible = [...cat.querySelectorAll('.org-item')].some(i => !i.classList.contains('hidden'));
+    cat.classList.toggle('hidden', !anyVisible);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  CONTENT DATA
+// ═══════════════════════════════════════════════════════
+const SECTIONS = {
+
+  /* ── קריאה לכונן ─────────────────────────────────── */
+  konen: {
+    title: 'קריאה לכונן',
+    icon: '📞',
+    html: `<div class="content-panel">
+      <div class="steps-list">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">עבוד עם אוזניות</div>
+            <div class="step-text">בכל שיחה אובדנית — חובה לעבוד עם אוזניות, כדי שהכונן יוכל לדבר איתך מבלי שהפונה ישמע.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">פתח את מסך השיחה ולחץ על "ניהול שיחה"</div>
+            <div class="step-text">תפריט הכוננים ייפתח ויציג את שמות הכוננים הזמינים ומספרי הטלפון שלהם.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">לחץ על מספר הטלפון של הכונן המבוקש</div>
+            <div class="step-text">המערכת מתקשרת לכונן. ההמתנה עד כ-3 דקות — אם לא עונה, לחץ על מספר הנייד של הכונן הבא.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">הכונן מתחבר — תופיע הודעה על המסך</div>
+            <div class="step-text">הכונן יאמר: <em>"שלום [שמך] אני על הקו"</em>. מרגע זה הוא שומע את השיחה כולה אוטומטית, מבלי להפריע לה.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">המשך לנהל את השיחה</div>
+            <div class="step-text">הפונה אינו יודע שהכונן על הקו. אם הכונן רוצה להנחות אותך — יאמר לך בקצרה (רק אתה שומע). ניהול השיחה הוא שיקול דעתו הבלעדי של הכונן.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <div class="step-title">כונן לא זמין?</div>
+            <div class="step-text">לחץ על הכונן הבא ברשימה. אם אין כונן זמין כלל — צור קשר מיידי עם מנהלת הסניף.</div>
+          </div>
+        </div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-icon">💡</div>
+        <div class="info-box-text"><strong>לזכור:</strong> אין לבקש מהפונה רשות לצרף כונן, ואין להודיע לפונה על נוכחות הכונן בשיחה.</div>
+      </div>
+      <div class="danger-box">
+        <div class="info-box-icon">⚠️</div>
+        <div class="danger-box-text"><strong>שיחה מתנתקת?</strong> — צור קשר מיידי עם מנהלת הסניף להמשך טיפול.</div>
+      </div>
+    </div>`
+  },
+
+  /* ── שיחה אובדנית ────────────────────────────────── */
+  suicidal: {
+    title: 'שיחה אובדנית',
+    icon: '🆘',
+    desc: 'בחר סוג השיחה לקבל את עץ ההחלטות',
+    subs: {
+      general: {
+        title: 'כללי',
+        icon: '📌',
+        desc: 'כללי ברזל לכל שיחה אובדנית',
+        html: `<div class="content-panel">
+          <div class="phrase-section">
+            <div class="phrase-section-title">⚡ חובה בכל שיחה אובדנית</div>
+            <div class="phrase-item">🎧 <strong>אוזניות תמיד</strong> — כדי שהכונן יוכל לדבר איתך מבלי שהפונה ישמע</div>
+            <div class="phrase-item">🔍 <strong>בדוק מסוכנות</strong> בכל שיחה שעולים בה תכנים אובדניים — ואם יש צורך, העלה כונן</div>
+            <div class="phrase-item">📋 <strong>בקש פרטים מזהים ומספר טלפון</strong> — ליצירת קשר אם השיחה תתנתק</div>
+            <div class="phrase-item">🚑 <strong>רק כוננים מוסמכים</strong> רשאים להזמין אמבולנס או משטרה — לא המתנדב</div>
+            <div class="phrase-item">📢 <strong>דווח מיידי למנהלת הסניף</strong> לאחר כל שיחה עם תכנים אובדניים, ולאחר כל שיחה עם קטין</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">❓ בדיקת גיל הפונה</div>
+            <div class="phrase-item">אם יש ספק לגבי גיל הפונה — <strong>חובה לברר</strong>. קטין דורש טיפול שונה ועליית כונן מיידית.</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🚫 כשהכונן שולט בשיחה</div>
+            <div class="phrase-item">מרגע שהכונן עולה ושולט — המתנדב נוכח בשיחה אך אינו מתערב, אלא אם הכונן ביקש זאת במפורש.</div>
+          </div>
+        </div>`
+      },
+      adult: {
+        title: 'שיחה אובדנית — בוגר',
+        icon: '🧑',
+        desc: 'עץ החלטות לשיחה עם בוגר',
+        html: `<div class="content-panel">
+          <div class="flow-wrap">
+            <div class="flow-node start">📞 מתנדב עונה — עולים תכנים אובדניים<br>או הצהרה ברורה על רצון לסיים חיים</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node decision">
+              <strong>בדיקת מסוכנות — בעדינות ובאמפתיה</strong><br><br>
+              שאלה ישירה ראשונה:<br>
+              <em style="color:#5C3D0A">"האם אתה מתכוון לסיים את חייך?"</em><br><br>
+              שלוש שאלות נוספות (כוונה, תוכנית, אמצעים):<br>
+              <em style="color:#5C3D0A">"מתי מתכוון?" · "איפה מתכנן?" · "איך מתכוון?"</em>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node process">בקש פרטים מזהים ומספר טלפון<br><small>ליצירת קשר אם השיחה תתנתק</small></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node process">בדוק אם יש ספק לגבי גיל הפונה</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node action-red">⬆️ העלה כונן</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node action-green">ניהול שיחה תוך כדי — תומכת ומיטיבה<br>לפי הפרוטוקול, בעדינות ובאמפתיה</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node end">📢 דווח מיידי למנהלת הסניף</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-icon">💡</div>
+            <div class="info-box-text">ברגע שהכונן מתחבר — הוא שומע את השיחה אוטומטית. המשך בשיחה; הכונן יכוון אותך אם יידרש.</div>
+          </div>
+        </div>`
+      },
+      minor: {
+        title: 'שיחה אובדנית — קטין',
+        icon: '🧒',
+        desc: 'עץ החלטות לשיחה עם קטין',
+        html: `<div class="content-panel">
+          <div class="flow-wrap">
+            <div class="flow-node start">📞 מתנדב עונה — עולים תכנים אובדניים<br>או כל חשד סביר לסכנה לקטין</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node decision">
+              <strong>בדיקת מסוכנות — בעדינות ובאמפתיה</strong><br><br>
+              שאלה ישירה: <em style="color:#5C3D0A">"האם אתה מתכוון לסיים את חייך?"</em><br><br>
+              שלוש שאלות נוספות: מתי? איפה? איך?<br>
+              הערכת רמת הסיכון ודחיפותו
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node process">בקש פרטים מזהים ומספר טלפון<br>בדוק אם יש בן משפחה או גורם תומך</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node action-red">⬆️ העלה כונן — מיידי<br><small>הכונן שולט בשיחה; המתנדב נוכח בנוכחות</small></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node action-green">ניהול שיחה עם ליווי הכונן — תומכת ומיטיבה</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node end">📢 דווח מיידי למנהלת הסניף</div>
+          </div>
+          <div class="danger-box">
+            <div class="info-box-icon">⚠️</div>
+            <div class="danger-box-text"><strong>קטין = כונן מיידי תמיד.</strong> גם אם הסיכון לא נראה ממשי — חובה להעלות כונן בכל שיחה עם קטין ובתכנים אובדניים.</div>
+          </div>
+        </div>`
+      },
+      third: {
+        title: 'שיחה אובדנית — צד שלישי',
+        icon: '👥',
+        desc: 'פונה מדווח על אדם אחר בסכנה',
+        html: `<div class="content-panel">
+          <div class="flow-wrap">
+            <div class="flow-node start">📞 פונה מדווח על אדם אחר בסכנה<br><small style="font-weight:400">אם הפונה הוא קטין — לשאת עבורו ולבקש לדבר עם מבוגר אחראי</small></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node process">בקש לדבר עם האדם האובדני</div>
+            <div class="flow-arrow"></div>
+
+            <div class="flow-split-row">
+              <div class="flow-split-col">
+                <div class="flow-node action-green" style="font-size:12px">✅ האדם האובדני נגיש</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-node process" style="font-size:12px">עבור לשיחה ישירה איתו<br>לפי תרשים המתאים לגילו<br>(בוגר / קטין)</div>
+              </div>
+              <div class="flow-split-col">
+                <div class="flow-node action-red" style="font-size:12px">❌ האדם האובדני לא נגיש</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-node process" style="font-size:12px">
+                  <strong>קטין אובדני — לא נגיש:</strong><br>
+                  העלה כונן מיידי<br><br>
+                  <strong>בוגר — לא נגיש / אין מידע:</strong><br>
+                  תמיכה רגשית לפונה<br>+ הפנה לגורם בקהילה
+                </div>
+              </div>
+            </div>
+
+            <div class="flow-arrow"></div>
+            <div class="flow-node end">📢 דווח מיידי למנהלת הסניף</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-icon">💡</div>
+            <div class="info-box-text">גם כשלא מגיעים לאדם האובדני — יש לתת תמיכה רגשית לפונה עצמו ולהפנות לגורם תומך בקהילה.</div>
+          </div>
+        </div>`
+      }
+    }
+  },
+
+  /* ── פונים חוזרים ────────────────────────────────── */
+  returning: {
+    title: 'פונים חוזרים',
+    icon: '🔄',
+    html: `<div class="content-panel">
+      <div class="phrase-section">
+        <div class="phrase-section-title">🫶 קבלה ללא שיפוטיות</div>
+        <div class="phrase-item">פגוש כל שיחה בלב פתוח, בסבלנות ובפתיחות. הימנע מביקורת על תדירות ההתקשרות — גם כשמכיר את הפונה. ייתכן שאנחנו הקול האנושי היחיד שהוא שומע באותו יום.</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">⏱️ שמירה על גבולות</div>
+        <div class="phrase-item"><strong>עד 20 דקות לשיחה</strong> ולא יותר מ<strong>שיחה אחת ביום</strong> עם אותו פונה. גבולות אלו הכרחיים לשמירה על המתנדבים ולמניעת תלות של הפונה בשירות.</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">🔁 שיח לא חוזר</div>
+        <div class="phrase-item">חשוב שהשיחה לא תהפוך לשגרתית או אוטומטית. גייס חום, עניין ואמפתיה אמיתיים לכל שיחה — גם אם הפונה מכיר אותך.</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-icon">💡</div>
+        <div class="info-box-text">נוכחותך, גם קצרה ומוגבלת בזמן, יכולה להיות בעלת משמעות עצומה. שמור על לב פתוח — ואל תשכח לשמור גם על עצמך.</div>
+      </div>
+    </div>`
+  },
+
+  /* ── התקף חרדה ───────────────────────────────────── */
+  anxiety: {
+    title: 'התקף חרדה',
+    icon: '😰',
+    desc: 'בחר כלי לקבל הנחיות מפורטות',
+    subs: {
+      what: {
+        title: 'מה זה התקף חרדה?',
+        icon: '🧠',
+        desc: 'הסבר, תסמינים וכלי עיגון',
+        html: `<div class="content-panel">
+          <div class="phrase-section">
+            <div class="phrase-section-title">מה קורה בגוף?</div>
+            <div class="phrase-item">התקף חרדה הוא <strong>"אזעקת שווא"</strong> של הגוף — אין סכנה אמיתית, אך המוח מפרש את המציאות כמאיימת.<br><br>
+            הגוף מגיב: דופק מואץ · לחץ דם גבוה · שרירים מתכווצים · הזעה · אישונים מורחבים · תחושת ניתוק מהגוף (כאילו מסתכלים מבחוץ).</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🪴 עיגון "כאן ועכשיו"</div>
+            <div class="phrase-item">בקש מהפונה לתאר <strong>חפצים בחדר</strong> — זה יוצר שיחה מעגנת בהווה.<br><br>
+            <strong>לדוגמה:</strong><br>
+            פונה: "אני בחדר, יש כאן טלוויזיה"<br>
+            מתנדב: "מה התוכנית האחרונה שראית? מה קרה בפרק האחרון?"</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🛠️ כלים נוספים</div>
+            <div class="phrase-item">🧊 <strong>קרח על הצוואר</strong> — מחזיר לתחושה פיזית</div>
+            <div class="phrase-item">🫱 <strong>Tapping</strong> — טפיחות על הזרועות ועל חזה הבית (ראה "חיבוק הפרפר")</div>
+            <div class="phrase-item">🌬️ <strong>נשימה</strong> — ראה כרטיס "נשימות" לתרגיל מפורט</div>
+            <div class="phrase-item">🦶 <strong>Grounding</strong> — ידיים על הירכיים / כפות רגליים על הרצפה</div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-icon">💡</div>
+            <div class="info-box-text">לאחר שהפונה נרגע — עזור לו לשנות את הנרטיב/סיפור של הארוע ובנה תוכנית פעולה (מה הלאה?).</div>
+          </div>
+        </div>`
+      },
+      butterfly: {
+        title: 'חיבוק הפרפר',
+        icon: '🦋',
+        desc: 'טכניקת הרגעה עצמית — שלב אחר שלב',
+        html: `<div class="content-panel">
+          <div class="info-box" style="margin-bottom:20px">
+            <div class="info-box-icon">🦋</div>
+            <div class="info-box-text">טכניקת EMDR עצמאית להרגעה מהירה. ניתן לעשות בטלפון — הנחה את הפונה צעד אחר צעד.</div>
+          </div>
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-num" style="background:var(--accent)">1</div>
+              <div class="step-body">
+                <div class="step-title">שלב ידיים על החזה</div>
+                <div class="step-text">כשכל יד נוגעת בכתף הצד הנגדי — כאילו מחבקים את עצמך.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:var(--accent)">2</div>
+              <div class="step-body">
+                <div class="step-title">התחל בטפיחות עדינות</div>
+                <div class="step-text">לסירוגין — פעם כל יד, בעדינות.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:var(--accent)">3</div>
+              <div class="step-body">
+                <div class="step-title">25 טפיחות לכל צד</div>
+                <div class="step-text">25 ביד ימין, אחר כך 25 ביד שמאל.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:var(--accent)">4</div>
+              <div class="step-body">
+                <div class="step-title">חזור 3 פעמים</div>
+                <div class="step-text">סה"כ 150 טפיחות (3 × [ימין 25 + שמאל 25]).</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:var(--accent)">5</div>
+              <div class="step-body">
+                <div class="step-title">שים לב לנשימה</div>
+                <div class="step-text">נשום לאט — שאיפה דרך האף, נשיפה דרך הפה. ניתן להוסיף דימוי נעים או מחשבות חיוביות.</div>
+              </div>
+            </div>
+          </div>
+        </div>`
+      }
+    }
+  },
+
+  /* ── נשימות ──────────────────────────────────────── */
+  breathing: {
+    title: 'נשימות',
+    icon: '🌬️',
+    desc: 'בחר תרגיל נשימה',
+    subs: {
+      basic: {
+        title: 'נשימה בסיסית',
+        icon: '🫁',
+        desc: 'תרגיל נשימה בסיסי לעיגון',
+        html: `<div class="content-panel">
+          <div class="steps-list">
+            <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">שב בנוחות</div><div class="step-text">רגליים על הרצפה, גב נשען על המשענת.</div></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">עצם עיניים / הורד מבט</div><div class="step-text">עצם עיניים או הורד את המבט לרצפה.</div></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">התמקד בנשימה</div><div class="step-text">שאיפה דרך האף — נשיפה דרך הפה.</div></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">שים לב לאוויר</div><div class="step-text">שים לב לאוויר הנכנס והיוצא — בלי לשנות דבר.</div></div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">הנח ידיים על הבטן</div><div class="step-text">שאף עמוק לבטן — הרגש אותה מתנפחת.</div></div></div>
+            <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">ספור</div><div class="step-text">שאיפה בקצב 1-2-3 · נשיפה איטית 1-2-3-4-5-6. חזור כמה פעמים.</div></div></div>
+            <div class="step"><div class="step-num">7</div><div class="step-body"><div class="step-title">סיים בעדינות</div><div class="step-text">חזור לנשימה רגילה, הזז ידיים ורגליים בעדינות, פקח עיניים.</div></div></div>
+          </div>
+        </div>`
+      },
+      box: {
+        title: 'נשימת קופסא',
+        icon: '📦',
+        desc: 'לפני / תוך כדי / אחרי אירועים לחוצים',
+        html: `<div class="content-panel">
+          <div class="info-box" style="margin-bottom:18px">
+            <div class="info-box-icon">📦</div>
+            <div class="info-box-text">נשימת קופסא עוזרת להירגע לפני, תוך כדי ואחרי אירועים לחוצים. ניתן לבצע בכל מקום — גם בעבודה, גם עם פונה.</div>
+          </div>
+          <div class="steps-list">
+            <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">שב בנוחות</div><div class="step-text">גב על משענת, רגליים על הרצפה.</div></div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">עצם עיניים</div></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">שאף דרך האף — ספור עד 4</div></div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">החזק — ספור עד 4</div><div class="step-text">החזק את האוויר בפנים.</div></div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">נשוף לאט דרך הפה — ספור עד 4</div></div></div>
+            <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">חזור 3–4 פעמים</div><div class="step-text">כ-4 דקות. עם הזמן ניתן להאריך ל-5 או 6.</div></div></div>
+          </div>
+          <div class="info-box">
+            <div class="info-box-icon">💡</div>
+            <div class="info-box-text">מומלץ להתרגל מדי יום — בבוקר, אחרי עבודה, או כחלק משגרת מדיטציה.</div>
+          </div>
+        </div>`
+      }
+    }
+  },
+
+  /* ── משפטים מקדמי שיח ────────────────────────────── */
+  phrases: {
+    title: 'משפטים מקדמי שיח',
+    icon: '💬',
+    html: `<div class="content-panel">
+      <div class="phrase-section">
+        <div class="phrase-section-title">🚪 פתיחה</div>
+        <div class="phrase-item">"שלום, מה שלומך היום?"</div>
+        <div class="phrase-item">"מוזמנ/ת לשתף בכל מה שעל לבך."</div>
+        <div class="phrase-item">"אני כאן איתך עד שהלב יירגע."</div>
+        <div class="phrase-item">"את/ה לגמרי אנונימי/ת ומוגן/ת — תן/י לרעיונות מרווח."</div>
+        <div class="phrase-item">"שמח/ה שבחרת להתקשר לנ"ע."</div>
+        <div class="phrase-item">"בסדר שאינך רוצה להיחשף."</div>
+        <div class="phrase-item">"ספר/י לי מה מדאיג אותך."</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">💬 תוך כדי שיחה — מעוררי מחשבה</div>
+        <div class="phrase-item">"...אמרת ש"</div>
+        <div class="phrase-item">"מה אתה מרגיש עכשיו לאחר שסיפרת לי?"</div>
+        <div class="phrase-item">"מאיפה אתה יודע ואיך?"</div>
+        <div class="phrase-item">"האם ישנה דרך נוספת להתייחס ל...?"</div>
+        <div class="phrase-item">"האם יש דברים שאת/ה גאה בהם?"</div>
+        <div class="phrase-item">"ומה עם זאת, משהו קטן שאת/ה שמח/ה שיש בך?"</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">❤️ ביטויים רגשיים</div>
+        <div class="phrase-item">"כל כך עצוב לי שאת/ה מרגיש/ה ככה."</div>
+        <div class="phrase-item">"נשמע שאתה עובר תקופה לא קלה."</div>
+        <div class="phrase-item">"אני כאן בשבילך / אני כאן איתך."</div>
+        <div class="phrase-item">"זה אנושי מאוד להרגיש ככה."</div>
+        <div class="phrase-item">"זה נכון שזה קשה מאוד."</div>
+        <div class="phrase-item">"קשה מאוד כי לא יכולת לעשות את זה."</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">🏁 לקראת סיום</div>
+        <div class="phrase-item">"השיחה הגיעה לסיומה."</div>
+        <div class="phrase-item">"מה דעתך שנעצור כאן."</div>
+        <div class="phrase-item">"עכשיו סגרנו בדיוק עם מה שהתחלנו."</div>
+        <div class="phrase-item">"תודה על הכנות והשיתוף."</div>
+        <div class="phrase-item">"...לסיכום"</div>
+      </div>
+    </div>`
+  },
+
+  /* ── ניתוח שיחה ──────────────────────────────────── */
+  analysis: {
+    title: 'ניתוח שיחה ומשוב',
+    icon: '📋',
+    html: `<div class="content-panel">
+      <div class="analysis-section">
+        <div class="analysis-title">🤝 יצירת קשר רגשי עם הפונה</div>
+        <div class="analysis-q">איך הרגשת לגבי הפונה ולגבי המצב שבו הוא נמצא?</div>
+        <div class="analysis-q">האם המתנדב הביא את עצמו לעזור לפונה — כיצד?</div>
+        <div class="analysis-q">יידוי סנה, גילוי אמפתיה-הבנה רגשית, העדר שיפוטיות.</div>
+      </div>
+      <div class="analysis-section">
+        <div class="analysis-title">🔍 הערכת בעיית הפונה</div>
+        <div class="analysis-q">האם היה איסוף מידע, שאלות, עזרה בארגון הבעיה?</div>
+        <div class="analysis-q">לדעתך למה הפונה התקשר לנ"ע? מה הוא צריך?</div>
+        <div class="analysis-q">האם הרגשת שקיבל ממך מענה למה שצריך היה?</div>
+      </div>
+      <div class="analysis-section">
+        <div class="analysis-title">🛠️ מתן עזרה / כלים נ"רעים</div>
+        <div class="analysis-q">האם הייתה תמיכה רגשית, ריפריימינג חיובי, העצמה?</div>
+        <div class="analysis-q">מסירת מידע רלוונטי, גיוס כוחות תמיכה, הפניה לעזרה מקצועית?</div>
+        <div class="analysis-q">עם מה שממש הרגשת טוב — שתשמור לשיחות הבאות?</div>
+        <div class="analysis-q">אילו כלים נ"רעים השתמשת בשיחה?</div>
+      </div>
+      <div class="analysis-section">
+        <div class="analysis-title">📊 הערכת תהליך השיחה</div>
+        <div class="analysis-q">האם קצב/משך השיחה קידם את יעילותה?</div>
+        <div class="analysis-q">מי שלט/הוביל בשיחה? האם נעשה שימוש בשפה המתאימה לפונה?</div>
+        <div class="analysis-q">האם הייתה התמודדות עם מצבים קשים (תוקפנות, תכנים אובדניים)?</div>
+        <div class="analysis-q">מה לדעתך פספסת? מה חמק ממך?</div>
+      </div>
+      <div class="info-box">
+        <div class="info-box-icon">💡</div>
+        <div class="info-box-text"><strong>3 שלבים להצלחת שיחה:</strong> (א) ביסוס הקשר, (ב) זיהוי הנקודה שבה הפונה שחרר את העומס, (ג) עזרה לפונה לחשוב על חלופות לפתרון.</div>
+      </div>
+    </div>`
+  },
+
+  /* ── ארגוני סיוע ─────────────────────────────────── */
+  orgs: {
+    title: 'ארגוני סיוע',
+    icon: '🏢',
+    html: `<div>
+      <div class="search-wrap">
+        <input type="text" placeholder="חפש ארגון, שירות או מספר טלפון..." oninput="filterOrgs(this.value)">
+        <span class="s-icon">🔍</span>
+      </div>
+      <div id="orgList">
+
+        <div class="org-category">
+          <div class="org-cat-title">🆘 חירום כללי</div>
+          <div class="org-item" data-s="משטרה 100 חירום"><div class="org-name">משטרת ישראל</div><div class="org-phone">100</div></div>
+          <div class="org-item" data-s="מגן דוד אדום מד'א אמבולנס 101"><div class="org-name">מד"א</div><div class="org-phone">101</div></div>
+          <div class="org-item" data-s="כיבוי אש הצלה 102"><div class="org-name">כיבוי והצלה</div><div class="org-phone">102</div></div>
+          <div class="org-item" data-s="פיקוד העורף נפגעים 104 ופאטסאוו"><div class="org-name">פיקוד העורף — מידע על נפגעים</div><div class="org-phone">104 · WhatsApp: 052-9104104</div></div>
+          <div class="org-item" data-s="עדכון הצלה מוקד 1221"><div class="org-name">מוקד איחוד והצלה</div><div class="org-phone">1221</div></div>
+          <div class="org-item" data-s="חוסן יצרא 5486"><div class="org-name">מוקד חוסן ארצי</div><div class="org-phone">*5486</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">🧠 משבר נפשי וסיוע נפשי</div>
+          <div class="org-item" data-s="נטל עמותה טראומה נפגעים 1800363363"><div class="org-name">נט"ל — סיוע נפשי לנפגעי טראומה</div><div class="org-phone">1-800-363-363</div></div>
+          <div class="org-item" data-s="תחת אחת שפנ ביטחון 8944"><div class="org-name">"תחת אחת" — קו תמיכה לכוחות הביטחון 24/7</div><div class="org-phone">*8944</div><div class="org-note">חיילים, שוטרים, שב"כ ובני משפחה. חינם, ללא הזדהות.</div></div>
+          <div class="org-item" data-s="חיילים נפשי 6690 רפואה"><div class="org-name">קו ראשוני לסיוע נפשי — רפואה (חיילים)</div><div class="org-phone">*6690 שלוחה 3</div></div>
+          <div class="org-item" data-s="מלחמה לחימה נפשי 03-6401400"><div class="org-name">סיוע נפשי-רפואי — חיילי מילואים שהשתתפו בלחימה</div><div class="org-phone">03-6401400</div><div class="org-note">ללא תשלום, ללא הכרה בנכות, ללא הגבלת זמן</div></div>
+          <div class="org-item" data-s="שרס whatsapp חטופים 03-5477777"><div class="org-name">שרס — הקשבה ועזרה ב-WhatsApp</div><div class="org-phone">03-5477777</div></div>
+          <div class="org-item" data-s="אנוש נפש בריאות 074-7556155"><div class="org-name">אנוש — העמותה הישראלית לבריאות הנפש</div><div class="org-phone">074-7556155</div></div>
+          <div class="org-item" data-s="headspace דה ספייס נפשי 03-5040900"><div class="org-name">Headspace — סיוע נפשי לרעונ ומכורים</div><div class="org-phone">03-5040900</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">👨‍👩‍👧 משפחה ורווחה</div>
+          <div class="org-item" data-s="ביטוח לאומי חירום 02-6269999"><div class="org-name">הביטוח הלאומי — קו חירום</div><div class="org-phone">02-6269999</div><div class="org-note">עזרה בהוצאות כלכלה, הסעות, לינה לאבלים</div></div>
+          <div class="org-item" data-s="מלבה חטופים נעדרים 118"><div class="org-name">מלב"ה — סיוע לחטופים ונעדרים 24/7</div><div class="org-phone">118</div></div>
+          <div class="org-item" data-s="חטופים עזרה 03-5477777"><div class="org-name">מטה החטופים והנעדרים</div><div class="org-phone">03-5477777</div></div>
+          <div class="org-item" data-s="רווחה משרד 118"><div class="org-name">משרד הרווחה — מוקד</div><div class="org-phone">118</div></div>
+          <div class="org-item" data-s="גיל שלישי קשיש 1800-80-2023"><div class="org-name">קו לגיל השלישי — הסעות, עניין</div><div class="org-phone">1-800-80-2023</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">🪖 חיילים ומילואים</div>
+          <div class="org-item" data-s="אגם כוח אדם פניות ציבור 1111"><div class="org-name">מוקד פניות הציבור — אג"ם (כולל חיילים נעדרים)</div><div class="org-phone">1111</div></div>
+          <div class="org-item" data-s="עצורים מדרשמ ניר 076-8600010"><div class="org-name">ניהול עבק — עבק ישנ"א</div><div class="org-phone">076-8600010</div></div>
+          <div class="org-item" data-s="מתן חיילות תקיפה מינית 03-9482600"><div class="org-name">מת"ן — מרכז לחיילים שעברו פגיעה מינית</div><div class="org-phone">03-9482600 (אזרחי) · 03-332600 (צבאי)</div></div>
+          <div class="org-item" data-s="ב"ית ג בידוד חיילים 077-3234051"><div class="org-name">ג'ני — תמיכה לחיילים בודדים</div><div class="org-phone">077-3234051</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">🚺 נשים ואלימות</div>
+          <div class="org-item" data-s="לאהן אלימות נשים לא 1800-353-300 6724"><div class="org-name">לאה"ן — לא לאלימות נגד נשים</div><div class="org-phone">1-800-353-300 · *6724</div></div>
+          <div class="org-item" data-s="תקיפה מינית נשים 1202"><div class="org-name">מרכז לנפגעות תקיפה מינית — נשים</div><div class="org-phone">1202</div></div>
+          <div class="org-item" data-s="תקיפה מינית גברים 1203"><div class="org-name">מרכז לנפגעי תקיפה מינית — גברים</div><div class="org-phone">1203</div></div>
+          <div class="org-item" data-s="אלימות משפחה 077-9208560"><div class="org-name">אלימות במשפחה — מרכז סיוע</div><div class="org-phone">077-9208560 · 118</div></div>
+          <div class="org-item" data-s="בת מלך נשים דתיות 1800-292-333"><div class="org-name">בת מלך — סיוע לנשים דתיות</div><div class="org-phone">1-800-292-333</div></div>
+          <div class="org-item" data-s="ויצו עזרה נשים 3890"><div class="org-name">ויצ"ו — קו עזרה לנשים במעגל האלימות</div><div class="org-phone">*3890</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">👶 ילדים ונוער</div>
+          <div class="org-item" data-s="ילדים הגנה 105 מוקד"><div class="org-name">המטה הלאומי להגנה על ילדים — מוקד 105</div><div class="org-phone">105</div></div>
+          <div class="org-item" data-s="אלי עמותה ילדים התעלות 6935"><div class="org-name">עמותת אל"י — הגנה על ילדים מפני התעללות</div><div class="org-phone">*6935</div></div>
+          <div class="org-item" data-s="ילד שלום הצעמה 02-6780606"><div class="org-name">המועצה לשלום הילד</div><div class="org-phone">02-6780606</div></div>
+          <div class="org-item" data-s="איגי נוער גאה lgbtq 054-9119726"><div class="org-name">איגי — ארגון נוער LGBTQ (WhatsApp דיסקרטי)</div><div class="org-phone">054-9119726</div></div>
+          <div class="org-item" data-s="נעמת ילדים 9201"><div class="org-name">נעמ"ת</div><div class="org-phone">*9201 (א'-ה', 8:00–15:00)</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">🏥 קופות חולים — תמיכה נפשית</div>
+          <div class="org-item" data-s="מכבי 3555"><div class="org-name">מכבי</div><div class="org-phone">*3555 · 0768173631</div></div>
+          <div class="org-item" data-s="כללית 03-7472010"><div class="org-name">כללית</div><div class="org-phone">03-7472010</div></div>
+          <div class="org-item" data-s="לאומית 1700"><div class="org-name">לאומית</div><div class="org-phone">1-700-50-75-07</div></div>
+          <div class="org-item" data-s="מאוחדת 3833"><div class="org-name">מאוחדת</div><div class="org-phone">*3833</div></div>
+        </div>
+
+        <div class="org-category">
+          <div class="org-cat-title">🌍 עולים ומיעוטים</div>
+          <div class="org-item" data-s="עלייה קליטה שפות 3201"><div class="org-name">משרד הקליטה — עזרה בשפות שונות</div><div class="org-phone">*3201</div><div class="org-note">אנגלית, אמהרית, רוסית, צרפתית, ספרדית</div></div>
+          <div class="org-item" data-s="ערבי אודב 04-6969759"><div class="org-name">סיוע נפשי לחברה הערבית — ברעמ</div><div class="org-phone">04-6969759</div></div>
+        </div>
+
+      </div>
+    </div>`
+  },
+
+  /* ── נוהל משמרות ─────────────────────────────────── */
+  shifts: {
+    title: 'נוהל משמרות',
+    icon: '📅',
+    html: `<div class="content-panel">
+      <div class="phrase-section">
+        <div class="phrase-section-title">📅 דיווח חודשי</div>
+        <div class="phrase-item">יש לדווח <strong>בין ה-20 וה-25 בכל חודש</strong> על המשמרות שיבוצעו בחודש הבא.</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">⏱️ משך משמרת</div>
+        <div class="phrase-item">מינימום <strong>שעתיים</strong> עד <strong>4 שעות</strong> לכל משמרת — <strong>סה"כ 8 שעות חודשיות.</strong></div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">🔄 ביטול משמרת</div>
+        <div class="phrase-item">במקרה של ביטול — חובה <strong>למצוא מחליף/ה</strong> באותו חודש ולהשלים את 8 השעות בחודש הבא.</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">✈️ חופשה ארוכה</div>
+        <div class="phrase-item">מתנדב/ת המתכנן/ת חופשה — יש להשלים את שעות ההתנדבות לפני הנסיעה (או אחריה) ולהודיע מראש לרכזת הסניף.</div>
+      </div>
+      <div class="danger-box">
+        <div class="info-box-icon">⚠️</div>
+        <div class="danger-box-text">אי-עמידה בשעות ההתנדבות עלולה להשפיע על המשך ההתנדבות.</div>
+      </div>
+    </div>`
+  }
+
+}; // end SECTIONS
+
+// Init
+render();
+</script>
+</body>
+</html>
