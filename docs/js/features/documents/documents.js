@@ -26,7 +26,7 @@ const Docs = {
       const c         = Docs._palette[idx % Docs._palette.length];
       const safeTitle = Helpers.escHtml(d.title);
       const pinned    = d.pinned || false;
-      const isMadrich = d.id === 'doc_default_6';
+      const isMadrich = d.id === 'doc_default_6' || (d.title && d.title.includes('מדריך למתנדב'));
       const backContent = isMadrich
         ? `<div class="flip-back-body" style="font-size:10px;margin-bottom:10px">בחר כיצד לפתוח</div>
             <a class="flip-btn" href="madrich-mitnadev.html" target="_blank"
