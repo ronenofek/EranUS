@@ -26,27 +26,29 @@ const Docs = {
       const c         = Docs._palette[idx % Docs._palette.length];
       const safeTitle = Helpers.escHtml(d.title);
       const pinned    = d.pinned || false;
+      const isMadrich = d.id === 'doc_default_6';
+      const backContent = isMadrich
+        ? `<div class="flip-back-body" style="font-size:10px;margin-bottom:10px">בחר כיצד לפתוח</div>
+            <a class="flip-btn" href="madrich-mitnadev.html" target="_blank"
+               onclick="event.stopPropagation()" style="text-decoration:none;margin-bottom:7px;font-size:11px">
+              &#127919; מדריך אינטראקטיבי &#8599;
+            </a>
+            <button class="flip-btn" style="font-size:11px"
+              onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">
+              &#128196; מסמך PDF
+            </button>`
+        : `<div class="flip-back-body">לחץ לצפייה במסמך</div>
+            <button class="flip-btn" onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">פתח &#8592;</button>`;
       return `
       <div class="flip-card flip-card-sm${pinned ? ' pinned-card' : ''}" id="doc-${Helpers.escHtml(d.id || d.title)}">
-        ${pinned ? '<span class="pinned-badge">📌 נעוץ</span>' : ''}
+        ${pinned ? '<span class="pinned-badge">&#128204; נעוץ</span>' : ''}
         <div class="flip-card-inner">
           <div class="flip-front">
             <div class="flip-plant">${Docs._plant(c)}</div>
             <div class="flip-title">${safeTitle}</div>
           </div>
           <div class="flip-back" style="background:${c.back}">
-            ${d.id === 'doc_default_6' ? `
-            <div class="flip-back-body" style="font-size:10px;margin-bottom:10px">בחר כיצד לפתוח</div>
-            <a class="flip-btn" href="madrich-mitnadev.html" target="_blank"
-               onclick="event.stopPropagation()" style="text-decoration:none;margin-bottom:7px;font-size:11px">
-              🎯 מדריך אינטראקטיבי ↗
-            </a>
-            <button class="flip-btn" style="font-size:11px"
-              onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">
-              📄 מסמך PDF
-            </button>` : `
-            <div class="flip-back-body">לחץ לצפייה במסמך</div>
-            <button class="flip-btn" onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">פתח ←</button>`}
+            ${backContent}
           </div>
         </div>
       </div>`;
