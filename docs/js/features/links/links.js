@@ -45,6 +45,40 @@ const Links = {
         </div>`;
       }).join('');
 
+      // Madrich card — opens interactive wizard or PDF doc
+      const madrichCard = `
+        <div class="flip-card flip-card-sm">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <div class="flip-plant">
+                <svg width="70" height="70" viewBox="0 0 82 82" fill="none">
+                  <circle cx="41" cy="41" r="30" fill="#D0EDD8"/>
+                  <rect x="26" y="22" width="30" height="38" rx="3" fill="#2E7D52" opacity=".85"/>
+                  <rect x="29" y="26" width="24" height="3" rx="1.5" fill="#fff" opacity=".6"/>
+                  <rect x="29" y="32" width="20" height="2" rx="1" fill="#fff" opacity=".4"/>
+                  <rect x="29" y="37" width="22" height="2" rx="1" fill="#fff" opacity=".4"/>
+                  <rect x="29" y="42" width="18" height="2" rx="1" fill="#fff" opacity=".4"/>
+                  <circle cx="41" cy="54" r="5" fill="#5DBF82" opacity=".9"/>
+                  <text x="41" y="57.5" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold">✓</text>
+                </svg>
+              </div>
+              <div class="flip-title">מדריך למתנדב</div>
+              <div class="flip-sub">צפ״א — פברואר 26</div>
+            </div>
+            <div class="flip-back" style="background:#1A4D2E">
+              <div class="flip-back-body" style="font-size:10px;margin-bottom:10px">בחר כיצד לפתוח את המדריך</div>
+              <a class="flip-btn" href="madrich-mitnadev.html" target="_blank"
+                 onclick="event.stopPropagation()" style="text-decoration:none;margin-bottom:7px;font-size:11px">
+                🎯 מדריך אינטראקטיבי ↗
+              </a>
+              <button class="flip-btn" style="font-size:11px"
+                onclick="event.stopPropagation();PdfViewer.openDoc('מדריך למתנדב צפ״א - פברואר 26')">
+                📄 מסמך PDF
+              </button>
+            </div>
+          </div>
+        </div>`;
+
       // Calendar card — always last
       const calIdx = links.length;
       const calC   = Links._palette[calIdx % Links._palette.length];
@@ -62,7 +96,7 @@ const Links = {
           </div>
         </div>`;
 
-      grid.innerHTML = linkCards + calCard;
+      grid.innerHTML = linkCards + madrichCard + calCard;
     }
 
     // Legacy sidebar (hidden in current layout — kept for compat)
