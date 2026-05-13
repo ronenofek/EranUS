@@ -35,8 +35,18 @@ const Docs = {
             <div class="flip-title">${safeTitle}</div>
           </div>
           <div class="flip-back" style="background:${c.back}">
+            ${d.id === 'doc_default_6' ? `
+            <div class="flip-back-body" style="font-size:10px;margin-bottom:10px">בחר כיצד לפתוח</div>
+            <a class="flip-btn" href="madrich-mitnadev.html" target="_blank"
+               onclick="event.stopPropagation()" style="text-decoration:none;margin-bottom:7px;font-size:11px">
+              🎯 מדריך אינטראקטיבי ↗
+            </a>
+            <button class="flip-btn" style="font-size:11px"
+              onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">
+              📄 מסמך PDF
+            </button>` : `
             <div class="flip-back-body">לחץ לצפייה במסמך</div>
-            <button class="flip-btn" onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">פתח ←</button>
+            <button class="flip-btn" onclick="event.stopPropagation();PdfViewer.openDoc('${safeTitle}')">פתח ←</button>`}
           </div>
         </div>
       </div>`;
