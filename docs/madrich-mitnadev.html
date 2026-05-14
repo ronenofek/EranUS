@@ -103,8 +103,8 @@
 
     /* ── PAGE HEADER ─────────────────────────── */
     .page-header { margin-bottom: 18px; }
-    .page-header h2 { font-size: 21px; font-weight: 700; color: var(--green-dk); }
-    .page-header p { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+    .page-header h2 { font-size: 42px; font-weight: 700; color: var(--green-dk); }
+    .page-header p { font-size: 26px; color: var(--text-muted); margin-top: 3px; }
 
     /* ── MAIN CARDS GRID ─────────────────────── */
     .cards-grid {
@@ -149,9 +149,9 @@
     .main-card:hover::after { transform: scaleX(1); }
     .main-card.danger::after { background: var(--danger); }
     .main-card.danger .card-title { color: var(--danger); }
-    .card-icon { font-size: 34px; line-height: 1; }
-    .card-title { font-size: 14.5px; font-weight: 700; color: var(--text); line-height: 1.3; }
-    .card-sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+    .card-icon { font-size: 68px; line-height: 1; }
+    .card-title { font-size: 29px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .card-sub { font-size: 22px; color: var(--text-muted); line-height: 1.4; }
 
     /* ── SUB CARDS ───────────────────────────── */
     .sub-cards-list { display: flex; flex-direction: column; gap: 11px; }
@@ -168,11 +168,11 @@
       gap: 14px;
     }
     .sub-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-    .sub-card-icon { font-size: 26px; flex-shrink: 0; }
+    .sub-card-icon { font-size: 52px; flex-shrink: 0; }
     .sub-card-body { flex: 1; }
-    .sub-card-title { font-size: 15px; font-weight: 600; color: var(--text); }
-    .sub-card-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .sub-card-arrow { font-size: 13px; color: var(--text-muted); flex-shrink: 0; transform: rotate(180deg); }
+    .sub-card-title { font-size: 30px; font-weight: 600; color: var(--text); }
+    .sub-card-desc { font-size: 24px; color: var(--text-muted); margin-top: 2px; }
+    .sub-card-arrow { font-size: 26px; color: var(--text-muted); flex-shrink: 0; transform: rotate(180deg); }
 
     /* ── CONTENT PANEL ───────────────────────── */
     .content-panel {
@@ -464,7 +464,7 @@
       <div class="main-card" onclick="navigate('konen')">
         <div class="card-icon">📞</div>
         <div class="card-title">קריאה לכונן</div>
-        <div class="card-sub">איך לגייס כונן בזמן שיחה</div>
+        <div class="card-sub">איך לקרוא לכונן</div>
       </div>
       <div class="main-card danger" onclick="navigate('suicidal')">
         <div class="card-icon">🆘</div>
@@ -489,7 +489,7 @@
       <div class="main-card" onclick="navigate('phrases')">
         <div class="card-icon">💬</div>
         <div class="card-title">משפטים מקדמי שיח</div>
-        <div class="card-sub">ביטויים לפתיחה ולמהלך</div>
+        <div class="card-sub">פתיחה ומהלך השיחה</div>
       </div>
       <div class="main-card" onclick="navigate('analysis')">
         <div class="card-icon">📋</div>
@@ -824,7 +824,7 @@ const SECTIONS = {
       assessment: {
         title: 'הערכת מסוכנות',
         icon: '🔎',
-        desc: 'שאלות לדוגמה לבדיקת כוונה ישירה — עמ׳ 13',
+        desc: 'שאלות לדוגמה לבדיקת כוונה ישירה',
         html: `<div class="content-panel">
           <div class="phrase-section">
             <div class="phrase-section-title">🎯 שאלות ישירות לבדיקת כוונה ממשית</div>
@@ -855,7 +855,7 @@ const SECTIONS = {
       protocol: {
         title: 'פרוטוקול שיחה אובדנית',
         icon: '📖',
-        desc: 'יצירת קשר, פרוטוקול, שיקופים — עמ׳ 14-16',
+        desc: 'יצירת קשר, פרוטוקול, שיקופים',
         html: `<div class="content-panel">
           <div class="phrase-section">
             <div class="phrase-section-title">🤝 יצירת קשר רגשי — פתיחה</div>
@@ -888,7 +888,7 @@ const SECTIONS = {
             <div class="phrase-item">חשוב שימצא מישהו שיוכל להמשיך לתמוך ולטפל. אם הפונה בטיפול — עודד לשתף את המטפל במחשבותיו.</div>
           </div>
           <div class="phrase-section">
-            <div class="phrase-section-title">🪞 שיקופים לדוגמה (עמ׳ 16)</div>
+            <div class="phrase-section-title">🪞 שיקופים לדוגמה</div>
             <div class="phrase-item">"אני יכול/ה להבין, שמהמקום הקשה כל כך שבו אתה נמצא, נראה לך שהתאבדות תפתור את הבעיה... אבל אפילו האירועים הקיצוניים ביותר הם זמניים והפיכים לעומת בחירה במוות שהיא סופית."</div>
             <div class="phrase-item">"הצער והכאב שאני שומע/ת ממך עמוק כל כך ועצוב כל כך."</div>
             <div class="phrase-item">"מהדברים שאתה מספר לי אני מבין/ה שאתה מרגיש ממש בקצה גבול יכולתך, ממש בלי כוחות... שאין מה לעשות... שזה מצב שאינו נסבל... עד כאן אני מוכן/ה לסבול ולא יותר."</div>
@@ -1242,4 +1242,4 @@ const SECTIONS = {
 render();
 </script>
 </body>
-</html>
+</html>  

@@ -381,8 +381,8 @@
 
 /* Front content */
 .flip-plant { margin-bottom: 14px; flex-shrink: 0; }
-.flip-title { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.flip-sub   { font-size: 10px; color: var(--text-muted); margin-top: 6px; letter-spacing: .05em; font-weight: 500; }
+.flip-title { font-size: 30px; font-weight: 700; color: var(--text); line-height: 1.3; }
+.flip-sub   { font-size: 20px; color: var(--text-muted); margin-top: 6px; letter-spacing: .05em; font-weight: 500; }
 
 /* Back content */
 .flip-back-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
