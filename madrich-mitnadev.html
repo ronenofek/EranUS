@@ -109,8 +109,16 @@
     /* ── MAIN CARDS GRID ─────────────────────── */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-      gap: 13px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    /* כרטיס אחרון בודד — ממורכז */
+    .main-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      max-width: calc(50% - 7px);
+      margin: 0 auto;
     }
     .main-card {
       background: var(--card);
@@ -423,7 +431,7 @@
 
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 480px) {
-      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .cards-grid { max-width: 100%; }
       .flow-split-row { flex-direction: column; }
       .flow-node { font-size: 12px; }
     }
@@ -461,7 +469,7 @@
       <div class="main-card danger" onclick="navigate('suicidal')">
         <div class="card-icon">🆘</div>
         <div class="card-title">שיחה אובדנית</div>
-        <div class="card-sub">פרוטוקול ועצי החלטה</div>
+        <div class="card-sub">פרוטוקול, עצי החלטה, הערכת מסוכנות</div>
       </div>
       <div class="main-card" onclick="navigate('returning')">
         <div class="card-icon">🔄</div>
@@ -665,6 +673,13 @@ const SECTIONS = {
             <div class="step-text">לחץ על הכונן הבא ברשימה. אם אין כונן זמין כלל — צור קשר מיידי עם מנהלת הסניף.</div>
           </div>
         </div>
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <div class="step-title">סיום השיחה — המתן לכונן</div>
+            <div class="step-text">בסיום השיחה לחץ על <strong>הפסקה</strong> והמתן שהכונן ייצור איתך קשר לסיכום השיחה ולהמשך טיפול.</div>
+          </div>
+        </div>
       </div>
       <div class="info-box">
         <div class="info-box-icon">💡</div>
@@ -802,6 +817,83 @@ const SECTIONS = {
           <div class="info-box">
             <div class="info-box-icon">💡</div>
             <div class="info-box-text">גם כשלא מגיעים לאדם האובדני — יש לתת תמיכה רגשית לפונה עצמו ולהפנות לגורם תומך בקהילה.</div>
+          </div>
+        </div>`
+      },
+
+      assessment: {
+        title: 'הערכת מסוכנות',
+        icon: '🔎',
+        desc: 'שאלות לדוגמה לבדיקת כוונה ישירה — עמ׳ 13',
+        html: `<div class="content-panel">
+          <div class="phrase-section">
+            <div class="phrase-section-title">🎯 שאלות ישירות לבדיקת כוונה ממשית</div>
+            <div class="phrase-item">"נשמעת בקושי גדול כל כך, ואינך רוצה לחיות — כיצד את/ה מתכוון/ת לעשות את זה? מתי מתכוון/ת?"</div>
+            <div class="phrase-item">"האם אתה מתכוון לפגוע בעצמך? האם אתה מתכוון להתאבד?"</div>
+            <div class="phrase-item">"האם יש לך תוכנית?"</div>
+            <div class="phrase-item">"מתי תכננת לעשות את זה?"</div>
+            <div class="phrase-item">"איך מתכוון להתאבד? האם האמצעי זמין אצלך?"</div>
+            <div class="phrase-item">"איפה אתה נמצא עכשיו? מי לידך כרגע?"</div>
+            <div class="phrase-item">"האם שיתפת מישהו במחשבות/תוכניות האלה?"</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🔍 בדיקת פעולות הכנה (הדירפ)</div>
+            <div class="phrase-item">"האם עשית פעולות פרידה? כתבת מכתב התאבדות? כתבת צוואה? ניהלת שיחה אחרונה?"</div>
+            <div class="phrase-item">"האם ניסית להתאבד בעבר?"</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🔎 בדיקת הקשר לאירוע</div>
+            <div class="phrase-item">"האם קרה לאחרונה משהו שגרם לך להחליט על התאבדות — כמו אכזבה, השפלה, פרידה, אובדן, מצוקה כלכלית חריפה?"</div>
+          </div>
+          <div class="danger-box">
+            <div class="info-box-icon">⚠️</div>
+            <div class="danger-box-text"><strong>לזכור:</strong> בדיקת מסוכנות נעשית תמיד בעדינות ובאמפתיה — לא כחקירה. כל שאלה מוקדמת ביצירת קשר רגשי.</div>
+          </div>
+        </div>`
+      },
+
+      protocol: {
+        title: 'פרוטוקול שיחה אובדנית',
+        icon: '📖',
+        desc: 'יצירת קשר, פרוטוקול, שיקופים — עמ׳ 14-16',
+        html: `<div class="content-panel">
+          <div class="phrase-section">
+            <div class="phrase-section-title">🤝 יצירת קשר רגשי — פתיחה</div>
+            <div class="phrase-item">"כל כך עצוב לי לשמוע שאתה מרגיש ככה... שמחתי מאוד שבחרת להתקשר, אבל כל כך מצטער/ת לשמוע שאתה מרגיש ככה. איך קוראים לך?"</div>
+            <div class="phrase-item">לתת לפונה תחושה שהוא חשוב ומשמעותי: "אני מבין/ה מדוע אתה מרגיש שאין פתרון אחר מלבד מוות... אני מבטיח/ה שנעשה הכל יחד..."</div>
+            <div class="phrase-item">לאפשר וונטילציה — שחרור רגשי: "מה קרה היום או לאחרונה שגרם לך לא לרצות לחיות יותר?" — עצם האוורור של מחשבות ורגשות עשוי להוריד את ההצפה הרגשית.</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">👂 הקשבה ומתן תוקף לכאב</div>
+            <div class="phrase-item">"אני מבין/ה את עוצמת הייאוש... את/ה מבקש/ת לסיים את חייך... מבין/ה את עוצמת התחושות."</div>
+            <div class="phrase-item">"מחשבות על התאבדות הן לגיטימיות, הפיתוח בהם הוא משמעותי ויכול להביא להקלה."</div>
+            <div class="phrase-item">"גם לאנשים חזקים יש רגעים חלשים של חוסר אונים, חרדה וספק."</div>
+            <div class="phrase-item">"אני מסכים/ה שזה כואב ובלתי נסבל... גם לבעיות הקשות והמורכבות ביותר, יש יותר מפתרון אחד."</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">💪 בירור כוחות ומשאבים</div>
+            <div class="phrase-item">"ספר/י לי על עצמך" — כוחות הפונה עצמו: עבודות שעשה, הישגים, תושייה, יצירתיות, יכולות.</div>
+            <div class="phrase-item">"מי נמצא איתך עכשיו? מי יכול לתמוך בך מחר בבוקר?" — בני משפחה, חברים, גורמים טיפוליים בהווה ובעבר, שכנים.</div>
+            <div class="phrase-item">"אם התקשרת אלינו — זה אומר שיש בך קול שרוצה גם לחיות. הפנייה שלך אלינו מסמלת חוסן נפשי ושאתה/ת רוצה שינוי."</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🔭 הרחבת התמונה</div>
+            <div class="phrase-item">"אני מבין/ה שמהמקום שבו אתה נמצא... אבל ממקום שאני נמצא/ת אני יכול/ה לראות אפשרויות נוספות... כשתצא מהמשבר הזה, תראה אותן בהמשך."</div>
+            <div class="phrase-item">"בוא נבדוק יחד מה יש לך — מתוך בני המשפחה הקרובה ואז הרחוקה: אח/ות, הורה, סבא, סבתא, דוד, בן דוד, חבר — למצוא מישהו משמעותי אחד."</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">📋 בניית תוכנית פעולה לאחר השיחה</div>
+            <div class="phrase-item">"בוא נחשוב יחד מה אתה הולך לעשות מחר בבוקר." — בנה תוכנית פעולה כשהפונה נרגע.</div>
+            <div class="phrase-item">"אז סיכמנו שמחר בבוקר אתה מתקשר ל..." / "זה בסדר שנדבר אחר כך ואתייעץ עם מנהלת הסניף שלי לגבי אילו אפשרויות יש?"</div>
+            <div class="phrase-item">חשוב שימצא מישהו שיוכל להמשיך לתמוך ולטפל. אם הפונה בטיפול — עודד לשתף את המטפל במחשבותיו.</div>
+          </div>
+          <div class="phrase-section">
+            <div class="phrase-section-title">🪞 שיקופים לדוגמה (עמ׳ 16)</div>
+            <div class="phrase-item">"אני יכול/ה להבין, שמהמקום הקשה כל כך שבו אתה נמצא, נראה לך שהתאבדות תפתור את הבעיה... אבל אפילו האירועים הקיצוניים ביותר הם זמניים והפיכים לעומת בחירה במוות שהיא סופית."</div>
+            <div class="phrase-item">"הצער והכאב שאני שומע/ת ממך עמוק כל כך ועצוב כל כך."</div>
+            <div class="phrase-item">"מהדברים שאתה מספר לי אני מבין/ה שאתה מרגיש ממש בקצה גבול יכולתך, ממש בלי כוחות... שאין מה לעשות... שזה מצב שאינו נסבל... עד כאן אני מוכן/ה לסבול ולא יותר."</div>
+            <div class="phrase-item">"לפי מה שאתה מתאר — זה סוף העולם בשבילך."</div>
+            <div class="phrase-item">"אני שומע/ת את המניעים שלך... אני מבין/ה את עוצמת הייאוש... את עוצמת הלאשמה לסיים את חייך... מבין/ה את עוצמת התחושות."</div>
           </div>
         </div>`
       }
@@ -981,6 +1073,7 @@ const SECTIONS = {
         <div class="phrase-item">"שמח/ה שבחרת להתקשר לנ"ע."</div>
         <div class="phrase-item">"בסדר שאינך רוצה להיחשף."</div>
         <div class="phrase-item">"ספר/י לי מה מדאיג אותך."</div>
+        <div class="phrase-item">"כן, אני זוכר/ת, מה קרה מאז?"</div>
       </div>
       <div class="phrase-section">
         <div class="phrase-section-title">💬 תוך כדי שיחה — מעוררי מחשבה</div>
@@ -988,8 +1081,19 @@ const SECTIONS = {
         <div class="phrase-item">"מה אתה מרגיש עכשיו לאחר שסיפרת לי?"</div>
         <div class="phrase-item">"מאיפה אתה יודע ואיך?"</div>
         <div class="phrase-item">"האם ישנה דרך נוספת להתייחס ל...?"</div>
+        <div class="phrase-item">"כתוב/י ותאר/י מה עובד על הצד השני (שיקוף) — ואז לסיים ב: 'האם את/ה מתחבר/ת לתיאור הזה?'"</div>
         <div class="phrase-item">"האם יש דברים שאת/ה גאה בהם?"</div>
         <div class="phrase-item">"ומה עם זאת, משהו קטן שאת/ה שמח/ה שיש בך?"</div>
+        <div class="phrase-item">"קרא/י את מה שכתבת ותראה/י שהרבה דברים בסיפור הזה לא היו בשליטתך אלא בגורם חיצוני — אז אל תיקח/י את זה על עצמך."</div>
+        <div class="phrase-item">"אתה/את חושב/ת ככה עכשיו, אבל זו הייתה החלטה שבחרת בה כי היא הייתה נכונה לך אז."</div>
+        <div class="phrase-item">"אחרי תהליכים נפשיים, המציאות לא בהכרח משתנה — אבל הראייה שלנו משתנה."</div>
+        <div class="phrase-item">"היית/ה רוצה לשתף יותר?"</div>
+      </div>
+      <div class="phrase-section">
+        <div class="phrase-section-title">🙏 בקשת רשות לשאלה רגישה</div>
+        <div class="phrase-item">"האם אפשר לשאול כמה בן/בת את/ה?"</div>
+        <div class="phrase-item">"האם אפשר לשלוח לך חיבוק מחזק?" <small style="color:var(--text-muted)">(זהירות מיוחדת כשמדובר בחיבוק מגבר לאישה)</small></div>
+        <div class="phrase-item">"אני מבטיח/ה שאנסה להבין אותך."</div>
       </div>
       <div class="phrase-section">
         <div class="phrase-section-title">❤️ ביטויים רגשיים</div>
@@ -997,14 +1101,20 @@ const SECTIONS = {
         <div class="phrase-item">"נשמע שאתה עובר תקופה לא קלה."</div>
         <div class="phrase-item">"אני כאן בשבילך / אני כאן איתך."</div>
         <div class="phrase-item">"זה אנושי מאוד להרגיש ככה."</div>
-        <div class="phrase-item">"זה נכון שזה קשה מאוד."</div>
-        <div class="phrase-item">"קשה מאוד כי לא יכולת לעשות את זה."</div>
+        <div class="phrase-item">"זה הגיוני שתרגיש/י ככה."</div>
+        <div class="phrase-item">"נשמע לי שאת/ה אישה/איש שמתמודד/ת ונלחם/ת לשיפור לפי דבריך..."</div>
+        <div class="phrase-item">"נכון, זה קשה מאוד."</div>
+        <div class="phrase-item">"לא יכולת לעשות את זה כי זה קשה מאוד."</div>
+        <div class="phrase-item">"צודק/ת, כיף להוציא מהלב מפעם לפעם."</div>
       </div>
       <div class="phrase-section">
         <div class="phrase-section-title">🏁 לקראת סיום</div>
         <div class="phrase-item">"השיחה הגיעה לסיומה."</div>
         <div class="phrase-item">"מה דעתך שנעצור כאן."</div>
+        <div class="phrase-item">"אני מרגיש/ה שהשיחה שלמה ברגע זה."</div>
         <div class="phrase-item">"עכשיו סגרנו בדיוק עם מה שהתחלנו."</div>
+        <div class="phrase-item">"כדאי שנסיים פה, סגרנו מעגל."</div>
+        <div class="phrase-item">"נגעת ללבי, זה חומר למחשבה."</div>
         <div class="phrase-item">"תודה על הכנות והשיתוף."</div>
         <div class="phrase-item">"...לסיכום"</div>
       </div>
@@ -1104,68 +1214,31 @@ const SECTIONS = {
           <div class="org-item" data-s="תקיפה מינית נשים 1202"><div class="org-name">מרכז לנפגעות תקיפה מינית — נשים</div><div class="org-phone">1202</div></div>
           <div class="org-item" data-s="תקיפה מינית גברים 1203"><div class="org-name">מרכז לנפגעי תקיפה מינית — גברים</div><div class="org-phone">1203</div></div>
           <div class="org-item" data-s="אלימות משפחה 077-9208560"><div class="org-name">אלימות במשפחה — מרכז סיוע</div><div class="org-phone">077-9208560 · 118</div></div>
-          <div class="org-item" data-s="בת מלך נשים דתיות 1800-292-333"><div class="org-name">בת מלך — סיוע לנשים דתיות</div><div class="org-phone">1-800-292-333</div></div>
-          <div class="org-item" data-s="ויצו עזרה נשים 3890"><div class="org-name">ויצ"ו — קו עזרה לנשים במעגל האלימות</div><div class="org-phone">*3890</div></div>
-        </div>
-
-        <div class="org-category">
-          <div class="org-cat-title">👶 ילדים ונוער</div>
-          <div class="org-item" data-s="ילדים הגנה 105 מוקד"><div class="org-name">המטה הלאומי להגנה על ילדים — מוקד 105</div><div class="org-phone">105</div></div>
-          <div class="org-item" data-s="אלי עמותה ילדים התעלות 6935"><div class="org-name">עמותת אל"י — הגנה על ילדים מפני התעללות</div><div class="org-phone">*6935</div></div>
-          <div class="org-item" data-s="ילד שלום הצעמה 02-6780606"><div class="org-name">המועצה לשלום הילד</div><div class="org-phone">02-6780606</div></div>
-          <div class="org-item" data-s="איגי נוער גאה lgbtq 054-9119726"><div class="org-name">איגי — ארגון נוער LGBTQ (WhatsApp דיסקרטי)</div><div class="org-phone">054-9119726</div></div>
-          <div class="org-item" data-s="נעמת ילדים 9201"><div class="org-name">נעמ"ת</div><div class="org-phone">*9201 (א'-ה', 8:00–15:00)</div></div>
-        </div>
-
-        <div class="org-category">
-          <div class="org-cat-title">🏥 קופות חולים — תמיכה נפשית</div>
-          <div class="org-item" data-s="מכבי 3555"><div class="org-name">מכבי</div><div class="org-phone">*3555 · 0768173631</div></div>
-          <div class="org-item" data-s="כללית 03-7472010"><div class="org-name">כללית</div><div class="org-phone">03-7472010</div></div>
-          <div class="org-item" data-s="לאומית 1700"><div class="org-name">לאומית</div><div class="org-phone">1-700-50-75-07</div></div>
-          <div class="org-item" data-s="מאוחדת 3833"><div class="org-name">מאוחדת</div><div class="org-phone">*3833</div></div>
-        </div>
-
-        <div class="org-category">
-          <div class="org-cat-title">🌍 עולים ומיעוטים</div>
-          <div class="org-item" data-s="עלייה קליטה שפות 3201"><div class="org-name">משרד הקליטה — עזרה בשפות שונות</div><div class="org-phone">*3201</div><div class="org-note">אנגלית, אמהרית, רוסית, צרפתית, ספרדית</div></div>
-          <div class="org-item" data-s="ערבי אודב 04-6969759"><div class="org-name">סיוע נפשי לחברה הערבית — ברעמ</div><div class="org-phone">04-6969759</div></div>
         </div>
 
       </div>
     </div>`
   },
 
-  /* ── נוהל משמרות ─────────────────────────────────── */
   shifts: {
     title: 'נוהל משמרות',
-    icon: '📅',
+    icon: '🕒',
     html: `<div class="content-panel">
-      <div class="phrase-section">
-        <div class="phrase-section-title">📅 דיווח חודשי</div>
-        <div class="phrase-item">יש לדווח <strong>בין ה-20 וה-25 בכל חודש</strong> על המשמרות שיבוצעו בחודש הבא.</div>
+      <div class="info-box">
+        <div class="info-box-icon">🕒</div>
+        <div class="info-box-text">מידע על לוח המשמרות, החלפות ודיווח נוכחות.</div>
       </div>
-      <div class="phrase-section">
-        <div class="phrase-section-title">⏱️ משך משמרת</div>
-        <div class="phrase-item">מינימום <strong>שעתיים</strong> עד <strong>4 שעות</strong> לכל משמרת — <strong>סה"כ 8 שעות חודשיות.</strong></div>
+      <div class="steps-list">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">משך המשמרת</div><div class="step-text">כל משמרת נמשכת 3–4 שעות. מתנדב לא אמור להמשיך מעבר לכך ללא אישור מנהל.</div></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">ביטול או החלפת משמרת</div><div class="step-text">יש ליידע את מנהלת הסניף לפחות 24 שעות מראש. אי הגעה ללא הודעה עלול לפגוע בהמשך ההתנדבות.</div></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">דיווח נוכחות</div><div class="step-text">בתחילת כל משמרת — דווח נוכחות במערכת. בסיום — רשום סיכום קצר לשיחות שהתקיימו.</div></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">שיחה אחרי שיחה קשה</div><div class="step-text">לאחר שיחה אובדנית או מאתגרת — חובה לדבר עם הכונן. אל תישאר לבד עם החוויה.</div></div></div>
       </div>
-      <div class="phrase-section">
-        <div class="phrase-section-title">🔄 ביטול משמרת</div>
-        <div class="phrase-item">במקרה של ביטול — חובה <strong>למצוא מחליף/ה</strong> באותו חודש ולהשלים את 8 השעות בחודש הבא.</div>
-      </div>
-      <div class="phrase-section">
-        <div class="phrase-section-title">✈️ חופשה ארוכה</div>
-        <div class="phrase-item">מתנדב/ת המתכנן/ת חופשה — יש להשלים את שעות ההתנדבות לפני הנסיעה (או אחריה) ולהודיע מראש לרכזת הסניף.</div>
-      </div>
-      <div class="danger-box">
-        <div class="info-box-icon">⚠️</div>
-        <div class="danger-box-text">אי-עמידה בשעות ההתנדבות עלולה להשפיע על המשך ההתנדבות.</div>
-      </div>
+      <div class="info-box"><div class="info-box-icon">⚠️</div><div class="info-box-text"><strong>חשוב:</strong> עד 20 דקות לשיחה ולא יותר משיחה אחת ביום עם אותו פונה.</div></div>
     </div>`
-  }
+  },
 
-}; // end SECTIONS
-
-// Init
+};
 render();
 </script>
 </body>
