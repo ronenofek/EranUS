@@ -376,7 +376,7 @@
 }
 .flip-back {
   transform: rotateY(180deg);
-  background: #3E6B9F;
+  background: var(--green-lt);
 }
 
 /* Front content */
@@ -385,19 +385,19 @@
 .flip-sub   { font-size: 15px; color: var(--text-muted); margin-top: 6px; letter-spacing: .05em; font-weight: 500; }
 
 /* Back content */
-.flip-back-title { font-size: 13px; font-weight: 700; color: #EAF3FF; margin-bottom: 8px; }
+.flip-back-title { font-size: 13px; font-weight: 700; color: var(--green-dk); margin-bottom: 8px; }
 .flip-back-body  {
-  font-size: 11px; color: rgba(234,243,255,.88); line-height: 1.6;
+  font-size: 11px; color: var(--text-2); line-height: 1.6;
   flex: 1; display: flex; align-items: center; margin-bottom: 16px; text-align: center;
 }
 .flip-btn {
-  background: rgba(255,255,255,.15); color: #EAF3FF;
-  border: 1.5px solid rgba(255,255,255,.35);
+  background: rgba(27,48,85,.12); color: var(--green-dk);
+  border: 1.5px solid rgba(27,48,85,.30);
   border-radius: 24px; padding: 7px 24px; font-size: 12px; font-weight: 600;
   cursor: pointer; font-family: inherit; transition: all .2s;
   text-decoration: none; display: inline-block;
 }
-.flip-btn:hover { background: rgba(255,255,255,.28); border-color: rgba(255,255,255,.6); }
+.flip-btn:hover { background: rgba(27,48,85,.22); border-color: rgba(27,48,85,.50); }
 
 /* Pinned card accent */
 .flip-card.pinned-card .flip-front { border-right: 3px solid var(--accent); }
