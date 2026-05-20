@@ -110,7 +110,7 @@ html, body {
 /* ── Section title (pip style) ──────────────────────────────────────── */
 .section-title {
   font-size: 21px; font-weight: 700;
-  color: var(--card);
+  color: #fff;
   margin-bottom: 22px;
   display: flex; align-items: center; gap: 10px;
 }

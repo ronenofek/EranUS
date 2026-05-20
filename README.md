@@ -24,10 +24,11 @@
 - **מסמכים** — צפייה בקובצי PDF ישירות בדפדפן
 - **קישורים וכלים** — גישה מהירה לפורטל ער"ן, כל זכות, אתר ער"ן ולוח השנה
 - **חיפוש חכם** — חיפוש בהודעות, מסמכים וכל זכות
+- **מדריך למתנדב** — מדריך אינטראקטיבי עם מבנה ניווט, תרשימי זרימה וחומרי עזר
 
 ### למנהלים
-- **ניהול הודעות** — הוספה, מחיקה, נעיצה בראש הרשימה
-- **ניהול מסמכים** — העלאת PDF חדשים, מחיקה
+- **ניהול הודעות** — הוספה, מחיקה, נעיצה בראש הרשימה, שינוי שם
+- **ניהול מסמכים** — העלאת PDF חדשים, מחיקה, שינוי שם
 - **ניהול קישורים** — הוספה ומחיקה
 - **ניהול משתמשים** — הוספה ידנית, ייבוא מקובץ CSV, עריכת תפקיד, השהיה, איפוס סיסמה
 
@@ -38,11 +39,13 @@
 ```
 docs/
 ├── index.html                  # דף אחד — פורטל + פאנל ניהול
+├── madrich-mitnadev.html       # מדריך למתנדב — ניווט עצמאי
 ├── css/
-│   ├── variables.css           # CSS custom properties
+│   ├── variables.css           # CSS custom properties + ערכת נושא (כחול)
 │   ├── layout.css              # מבנה כללי, topbar, admin overlay
 │   ├── components.css          # כרטיסים, טפסים, מודלים
-│   └── views.css               # search modal, PDF viewer
+│   ├── views.css               # search modal, PDF viewer
+│   └── madrich.css             # סגנונות ספציפיים למדריך למתנדב
 └── js/
     ├── core/
     │   ├── firebase-init.js    # אתחול Firebase
@@ -53,7 +56,7 @@ docs/
     ├── features/
     │   ├── messages/
     │   │   ├── messages.js         # renderer
-    │   │   └── message-admin.js    # הוספת הודעה
+    │   │   └── message-admin.js    # הוספה + שינוי שם הודעה
     │   ├── documents/
     │   │   ├── documents.js        # renderer
     │   │   ├── doc-admin.js        # העלאת PDF
@@ -62,7 +65,7 @@ docs/
     │   │   ├── links.js            # renderer
     │   │   └── link-admin.js       # הוספת קישור
     │   ├── admin/
-    │   │   ├── admin-panel.js      # רשימות ניהול + מחיקה
+    │   │   ├── admin-panel.js      # רשימות ניהול + מחיקה + שינוי שם
     │   │   └── user-admin.js       # ניהול משתמשים
     │   ├── search/
     │   │   ├── search-engine.js    # חיפוש טקסט
@@ -73,6 +76,16 @@ docs/
         ├── helpers.js          # escHtml, toggleForm
         └── toast.js            # הודעות קצרות
 ```
+
+### ארכיטקטורת CSS
+
+שני הדפים (`index.html` ו-`madrich-mitnadev.html`) משתפים את `variables.css` — קובץ משתני הצבע המרכזי. שינוי הערכת נושא נעשה בקובץ אחד בלבד.
+
+| קובץ | משמש |
+|---|---|
+| `variables.css` | שני הדפים |
+| `layout.css`, `components.css`, `views.css` | `index.html` בלבד |
+| `madrich.css` | `madrich-mitnadev.html` בלבד |
 
 ---
 
