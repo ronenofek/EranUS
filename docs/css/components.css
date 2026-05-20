@@ -84,7 +84,7 @@
 .btn-primary { background: var(--green); color: #fff; }
 .btn-primary:hover { background: var(--green-dk); transform: translateY(-1px); }
 .btn-secondary { background: var(--mint); color: var(--green-dk); border: 1px solid var(--border); }
-.btn-secondary:hover { background: #c8e8d9; transform: translateY(-1px); }
+.btn-secondary:hover { background: #C0DCFF; transform: translateY(-1px); }
 .btn-accent { background: var(--accent-lt); color: #8B5E0A; border: 1px solid #F5D89E; }
 .btn-accent:hover { background: #FDEBC8; transform: translateY(-1px); }
 .btn-danger { background: var(--danger-lt); color: var(--danger); border: 1px solid #F5C6C2; }
@@ -376,7 +376,7 @@
 }
 .flip-back {
   transform: rotateY(180deg);
-  background: var(--green-dk);
+  background: #B5D4F8;
 }
 
 /* Front content */
@@ -385,19 +385,19 @@
 .flip-sub   { font-size: 15px; color: var(--text-muted); margin-top: 6px; letter-spacing: .05em; font-weight: 500; }
 
 /* Back content */
-.flip-back-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.flip-back-title { font-size: 13px; font-weight: 700; color: #0D2848; margin-bottom: 8px; }
 .flip-back-body  {
-  font-size: 11px; color: rgba(255,255,255,.7); line-height: 1.6;
+  font-size: 11px; color: rgba(13,40,72,.75); line-height: 1.6;
   flex: 1; display: flex; align-items: center; margin-bottom: 16px; text-align: center;
 }
 .flip-btn {
-  background: rgba(255,255,255,.12); color: #fff;
-  border: 1.5px solid rgba(255,255,255,.28);
+  background: rgba(13,40,72,.10); color: #1B3055;
+  border: 1.5px solid rgba(13,40,72,.28);
   border-radius: 24px; padding: 7px 24px; font-size: 12px; font-weight: 600;
   cursor: pointer; font-family: inherit; transition: all .2s;
   text-decoration: none; display: inline-block;
 }
-.flip-btn:hover { background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.55); }
+.flip-btn:hover { background: rgba(13,40,72,.20); border-color: rgba(13,40,72,.5); }
 
 /* Pinned card accent */
 .flip-card.pinned-card .flip-front { border-right: 3px solid var(--accent); }

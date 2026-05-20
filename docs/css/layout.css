@@ -110,14 +110,14 @@ html, body {
 /* ── Section title (pip style) ──────────────────────────────────────── */
 .section-title {
   font-size: 21px; font-weight: 700;
-  color: var(--text);
+  color: var(--card);
   margin-bottom: 22px;
   display: flex; align-items: center; gap: 10px;
 }
 .section-title::before {
   content: ''; display: inline-block;
   width: 4px; height: 20px; border-radius: 2px;
-  background: var(--green-dk); flex-shrink: 0;
+  background: var(--green-lt); flex-shrink: 0;
 }
 .section-title::after {
   content: ''; flex: 1; height: 1px; background: var(--border);
