@@ -376,6 +376,21 @@
   </div>
 </div>
 
+<!-- EDIT MESSAGE MODAL -->
+<div class="modal-overlay" id="editMsgModal">
+  <div class="confirm-box">
+    <h3>שינוי שם הודעה</h3>
+    <div class="form-row">
+      <label>כותרת ההודעה</label>
+      <input type="text" id="editMsgTitle" placeholder="כותרת ההודעה">
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary" onclick="MessageAdmin.closeEditMsg()">ביטול</button>
+      <button class="btn btn-primary" onclick="MessageAdmin.saveEditMsg()">שמור</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT DOC MODAL -->
 <div class="modal-overlay" id="editDocModal">
   <div class="confirm-box">

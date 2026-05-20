@@ -13,14 +13,18 @@ const Storage = {
       fbDb.collection('messages').orderBy('createdAt').get(src),
       fbDb.collection('config').doc('defaults').get(src),
     ]);
-    const cfg           = cfgDoc.exists ? cfgDoc.data() : {};
-    const deletedMsgIds = cfg.deletedMsgIds || [];
-    const pinnedMsgIds  = cfg.pinnedMsgIds  || [];
-    const customs       = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
-    const defaults      = DEFAULT_MESSAGES
+    const cfg               = cfgDoc.exists ? cfgDoc.data() : {};
+    const deletedMsgIds     = cfg.deletedMsgIds     || [];
+    const pinnedMsgIds      = cfg.pinnedMsgIds      || [];
+    const msgTitleOverrides = cfg.msgTitleOverrides || {};
+    const customs           = customSnap.docs.map(d => ({ ...d.data(), id: d.id }));
+    const defaults          = DEFAULT_MESSAGES
       .filter(m => !deletedMsgIds.includes(m.id))
       .map(m => ({ ...m, pinned: pinnedMsgIds.includes(m.id) || m.pinned || false }));
-    const all           = [...defaults, ...customs];
+    const all = [...defaults, ...customs].map(m => ({
+      ...m,
+      title: msgTitleOverrides[m.id] || m.title,
+    }));
     // pinned messages always appear first
     return all.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
   },
@@ -79,6 +83,19 @@ const Storage = {
       );
     } else {
       await fbDb.collection('messages').doc(id).delete();
+    }
+  },
+
+  async updateMessage(id, fields) {
+    if (id.startsWith('msg_default_')) {
+      if (fields.title) {
+        await fbDb.collection('config').doc('defaults').set(
+          { msgTitleOverrides: { [id]: fields.title } },
+          { merge: true }
+        );
+      }
+    } else {
+      await fbDb.collection('messages').doc(id).update(fields);
     }
   },
 

@@ -1,5 +1,34 @@
 // ── Message Admin ───────────────────────────────────────────────────────
 const MessageAdmin = {
+  _editingMsgId: null,
+
+  openEditMsg(id, title) {
+    MessageAdmin._editingMsgId = id;
+    document.getElementById('editMsgTitle').value = title;
+    document.getElementById('editMsgModal').classList.add('open');
+  },
+
+  async saveEditMsg() {
+    const id    = MessageAdmin._editingMsgId;
+    const title = document.getElementById('editMsgTitle').value.trim();
+    if (!title) { Toast.show('יש להזין כותרת הודעה'); return; }
+    try {
+      await Storage.updateMessage(id, { title });
+      document.getElementById('editMsgModal').classList.remove('open');
+      const fresh = { fresh: true };
+      await Messages.render(fresh);
+      await AdminPanel.renderLists(fresh);
+      Toast.show('✅ כותרת ההודעה עודכנה');
+    } catch(e) {
+      Toast.show('❌ שגיאה בעדכון: ' + (e.message || e));
+    }
+  },
+
+  closeEditMsg() {
+    document.getElementById('editMsgModal').classList.remove('open');
+    MessageAdmin._editingMsgId = null;
+  },
+
   async addMessage() {
     const title  = document.getElementById('newMsgTitle').value.trim();
     const body   = document.getElementById('newMsgBody').value.trim();
@@ -32,5 +61,7 @@ const MessageAdmin = {
   },
 };
 
-// ── Backwards-compatible global shim ───────────────────────────────────
-function addMessage() { MessageAdmin.addMessage(); }
+// ── Backwards-compatible global shims ──────────────────────────────────
+function addMessage()   { MessageAdmin.addMessage(); }
+function saveEditMsg()  { MessageAdmin.saveEditMsg(); }
+function closeEditMsg() { MessageAdmin.closeEditMsg(); }

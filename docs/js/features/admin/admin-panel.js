@@ -25,6 +25,7 @@ const AdminPanel = {
                 onclick="AdminPanel.togglePin('${m.id}',${!m.pinned})" title="${m.pinned ? 'הסר נעיצה' : 'נעץ בראש'}">
                 ${m.pinned ? '📌 נעוץ' : '📌 נעץ'}
               </button>
+              <button class="btn btn-secondary btn-sm" onclick="AdminPanel.openEditMsg('${m.id}','${Helpers.escHtml(m.title)}')">✏️ שנה שם</button>
               <button class="btn btn-danger btn-sm" onclick="AdminPanel.confirmDelete('msg','${m.id}','${Helpers.escHtml(m.title)}')">🗑 מחק</button>
             </div>
           </div>`).join('')
@@ -88,6 +89,10 @@ const AdminPanel = {
     } catch(e) {
       Toast.show('❌ שגיאה: ' + (e.message || e));
     }
+  },
+
+  openEditMsg(id, title) {
+    MessageAdmin.openEditMsg(id, title);
   },
 
   openEditDoc(id, title) {

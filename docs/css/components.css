@@ -11,13 +11,13 @@
 #loginScreen::before {
   content: '';
   position: absolute; width: 500px; height: 500px; border-radius: 50%;
-  background: rgba(46,107,68,.08);
+  background: rgba(46,100,200,.10);
   top: -120px; left: -140px; pointer-events: none;
 }
 #loginScreen::after {
   content: '';
   position: absolute; width: 380px; height: 380px; border-radius: 50%;
-  background: rgba(200,128,26,.06);
+  background: rgba(100,160,240,.07);
   bottom: -80px; right: -80px; pointer-events: none;
 }
 .login-card {
