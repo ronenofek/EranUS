@@ -183,8 +183,8 @@ html, body {
 .admin-overlay .ali-title { color: var(--text); }
 .admin-overlay .user-table { border-color: var(--border); }
 .admin-overlay .user-table th { background: var(--green-dk); color: #ffffff; }
-.admin-overlay .user-table td { border-color: var(--border); color: var(--text); }
-.admin-overlay .user-table tr:hover td { background: var(--mint); }
+.admin-overlay .user-table td { border-color: var(--border); color: var(--card); }
+.admin-overlay .user-table tr:hover td { background: rgba(111,179,232,.15); color: var(--card); }
 .admin-overlay .upload-info { color: var(--text-muted); }
 
 /* ── Modals and toast that must sit above admin overlay (z-9999) */
