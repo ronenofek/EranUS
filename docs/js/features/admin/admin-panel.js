@@ -21,7 +21,7 @@ const AdminPanel = {
               <div class="ali-meta">${m.isDefault ? 'הודעת ברירת מחדל' : 'הודעה מותאמת אישית'}</div>
             </div>
             <div class="ali-actions">
-              <button class="btn btn-sm" style="background:${m.pinned ? 'rgba(232,160,32,.25);border-color:rgba(232,160,32,.5);color:#E8A020' : 'rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)'}"
+              <button class="btn btn-sm" style="${m.pinned ? 'background:rgba(232,160,32,.25);border-color:rgba(232,160,32,.5);color:#E8A020' : ''}"
                 onclick="AdminPanel.togglePin('${m.id}',${!m.pinned})" title="${m.pinned ? 'הסר נעיצה' : 'נעץ בראש'}">
                 ${m.pinned ? '📌 נעוץ' : '📌 נעץ'}
               </button>

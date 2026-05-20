@@ -24,7 +24,7 @@ const DEFAULT_MESSAGES = [
 </div>
 <div class="info-box" style="margin-top:10px">
   <div class="info-box-icon">🔒</div>
-  <div class="info-box-text"><span>סיסמת זום:</span> mkP%093* &nbsp;—&nbsp; <button onclick="Helpers.copyZoomPass()" style="background:none;border:none;cursor:pointer;color:#8B5E0A;font-weight:600;font-family:inherit;font-size:13px;padding:0">לחץ להעתקה</button></div>
+  <div class="info-box-text"><span>סיסמת זום:</span> mkP%093* &nbsp;—&nbsp; <button onclick="Helpers.copyZoomPass()" style="background:none;border:none;cursor:pointer;color:var(--accent);font-weight:600;font-family:inherit;font-size:13px;padding:0">לחץ להעתקה</button></div>
 </div>`
   },
   {

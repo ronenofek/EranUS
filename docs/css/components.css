@@ -326,6 +326,7 @@
 #editUserModal { z-index: 10001 !important; }
 #resetPassModal{ z-index: 10001 !important; }
 #editDocModal  { z-index: 10001 !important; }
+#editMsgModal  { z-index: 10001 !important; }
 
 #editUserModal .confirm-box,
 #resetPassModal .confirm-box {
@@ -385,9 +386,9 @@
 .flip-sub   { font-size: 15px; color: var(--text-muted); margin-top: 6px; letter-spacing: .05em; font-weight: 500; }
 
 /* Back content */
-.flip-back-title { font-size: 13px; font-weight: 700; color: var(--green-dk); margin-bottom: 8px; }
+.flip-back-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
 .flip-back-body  {
-  font-size: 11px; color: var(--text-2); line-height: 1.6;
+  font-size: 11px; color: var(--text); line-height: 1.6;
   flex: 1; display: flex; align-items: center; margin-bottom: 16px; text-align: center;
 }
 .flip-btn {
