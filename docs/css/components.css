@@ -85,7 +85,7 @@
 .btn-primary:hover { background: var(--green-dk); transform: translateY(-1px); }
 .btn-secondary { background: var(--mint); color: var(--green-dk); border: 1px solid var(--border); }
 .btn-secondary:hover { background: #C0DCFF; transform: translateY(-1px); }
-.btn-accent { background: var(--accent-lt); color: #8B5E0A; border: 1px solid #F5D89E; }
+.btn-accent { background: var(--accent-lt); color: var(--accent); border: 1px solid #F5D89E; }
 .btn-accent:hover { background: #FDEBC8; transform: translateY(-1px); }
 .btn-danger { background: var(--danger-lt); color: var(--danger); border: 1px solid #F5C6C2; }
 .btn-danger:hover { background: #f8d7d4; }

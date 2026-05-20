@@ -1,11 +1,11 @@
 // ── Documents Renderer (flip cards) ──────────────────────────────────────
 const Docs = {
   _palette: [
-    { bg: '#FFF0D0', l1: '#F0A830', l2: '#D48C20', bud: '#FFD060', back: '#1E4D30' },
-    { bg: '#D0F0E8', l1: '#30B890', l2: '#1A9070', bud: null,      back: '#235A38' },
-    { bg: '#E4EDD8', l1: '#8AAE60', l2: '#6A9040', bud: '#B0CC80', back: '#2E5820' },
-    { bg: '#F5E0D8', l1: '#D0704A', l2: '#B85830', bud: '#F09070', back: '#4A2C10' },
-    { bg: '#E8F5D0', l1: '#90CC40', l2: '#72A828', bud: '#C0E850', back: '#1E4828' },
+    { bg: '#FFF0D0', l1: '#F0A830', l2: '#D48C20', bud: '#FFD060' },
+    { bg: '#D0F0E8', l1: '#30B890', l2: '#1A9070', bud: null,      back: '#6FB3E8' },
+    { bg: '#E4EDD8', l1: '#8AAE60', l2: '#6A9040', bud: '#B0CC80' },
+    { bg: '#F5E0D8', l1: '#D0704A', l2: '#B85830', bud: '#F09070' },
+    { bg: '#E8F5D0', l1: '#90CC40', l2: '#72A828', bud: '#C0E850' },
   ],
 
   _plant(c) {
@@ -47,7 +47,7 @@ const Docs = {
             <div class="flip-plant">${Docs._plant(c)}</div>
             <div class="flip-title">${safeTitle}</div>
           </div>
-          <div class="flip-back" style="background:${c.back}">
+          <div class="flip-back">
             ${backContent}
           </div>
         </div>
