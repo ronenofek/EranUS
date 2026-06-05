@@ -435,16 +435,47 @@
         fileData   // base64 string or null
       };
 
-      const res = await fetch(APPS_SCRIPT_URL, {
+      await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',   // Apps Script doesn't support CORS preflight
         body: JSON.stringify(payload)
-        // No Content-Type header — Apps Script handles plain body
       });
 
-      const json = await res.json();
+      // no-cors returns an opaque response — data was sent, show success
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('sentView').style.display = 'block';
+    } catch (err) {
+      showError('שגיאה בשליחה: ' + err.message + '. אנא נסה שוב.');
+      btn.disabled = false;
+      btn.innerHTML = 'שלח משוב';
+    }
+  }
 
-      if (json.result === 'success') {
-        document.getElementById('formView').style.display = 'none';
-        document.getElementById('sentView').style.display = 'block';
-      } else {
-        throw new Error(json.error || 'ש
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.className = 'message error';
+    el.style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('feedbackForm').reset();
+    document.getElementById('fileLabel').style.display = 'none';
+    document.getElementById('errorMsg').style.display = 'none';
+    document.getElementById('sentView').style.display = 'none';
+    document.getElementById('formView').style.display = 'block';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').innerHTML = 'שלח משוב';
+  }
+</script>
+</body>
+</html>
