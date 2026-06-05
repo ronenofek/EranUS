@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>משוב על הפורטל — ער"ן ארה"ב</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:      #2A5090;
+      --green-dk:   #1B3055;
+      --green-lt:   #6FB3E8;
+      --accent:     #C8801A;
+      --accent-lt:  #FFF0D0;
+      --danger:     #C0392B;
+      --danger-lt:  #FDECEA;
+      --blue:       #2A5090;
+      --blue-lt:    #EAF3FF;
+      --text:       #0D2848;
+      --text-2:     #244870;
+      --text-muted: #4A7AAA;
+      --border:     rgba(0,80,160,.18);
+      --bg:         #1E3A6A;
+      --card:       #EAF3FF;
+      --shadow:     0 6px 28px rgba(13,40,72,.12);
+      --shadow-lg:  0 10px 40px rgba(13,40,72,.20);
+      --r:          18px;
+    }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      color: var(--text);
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--r);
+      box-shadow: var(--shadow-lg);
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header-logo {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--green-dk);
+      margin-bottom: 6px;
+    }
+
+    .header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-2);
+      margin-bottom: 7px;
+    }
+
+    label .required {
+      color: var(--danger);
+      margin-right: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--blue-lt);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      direction: rtl;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(42,80,144,.12);
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .file-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      background: var(--blue-lt);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+
+    .file-upload-area:hover,
+    .file-upload-area.drag-over {
+      border-color: var(--green);
+      background: #dceeff;
+    }
+
+    .file-upload-area input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .file-upload-icon { font-size: 1.6rem; margin-bottom: 6px; }
+
+    .file-upload-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .file-selected {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: var(--green);
+      font-weight: 600;
+      display: none;
+    }
+
+    .file-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Rubik', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover:not(:disabled) { background: var(--green-dk); }
+    .btn-submit:active:not(:disabled) { transform: scale(.98); }
+    .btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(255,255,255,.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .message {
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .message.success {
+      background: #e8f5e9;
+      border: 1.5px solid #81c784;
+      color: #2e7d32;
+    }
+
+    .message.error {
+      background: var(--danger-lt);
+      border: 1.5px solid #ef9a9a;
+      color: var(--danger);
+    }
+
+    .sent-view {
+      text-align: center;
+      padding: 12px 0;
+      display: none;
+    }
+
+    .sent-icon { font-size: 3rem; margin-bottom: 12px; }
+
+    .sent-view h2 {
+      font-size: 1.3rem;
+      color: var(--green-dk);
+      margin-bottom: 8px;
+    }
+
+    .sent-view p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .btn-another {
+      background: none;
+      border: 1.5px solid var(--green);
+      color: var(--green);
+      padding: 10px 24px;
+      border-radius: 10px;
+      font-family: 'Rubik', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-another:hover { background: var(--blue-lt); }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,.45);
+      text-align: center;
+    }
+
+    @media (max-width: 540px) {
+      .card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="header-logo">🌿</div>
+    <h1>משוב על הפורטל</h1>
+    <p>ער"ן ארצות הברית — סקירת מערכת</p>
+  </div>
+
+  <!-- SUCCESS VIEW (shown after submit) -->
+  <div class="sent-view" id="sentView">
+    <div class="sent-icon">✅</div>
+    <h2>תודה על המשוב!</h2>
+    <p>הפידבק שלך התקבל ויועבר לצוות הפיתוח לסקירה.</p>
+    <button class="btn-another" onclick="resetForm()">שלח משוב נוסף</button>
+  </div>
+
+  <!-- FORM -->
+  <div id="formView">
+    <div class="message" id="errorMsg"></div>
+
+    <form id="feedbackForm" onsubmit="submitFeedback(event)">
+
+      <div class="form-group">
+        <label>שם מלא <span class="required">*</span></label>
+        <input type="text" id="fieldName" placeholder="ישראל ישראלי" required>
+      </div>
+
+      <div class="form-group">
+        <label>כתובת אימייל <span class="required">*</span></label>
+        <input type="email" id="fieldEmail" placeholder="you@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>תגובה / הערות <span class="required">*</span></label>
+        <textarea id="fieldComment" placeholder="רשום כאן את המשוב שלך..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>קובץ מצורף <span style="font-weight:400;color:var(--text-muted)">(אופציונלי)</span></label>
+        <div class="file-upload-area" id="dropZone">
+          <input type="file" id="fieldFile" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
+            onchange="onFileSelected(this)">
+          <div class="file-upload-icon">📎</div>
+          <div class="file-upload-text">גרור קובץ לכאן או לחץ לבחירה</div>
+          <div class="file-selected" id="fileLabel"></div>
+          <div class="file-note">PDF, Word, תמונות — עד 10MB</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">שלח משוב</button>
+    </form>
+  </div>
+</div>
+
+<footer>פורטל מתנדבים ער"ן ארה"ב</footer>
+
+<script>
+  // ─── CONFIG ───────────────────────────────────────────
+  // Paste your Google Apps Script Web App URL here after deployment:
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVK6bzbcpuUxziJvcEleprrHqX28N3kxxLzp2o1qh7tE5eFhIr4sWBOQBSm767nJSd/exec';
+  // ──────────────────────────────────────────────────────
+
+  function onFileSelected(input) {
+    const label = document.getElementById('fileLabel');
+    if (input.files && input.files[0]) {
+      label.textContent = '📄 ' + input.files[0].name;
+      label.style.display = 'block';
+    } else {
+      label.style.display = 'none';
+    }
+  }
+
+  // Drag-and-drop highlight
+  const dropZone = document.getElementById('dropZone');
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const input = document.getElementById('fieldFile');
+    input.files = e.dataTransfer.files;
+    onFileSelected(input);
+  });
+
+  async function submitFeedback(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const errorEl = document.getElementById('errorMsg');
+
+    // Validate Apps Script URL configured
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+      showError('הטופס עדיין לא מחובר — יש להגדיר את כתובת ה-Apps Script.');
+      return;
+    }
+
+    const name    = document.getElementById('fieldName').value.trim();
+    const email   = document.getElementById('fieldEmail').value.trim();
+    const comment = document.getElementById('fieldComment').value.trim();
+    const fileInput = document.getElementById('fieldFile');
+    const file    = fileInput.files[0];
+
+    // File size check
+    if (file && file.size > 10 * 1024 * 1024) {
+      showError('הקובץ גדול מ-10MB. אנא בחר קובץ קטן יותר.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = 'שולח... <span class="spinner"></span>';
+    errorEl.style.display = 'none';
+
+    try {
+      let fileData = null;
+      let fileName = null;
+      let fileMime = null;
+
+      if (file) {
+        fileData = await toBase64(file);
+        fileName = file.name;
+        fileMime = file.type || 'application/octet-stream';
+      }
+
+      const payload = {
+        name,
+        email,
+        comment,
+        timestamp: new Date().toISOString(),
+        fileName,
+        fileMime,
+        fileData   // base64 string or null
+      };
+
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+        // No Content-Type header — Apps Script handles plain body
+      });
+
+      const json = await res.json();
+
+      if (json.result === 'success') {
+        document.getElementById('formView').style.display = 'none';
+        document.getElementById('sentView').style.display = 'block';
+      } else {
+        throw new Error(json.error || 'שגיאה לא ידועה');
+      }
+    } catch (err) {
+      showError('שגיאה בשליחה: ' + err.message + '. אנא נסה שוב.');
+      btn.disabled = false;
+      btn.innerHTML = 'שלח משוב';
+    }
+  }
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.className = 'message error';
+    el.style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('feedbackForm').reset();
+    document.getElementById('fileLabel').style.display = 'none';
+    document.getElementById('errorMsg').style.display = 'none';
+    document.getElementById('sentView').style.display = 'none';
+    document.getElementById('formView').style.display = 'block';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').innerHTML = 'שלח משוב';
+  }
+</script>
+</body>
+</html>
