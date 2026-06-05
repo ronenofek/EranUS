@@ -53,6 +53,7 @@
       <span class="topbar-user" id="topbarUser"></span>
       <span class="admin-badge" id="adminBadge" style="display:none">Admin</span>
       <button class="btn-admin-toggle" id="btn-admin-toggle" onclick="App.toggleAdmin()" style="display:none">⚙️ ניהול</button>
+      <a class="btn-feedback-topbar" href="feedback.html" target="_blank" title="שלח משוב על הפורטל">💬 משוב</a>
       <button class="btn-logout" onclick="Auth.handleLogout()">יציאה</button>
     </div>
   </header>
@@ -81,6 +82,17 @@
       <div class="bento-cell">
         <div class="section-title">קישורים וכלים</div>
         <div class="links-bento-grid" id="linksGrid"></div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK SECTION -->
+    <section class="bento-section">
+      <div class="bento-cell feedback-banner">
+        <div class="feedback-banner-text">
+          <div class="feedback-banner-title">💬 יש לך הערות על הפורטל?</div>
+          <div class="feedback-banner-sub">נשמח לשמוע — כל משוב עוזר לנו לשפר</div>
+        </div>
+        <a class="btn-feedback-banner" href="feedback.html" target="_blank">שלח משוב</a>
       </div>
     </section>
 

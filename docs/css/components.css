@@ -1,3 +1,25 @@
+/* ── FEEDBACK BANNER ────────────────────────────────────────────────── */
+.feedback-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--blue-lt) 0%, #d4e9ff 100%);
+  border: 1.5px solid rgba(42,80,144,.2);
+}
+.feedback-banner-title {
+  font-size: 1rem; font-weight: 600; color: var(--green-dk);
+  margin-bottom: 3px;
+}
+.feedback-banner-sub { font-size: 0.85rem; color: var(--text-muted); }
+.btn-feedback-banner {
+  background: var(--green); color: #fff;
+  border: none; border-radius: 10px;
+  padding: 10px 22px; font-family: inherit; font-size: 0.9rem;
+  font-weight: 600; text-decoration: none; white-space: nowrap;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.btn-feedback-banner:hover { background: var(--green-dk); }
+
 /* ── LOGIN ─────────────────────────────────────────────────────────── */
 #loginScreen {
   min-height: 100vh;
