@@ -114,6 +114,22 @@
       background: #fff;
     }
 
+    input[readonly] {
+      background: #dceeff;
+      color: var(--text-muted);
+      cursor: default;
+      border-color: transparent;
+    }
+    input[readonly]:focus {
+      box-shadow: none;
+      background: #dceeff;
+    }
+    .prefilled-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
     textarea {
       resize: vertical;
       min-height: 120px;
@@ -292,11 +308,13 @@
       <div class="form-group">
         <label>שם מלא <span class="required">*</span></label>
         <input type="text" id="fieldName" placeholder="ישראל ישראלי" required>
+        <div class="prefilled-note" id="nameNote" style="display:none">מולא אוטומטית מהפורטל</div>
       </div>
 
       <div class="form-group">
         <label>כתובת אימייל <span class="required">*</span></label>
         <input type="email" id="fieldEmail" placeholder="you@example.com" required>
+        <div class="prefilled-note" id="emailNote" style="display:none">מולא אוטומטית מהפורטל</div>
       </div>
 
       <div class="form-group">
@@ -325,9 +343,27 @@
 
 <script>
   // ─── CONFIG ───────────────────────────────────────────
-  // Paste your Google Apps Script Web App URL here after deployment:
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVK6bzbcpuUxziJvcEleprrHqX28N3kxxLzp2o1qh7tE5eFhIr4sWBOQBSm767nJSd/exec';
   // ──────────────────────────────────────────────────────
+
+  // Pre-fill name & email from URL params (passed by the portal)
+  (function prefill() {
+    const p = new URLSearchParams(window.location.search);
+    const name  = p.get('name')  || '';
+    const email = p.get('email') || '';
+    if (name) {
+      const f = document.getElementById('fieldName');
+      f.value = name;
+      f.setAttribute('readonly', true);
+      document.getElementById('nameNote').style.display = 'block';
+    }
+    if (email) {
+      const f = document.getElementById('fieldEmail');
+      f.value = email;
+      f.setAttribute('readonly', true);
+      document.getElementById('emailNote').style.display = 'block';
+    }
+  })();
 
   function onFileSelected(input) {
     const label = document.getElementById('fileLabel');
@@ -411,40 +447,4 @@
         document.getElementById('formView').style.display = 'none';
         document.getElementById('sentView').style.display = 'block';
       } else {
-        throw new Error(json.error || 'שגיאה לא ידועה');
-      }
-    } catch (err) {
-      showError('שגיאה בשליחה: ' + err.message + '. אנא נסה שוב.');
-      btn.disabled = false;
-      btn.innerHTML = 'שלח משוב';
-    }
-  }
-
-  function toBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function showError(msg) {
-    const el = document.getElementById('errorMsg');
-    el.textContent = msg;
-    el.className = 'message error';
-    el.style.display = 'block';
-  }
-
-  function resetForm() {
-    document.getElementById('feedbackForm').reset();
-    document.getElementById('fileLabel').style.display = 'none';
-    document.getElementById('errorMsg').style.display = 'none';
-    document.getElementById('sentView').style.display = 'none';
-    document.getElementById('formView').style.display = 'block';
-    document.getElementById('submitBtn').disabled = false;
-    document.getElementById('submitBtn').innerHTML = 'שלח משוב';
-  }
-</script>
-</body>
-</html>
+        throw new Error(json.error || 'ש

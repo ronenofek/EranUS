@@ -64,16 +64,15 @@ html, body {
 }
 .btn-logout:hover { background: rgba(30,18,8,.09); }
 .btn-feedback-topbar {
-  background: rgba(42,80,144,.10);
+  background: rgba(30,18,8,.05);
   color: var(--text-2);
   border: 1px solid var(--border);
   border-radius: 10px; padding: 7px 14px;
   font-family: inherit; font-size: 13px;
-  text-decoration: none;
   cursor: pointer; transition: background .2s;
   white-space: nowrap;
 }
-.btn-feedback-topbar:hover { background: rgba(42,80,144,.18); }
+.btn-feedback-topbar:hover { background: rgba(30,18,8,.09); }
 .btn-topbar-search {
   background: rgba(30,18,8,.05);
   border: 1px solid var(--border);
@@ -227,11 +226,4 @@ html, body {
   .topbar { padding: 0 16px; gap: 8px; }
   .topbar-title { display: none; }
   .portal-main { padding: 20px 14px 48px; gap: 28px; }
-  .msgs-bento-grid, .docs-bento-grid, .links-bento-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  .admin-overlay-header { padding: 14px 16px; }
-  .admin-overlay-body { padding: 20px 14px 40px; }
-  .btn-admin-toggle .admin-label { display: none; }
-}
-@media (max-width: 400px) {
-  .msgs-bento-grid, .docs-bento-grid, .links-bento-grid { grid-template-columns: repeat(2, 1fr); }
-}
+  .msgs-bento-grid, .docs-bento-grid, .links-bento-grid { gr

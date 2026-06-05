@@ -56,6 +56,15 @@ const App = {
     if (e.target === document.getElementById('calendarModal')) App.closeCalendar();
   },
 
+  // ── Feedback ───────────────────────────────────────────────────────
+  openFeedback() {
+    const params = new URLSearchParams({
+      name:  currentUser  || '',
+      email: currentEmail || '',
+    });
+    window.open('feedback.html?' + params.toString(), '_blank');
+  },
+
   // ── Backwards-compat shim (no longer tabs — scroll page) ──────────
   showView(v) {
     // No-op for non-admin views — page is single scroll now.
@@ -68,13 +77,4 @@ const App = {
 function initApp()   { App.initApp(); }
 function showView(v) { App.showView(v); }
 
-// ── Scroll progress bar ─────────────────────────────────────────────────
-(function () {
-  const bar = document.getElementById('scrollBar');
-  if (!bar) return;
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    const total    = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
-  }, { passive: true });
-})();
+// ── Scroll progress bar ────────────────────────────────────�

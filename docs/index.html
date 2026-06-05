@@ -53,7 +53,7 @@
       <span class="topbar-user" id="topbarUser"></span>
       <span class="admin-badge" id="adminBadge" style="display:none">Admin</span>
       <button class="btn-admin-toggle" id="btn-admin-toggle" onclick="App.toggleAdmin()" style="display:none">⚙️ ניהול</button>
-      <a class="btn-feedback-topbar" href="feedback.html" target="_blank" title="שלח משוב על הפורטל">💬 משוב</a>
+      <button class="btn-feedback-topbar" onclick="App.openFeedback()" title="שלח משוב על הפורטל">💬 משוב</button>
       <button class="btn-logout" onclick="Auth.handleLogout()">יציאה</button>
     </div>
   </header>
@@ -92,7 +92,7 @@
           <div class="feedback-banner-title">💬 יש לך הערות על הפורטל?</div>
           <div class="feedback-banner-sub">נשמח לשמוע — כל משוב עוזר לנו לשפר</div>
         </div>
-        <a class="btn-feedback-banner" href="feedback.html" target="_blank">שלח משוב</a>
+        <button class="btn-feedback-banner" onclick="App.openFeedback()">שלח משוב</button>
       </div>
     </section>
 
@@ -414,24 +414,4 @@
     <div class="confirm-actions">
       <button class="btn btn-secondary" onclick="DocAdmin.closeEditDoc()">ביטול</button>
       <button class="btn btn-primary" onclick="DocAdmin.saveEditDoc()">שמור</button>
-    </div>
-  </div>
-</div>
-
-<!-- RESET PASSWORD MODAL -->
-<div class="modal-overlay" id="resetPassModal">
-  <div class="confirm-box">
-    <h3>איפוס סיסמה</h3>
-    <p id="resetPassLabel"></p>
-    <div class="form-row">
-      <input type="text" id="newPassValue" placeholder="סיסמה חדשה (לפחות 6 תווים)" autocomplete="off">
-    </div>
-    <div class="confirm-actions">
-      <button class="btn btn-secondary" onclick="UserAdmin.closeResetPassword()">ביטול</button>
-      <button class="btn btn-primary" onclick="UserAdmin.saveResetPassword()">אפס סיסמה</button>
-    </div>
-  </div>
-</div>
-
-</body>
-</html>
+    
